@@ -1686,8 +1686,13 @@
         var dropdown = document.getElementById('typeaheadDropdown');
         var container = document.getElementById('searchContainer');
 
-        // Show dropdown when search input is focused or typed in
+        // Show dropdown when search input is focused — autofill demo query on first focus
+        var hasAutofilled = false;
         input.addEventListener('focus', function() {
+          if (!hasAutofilled) {
+            hasAutofilled = true;
+            input.value = 'I need to order a bulk set of cordless drills for the new seating installation';
+          }
           dropdown.style.display = 'block';
         });
         input.addEventListener('input', function() {
@@ -2505,6 +2510,15 @@
 
         </div>
 
+        <!-- Dots loader before the recommendation bubble -->
+        <div class="joule-msg-ai joule-turn-loader" id="t2-question-dots" style="display:none;">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
         <div class="joule-msg-ai joule-turn-response" id="t2-question" style="display:none;">
           <div class="joule-bubble-ai">I recommend the DEWALT 20V MAX XR from Safford Equipment — your preferred supplier (maximum compliance, guaranteed fast shipping, and pre-negotiated enterprise warranties) on contract. It was also previously requested by your department.<br><br>Which would you like to proceed with?</div>
           <div class="joule-suggestions">
@@ -2516,17 +2530,41 @@
 
       </div><!-- /turn-2 -->
 
+      <!-- ══ TURN 2b ══════════════════════════════════════
+           User clicks Proceed with Preferred DEWALT → Joule asks quantity
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-2b" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t2b-user-text">Proceed with Preferred DEWALT</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t2b-loader" style="display:none;">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t2b-response" style="display:none;">
+          <div class="joule-bubble-ai">Got it! One more thing — how many units do you need?</div>
+        </div>
+
+      </div><!-- /turn-2b -->
+
       <!-- ══ TURN 3 ═══════════════════════════════════════
-           User gives delivery details → Joule asks quantity
+           User gives quantity + batteries
       ═══════════════════════════════════════════════════ -->
       <div id="turn-3" style="display:none;">
 
         <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t3-user-text">Before June 1st. Deliver to Stadium Main Entrance, Section 112 Loading Dock.</div>
+          <div class="joule-bubble-user" id="t3-user-text">8 and also add two additional batteries per unit.</div>
         </div>
 
         <!-- Loading dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t3-loader">
+        <div class="joule-msg-ai joule-turn-loader" id="t3-loader" style="display:none;">
           <div class="joule-dots-bubble">
             <span class="jdot jdot-1"></span>
             <span class="jdot jdot-2"></span>
@@ -2535,315 +2573,12 @@
         </div>
 
         <div class="joule-msg-ai joule-turn-response" id="t3-response" style="display:none;">
-          <div class="joule-bubble-ai">Got it — delivering to Stadium Main Entrance, Section 112 Loading Dock before June 1st. These drills are rated for heavy-duty construction, a great fit for your stadium seating installation.<br><br>One more thing — how many units do you need?</div>
+          <div class="joule-bubble-ai">On it! Adding the DEWALT drill kits. Let me check on the batteries.</div>
         </div>
 
       </div><!-- /turn-3 -->
 
-      <!-- ══ TURN 4 ═══════════════════════════════════════
-           User gives qty → confirms DEWALT + adds batteries
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-4" style="display:none;">
 
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t4-user-text">8 units. Let's stick with the DEWALT to stay compliant. Also need two additional batteries per unit.</div>
-        </div>
-
-        <!-- Loading dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t4-dots">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t4-ack" style="display:none;">
-          <div class="joule-bubble-ai">On it! Adding the DEWALT drill kits. Let me check on the batteries.</div>
-        </div>
-
-        <!-- Battery search loader -->
-        <div class="joule-msg-ai joule-turn-loader full-width" id="t4-loader" style="display:none;">
-          <div class="joule-loader">
-            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Searching all available sources</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Catalog match found: DEWALT 20V MAX Premium XR 5.0Ah Battery</div>
-                  <div class="joule-detail-substep">Same supplier — Safford Equipment</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Checking contract coverage</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">DEWALT 20V MAX XR (Safford): Contract pricing applied</div>
-                  <div class="joule-detail-substep">Same active contract confirmed</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Verifying supplier status</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Safford Equipment: Preferred Supplier</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Ranking items found</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">5 options ranked by contract status and supplier preference</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t4-response" style="display:none;">
-          <div class="joule-bubble-ai">Found the batteries in your catalog — same contract and supplier. Adding 16 battery packs (2 per unit). Here's your cart summary.</div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response full-width" id="t4-cart" style="display:none;">
-          <div class="cart-card">
-            <div class="cart-card-header">Your Cart</div>
-            <div class="cart-item">
-              <div class="cart-item-name">DEWALT 20V MAX XR Hammer Drill Kit (dcd996p2)</div>
-              <div class="cart-item-meta">$369.95/unit · Contract pricing ✓ · Safford Equipment ★ Preferred</div>
-              <div class="cart-item-controls">
-                <button class="cart-qty-btn">−</button>
-                <span class="cart-qty-val">8</span>
-                <button class="cart-qty-btn">+</button>
-                <span class="cart-item-total">$2,959.60</span>
-                <div class="cart-item-actions">
-                  <button class="cart-action-link">Remove</button>
-                  <button class="cart-action-link">View Details</button>
-                </div>
-              </div>
-            </div>
-            <div class="cart-item">
-              <div class="cart-item-name">DEWALT 20V MAX Premium XR 5.0Ah Battery</div>
-              <div class="cart-item-meta">$120.00/unit · 16 packs (2 per unit)</div>
-              <div class="cart-item-controls">
-                <button class="cart-qty-btn">−</button>
-                <span class="cart-qty-val">16</span>
-                <button class="cart-qty-btn">+</button>
-                <span class="cart-item-total">$1,920.00</span>
-                <div class="cart-item-actions">
-                  <button class="cart-action-link">Remove</button>
-                  <button class="cart-action-link">View Details</button>
-                </div>
-              </div>
-            </div>
-            <div class="cart-total-row">
-              <div class="cart-total-line"><span>Subtotal (excl. tax)</span><span>$4,879.60 USD</span></div>
-              <div class="cart-total-line main"><span>Total Estimated Cost</span><span>$4,879.60 USD</span></div>
-            </div>
-            <div class="cart-delivery-info">Delivery: Before June 1st, 2026 · Stadium Main Entrance, Section 112 Loading Dock · Heavy-duty seating installation</div>
-            <div class="cart-footer">
-              <button class="cart-btn-primary" data-prefill="Confirm Selections &amp; Proceed">Confirm Selections &amp; Proceed</button>
-              <button class="cart-btn-secondary" data-prefill="Browse More Accessories">Browse More Accessories</button>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /turn-4 -->
-
-      <!-- ══ TURN 5 ═══════════════════════════════════════
-           User confirms cart → policy check → PR summary
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-5" style="display:none;">
-
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t5-user-text">Confirm Selections &amp; Proceed</div>
-        </div>
-
-        <!-- Loading dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t5-dots">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <!-- Policy check loader -->
-        <div class="joule-msg-ai joule-turn-loader full-width" id="t5-loader" style="display:none;">
-          <div class="joule-loader">
-            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Checking checkout policies</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">2 items checked — both on-contract, preferred supplier</div>
-                  <div class="joule-detail-substep">No restrictions found</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Verifying contract compliance</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">No justifications required</div>
-                  <div class="joule-detail-substep">Qualifies for expedited approval</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Assessing approval requirements</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Approval path: Expedited (on-contract preferred supplier)</div>
-                  <div class="joule-detail-substep">Expected: under 24 hours</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t5-response" style="display:none;">
-          <div class="joule-bubble-ai">All good — no policy issues. Because you selected an on-contract preferred supplier, this qualifies for expedited approval. Here's your requisition for a final review.</div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response full-width" id="t5-pr" style="display:none;">
-          <div class="pr-card">
-            <div class="pr-card-header">
-              <div class="pr-card-title">Equipment for Stadium Seating Installation</div>
-              <div class="pr-card-subtitle">Purchase Requisition</div>
-            </div>
-            <div class="pr-card-section">
-              <div class="pr-card-row"><span class="pr-card-label">Item</span><span class="pr-card-value">DEWALT 20V MAX XR Hammer Drill Kit (dcd996p2)</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Supplier</span><span class="pr-card-value">Safford Equipment ✅ Primary Preferred</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Quantity</span><span class="pr-card-value">8 units</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Delivery</span><span class="pr-card-value">Before June 1st, 2026</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Location</span><span class="pr-card-value">Stadium Main Entrance, Sec 112 Loading Dock</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Amount</span><span class="pr-card-value">$2,959.60 USD</span></div>
-            </div>
-            <div class="pr-card-section">
-              <div class="pr-card-row"><span class="pr-card-label">Item</span><span class="pr-card-value">DEWALT 20V MAX Premium XR 5.0Ah Battery</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Supplier</span><span class="pr-card-value">Safford Equipment ✅ Primary Preferred</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Quantity</span><span class="pr-card-value">16 units</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Amount</span><span class="pr-card-value">$1,920.00 USD</span></div>
-            </div>
-            <div class="pr-divider"></div>
-            <div class="pr-total-row"><span>Total Estimated Cost</span><span>$4,879.60 USD</span></div>
-            <div class="pr-card-section" style="border-top:1px solid #f2f2f2;">
-              <div class="pr-card-row"><span class="pr-card-label">Accounting</span><span class="pr-card-value auto">Auto-filled ✓</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Billing</span><span class="pr-card-value auto">Auto-filled ✓</span></div>
-              <div class="pr-card-row"><span class="pr-card-label">Shipping</span><span class="pr-card-value auto">Section 112 Loading Dock ✓</span></div>
-            </div>
-            <div class="pr-card-footer">
-              <button class="pr-btn-primary" data-prefill="Submit">Submit</button>
-              <button class="pr-btn-secondary" data-prefill="Edit Details">Edit Details</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t5-question" style="display:none;">
-          <div class="joule-bubble-ai">Your requisition is ready. Because you chose an on-contract preferred supplier, this qualifies for expedited approval — expected under 24 hours. Good to go?</div>
-          <div class="joule-suggestions">
-            <button class="joule-chip" data-prefill="Submit">Yes, submit it</button>
-            <button class="joule-chip" data-prefill="Edit Details">Edit details first</button>
-          </div>
-        </div>
-
-      </div><!-- /turn-5 -->
-
-      <!-- ══ TURN 6 ═══════════════════════════════════════
-           User submits → submitting → confirmation card
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-6" style="display:none;">
-
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t6-user-text">Submit</div>
-        </div>
-
-        <!-- Loading dots before submitting message -->
-        <div class="joule-msg-ai joule-turn-loader" id="t6-loader">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t6-submitting" style="display:none;">
-          <div class="joule-bubble-ai">Submitting your request...</div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response full-width" id="t6-confirm" style="display:none;">
-          <div class="confirm-card">
-            <div class="confirm-card-header">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#256f28"/><path d="M5 9.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div class="confirm-card-title">Purchase Requisition Submitted</div>
-                <div class="confirm-card-pr">PR #: PR-2026-045821</div>
-              </div>
-            </div>
-            <div class="confirm-section">
-              <div class="confirm-section-title">Summary</div>
-              <div class="confirm-row"><span class="confirm-label">Items</span><span class="confirm-value">8 DEWALT 20V MAX XR Drill Kits + 16 batteries</span></div>
-              <div class="confirm-row"><span class="confirm-label">Total</span><span class="confirm-value">$4,879.60 USD</span></div>
-              <div class="confirm-row"><span class="confirm-label">Delivery</span><span class="confirm-value">Before June 1st, 2026</span></div>
-              <div class="confirm-row"><span class="confirm-label">Location</span><span class="confirm-value">Stadium Main Entrance, Sec 112 Loading Dock</span></div>
-            </div>
-            <div class="confirm-section">
-              <div class="confirm-section-title">What Happens Next</div>
-              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Now in expedited approval workflow</span></div>
-              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Expected approval: Under 24 hours</span></div>
-              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>PO sent to Safford Equipment via SAP Business Network once approved</span></div>
-              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Estimated delivery: 2 business days after approval</span></div>
-            </div>
-            <div class="confirm-card-footer">
-              <button class="confirm-btn-primary">View Purchase Requisition</button>
-              <button class="confirm-btn-secondary">Track Approval Status</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t6-final" style="display:none;">
-          <div class="joule-bubble-ai">You're all set! Expedited approval expected within 24 hours — your drills should arrive well before June 1st. I'll keep you updated as it progresses.</div>
-        </div>
-
-      </div><!-- /turn-6 -->
 
     </div><!-- /joule-chat-area -->
   </div><!-- /joule-body -->
@@ -2880,7 +2615,7 @@
   // Hide all conversation elements that should start hidden
   var resetIds = [
     't1-user','t1-dots','t1-loader','t1-response',
-    'turn-2','turn-3','turn-4','turn-5','turn-6'
+    'turn-2','turn-2b','turn-3'
   ];
   resetIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2922,11 +2657,8 @@
   var prefills = [
     '',                                                                                              // turn 0 — blank (auto-starts)
     'Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.',  // turn 1
-    'Before June 1st. Deliver to Stadium Main Entrance, Section 112 Loading Dock.',                  // turn 2
-    '8 units. Let\'s stick with the DEWALT to stay compliant. Also need two additional batteries per unit.',  // turn 3
-    'Confirm Selections & Proceed',                                                                  // turn 4
-    'Submit',                                                                                        // turn 5
-    ''                                                                                               // turn 6 — done
+    'Proceed with Preferred DEWALT',                                                                 // turn 2 → 2b
+    '8 and also add two additional batteries per unit.',                                             // turn 2b → 3
   ];
 
   function scrollToBottom() {
@@ -3312,14 +3044,19 @@
               }, i * (SLOT_DELAY + SKEL_HOLD));
             });
 
-            // 6. Quick reply chips after all cards are done
+            // 6. Dots → recommendation bubble + chips after all cards are done
             var totalTime = items.length * (SLOT_DELAY + SKEL_HOLD) + 300;
             setTimeout(function() {
-              show('t2-question');
-              input.value = prefills[2] || '';
-              if (input.value) sendBtn.classList.add('active');
-              input.focus();
-              scrollToBottom();
+              showDotsThen('t2-question-dots', 900, function() {
+                show('t2-question');
+                // Only prefill if we're still on turn 2 (chip not yet clicked)
+                if (currentTurn === 2) {
+                  input.value = prefills[2] || '';
+                  if (input.value) sendBtn.classList.add('active');
+                  input.focus();
+                }
+                scrollToBottom();
+              });
             }, totalTime);
 
             }, 400); // close inner setTimeout (card reveal sequence)
@@ -3344,104 +3081,69 @@
         userBubble.classList.add('bubble-animate');
       }
     }
+    var loaderEl = document.getElementById('t3-loader');
+    var responseEl = document.getElementById('t3-response');
+    if (loaderEl) loaderEl.style.display = '';
+    scrollToBottom();
     setTimeout(function() {
-      showLoaderThenRespond('t3-loader', ['t3-response'], prefills[3], 900);
-    }, 0);
+      if (loaderEl) loaderEl.style.display = 'none';
+      if (responseEl) responseEl.style.display = '';
+      scrollToBottom();
+    }, 1000);
   }
 
-  function runTurn4(userText) {
-    document.getElementById('t4-user-text').textContent = userText;
-    var turnEl = document.getElementById('turn-4');
-    if (turnEl) {
-      turnEl.style.display = '';
-      var userBubble = turnEl.querySelector('.joule-msg-user');
-      if (userBubble) {
-        userBubble.classList.remove('bubble-animate');
-        void userBubble.offsetWidth;
-        userBubble.classList.add('bubble-animate');
-      }
-    }
-    setTimeout(function() {
-      // Dots → ack bubble → skeleton → loader → cart
-      showDotsThen('t4-dots', 800, function() {
-        show('t4-ack');
-        setTimeout(function() {
-          revealTurnThenAnimate('turn-4', 't4-loader',
-            ['t4-response', 't4-cart'],
-            prefills[4], 2200, 2);
-        }, 600);
-      });
-    }, 0);
-  }
+  function runTurn2b(userText) {
+    // Reveal turn-2b container
+    var turnEl = document.getElementById('turn-2b');
+    if (turnEl) turnEl.style.display = '';
 
-  function runTurn5(userText) {
-    document.getElementById('t5-user-text').textContent = userText;
-    var turnEl = document.getElementById('turn-5');
-    if (turnEl) {
-      turnEl.style.display = '';
-      var userBubble = turnEl.querySelector('.joule-msg-user');
-      if (userBubble) {
-        userBubble.classList.remove('bubble-animate');
-        void userBubble.offsetWidth;
-        userBubble.classList.add('bubble-animate');
-      }
-    }
-    setTimeout(function() {
-      showDotsThen('t5-dots', 800, function() {
-        revealTurnThenAnimate('turn-5', 't5-loader',
-          ['t5-response', 't5-pr', 't5-question'],
-          prefills[5], 1500);
-      });
-    }, 0);
-  }
+    // Set user bubble text
+    var userBubbleEl = document.getElementById('t2b-user-text');
+    if (userBubbleEl) userBubbleEl.textContent = userText;
 
-  function runTurn6(userText) {
-    document.getElementById('t6-user-text').textContent = userText;
-    var turnEl = document.getElementById('turn-6');
-    if (turnEl) {
-      turnEl.style.display = '';
-      var userBubble = turnEl.querySelector('.joule-msg-user');
-      if (userBubble) {
-        userBubble.classList.remove('bubble-animate');
-        void userBubble.offsetWidth;
-        userBubble.classList.add('bubble-animate');
-      }
+    // Animate user bubble
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
     }
+
+    scrollToBottom();
+
+    // Show dots for 900ms, then show response and populate input
+    var loaderEl = document.getElementById('t2b-loader');
+    var responseEl = document.getElementById('t2b-response');
+    if (loaderEl) loaderEl.style.display = '';
+
     setTimeout(function() {
-      show('t6-loader');
+      if (loaderEl) loaderEl.style.display = 'none';
+      if (responseEl) responseEl.style.display = '';
+      scrollToBottom();
+
+      // Populate input field after a short pause
       setTimeout(function() {
-        var loader = document.getElementById('t6-loader');
-        if (loader) loader.style.display = 'none';
-        show('t6-submitting');
-        setTimeout(function() {
-          show('t6-confirm');
-          setTimeout(function() {
-            show('t6-final');
-            input.value = '';
-            input.placeholder = 'Conversation complete';
-            input.disabled = true;
-            sendBtn.disabled = true;
-          }, 380);
-        }, 800);
-      }, 1000);
-    }, 200);
+        input.value = '8 and also add two additional batteries per unit.';
+        sendBtn.classList.add('active');
+        input.focus();
+        scrollToBottom();
+      }, 200);
+    }, 900);
   }
 
   // ── Dispatch on send ──────────────────────────────────
   function advanceConversation(text) {
     switch (currentTurn) {
       case 1: currentTurn = 2; runTurn2(text); break;
-      case 2: currentTurn = 3; runTurn3(text); break;
-      case 3: currentTurn = 4; runTurn4(text); break;
-      case 4: currentTurn = 5; runTurn5(text); break;
-      case 5: currentTurn = 6; runTurn6(text); break;
-      default: break; // conversation done or free input
+      case 2: currentTurn = 3; runTurn2b(text); break;
+      case 3: currentTurn = 4; runTurn3(text); break;
+      default: break;
     }
   }
 
   function handleSend() {
     var text = input.value.trim();
-    if (!text || currentTurn === 0 || currentTurn > 5) return;
+    if (!text || currentTurn === 0 || currentTurn > 3) return;
     input.value = '';
     sendBtn.classList.remove('active');
     advanceConversation(text);
@@ -3452,14 +3154,18 @@
     if (e.key === 'Enter') handleSend();
   });
 
-  // ── Chips and card buttons — prefill input ─────────────
+  // ── Chips and card buttons — send immediately on click ─────────────
   // Use event delegation on the chat area so it works for dynamically shown elements
   document.getElementById('jouleChatArea').addEventListener('click', function(e) {
     var el = e.target;
-    // joule-chip with data-prefill
+    // joule-chip with data-prefill — send immediately, no input population
     if (el.classList.contains('joule-chip') && el.dataset.prefill !== undefined) {
-      input.value = el.dataset.prefill;
-      input.focus();
+      var chipText = el.dataset.prefill;
+      if (!chipText || currentTurn === 0 || currentTurn > 3) return;
+      input.value = '';
+      sendBtn.classList.remove('active');
+      advanceConversation(chipText);
+      return;
     }
     // cart/pr buttons with data-prefill
     if ((el.classList.contains('cart-btn-primary') || el.classList.contains('cart-btn-secondary') ||

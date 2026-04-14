@@ -1,0 +1,3546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAP Ariba Nexus – Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- SAP 72 font via CDN -->
+  <link rel="stylesheet" href="https://ui5.sap.com/resources/sap/ui/core/themes/sap_horizon/fonts/72-regular.woff2" />
+  <!-- SAP Icons font -->
+  <link rel="stylesheet" href="https://ui5.sap.com/resources/sap/ui/core/themes/base/SAP-icons.css" />
+  <style>
+    /* ─── SAP Horizon Design Tokens ─── */
+    :root {
+      --sap-fontFamily: "72", "72full", Arial, Helvetica, sans-serif;
+      --sapFontSize: 14px;
+      --sapFontSmallSize: 12px;
+      --sapFontHeader3Size: 24px;
+      --sapFontHeader6Size: 14px;
+      --sapFontBoldFamily: bold;
+      --sapFontSemiboldDuplexFamily: 600;
+      --sapFontLightFamily: 300;
+
+      /* Shell */
+      --sapShell_Background: #fff;
+      --sapShell_TextColor: #1d2d3e;
+      --sapShell_BorderColor: #d9d9d9;
+      --sapShell_NegativeColor: #ff5b38;
+
+      /* List / Content */
+      --sapList_Background: #fff;
+      --sapList_TextColor: #131e29;
+      --sapList_BorderColor: #e5e5e5;
+      --sapList_HeaderBackground: #fff;
+      --sapList_HeaderBorderColor: #a8b3bd;
+      --sapList_HeaderTextColor: #131e29;
+      --sapList_HighlightColor: #0064d9;
+      --sapList_SelectionBackgroundColor: #ebf8ff;
+
+      /* Group */
+      --sapGroup_ContentBackground: #fff;
+      --sapGroup_TitleBackground: #fff;
+      --sapGroup_TitleTextColor: #1d2d3e;
+      --sapGroup_TitleBorderColor: #a8b3bd;
+      --sapGroup_TitleBorderWidth: 1px;
+      --sapGroup_TitleFontSize: 16px;
+
+      /* Tile */
+      --sapTile_Background: #fff;
+      --sapTile_BorderColor: rgba(0,0,0,0);
+      --sapTile_BorderCornerRadius: 16px;
+      --sapTile_TitleTextColor: #131e29;
+
+      /* Button */
+      --sapButton_Background: #fff;
+      --sapButton_BorderColor: #bcc3ca;
+      --sapButton_BorderWidth: 1px;
+      --sapButton_BorderCornerRadius: 8px;
+      --sapButton_TextColor: #0064d9;
+      --sapButton_Selected_Background: #edf6ff;
+      --sapButton_Selected_BorderColor: #0064d9;
+      --sapButton_Selected_TextColor: #0064d9;
+      --sapButton_Lite_Background: rgba(0,0,0,0);
+      --sapButton_Lite_BorderColor: rgba(0,0,0,0);
+      --sapButton_Lite_TextColor: #0064d9;
+      --sapButton_Accept_Background: #e9f7e9;
+      --sapButton_Accept_BorderColor: #256f28;
+      --sapButton_Accept_TextColor: #256f28;
+      --sapButton_Reject_Background: #fce8e8;
+      --sapButton_Reject_BorderColor: #aa0808;
+      --sapButton_Reject_TextColor: #aa0808;
+
+      /* Content */
+      --sapContent_LabelColor: #556b82;
+      --sapLinkColor: #0064d9;
+      --sapTextColor: #131e29;
+      --sapNeutralTextColor: #1d2d3e;
+      --sapPageFooter_Background: #fff;
+      --sapShell_Category_14_TextColor: #fff;
+      --sapObjectHeader_Title_TextColor: #131e29;
+      --sapShell_GroupTitleTextColor: #131e29;
+
+      /* Indication Colors */
+      --sapIndicationColor_2b_Background: #fcc4c4;
+      --sapIndicationColor_2b_BorderColor: #fcc4c4;
+      --sapIndicationColor_2b_TextColor: #aa0808;
+      --sapIndicationColor_4b_Background: #bae8bc;
+      --sapIndicationColor_4b_BorderColor: #bae8bc;
+      --sapIndicationColor_4b_TextColor: #256f28;
+      --sapIndicationColor_5b_Background: #d9ebff;
+      --sapIndicationColor_5b_BorderColor: #d9ebff;
+      --sapIndicationColor_5b_TextColor: #0067d9;
+      --sapIndicationColor_10b_Background: #eaecee;
+      --sapIndicationColor_10b_BorderColor: #eaecee;
+      --sapIndicationColor_10b_TextColor: #444648;
+
+      /* Shadow */
+      --shadow0: 0px 0px 2px 0px rgba(34,53,72,0.2), 0px 2px 4px 0px rgba(34,53,72,0.2);
+    }
+
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sap-fontFamily);
+      font-size: var(--sapFontSize);
+      color: var(--sapList_TextColor);
+      background: #f2f4f5;
+      min-height: 100vh;
+    }
+
+    /* ─── Z-index scale (semantic) ─── */
+    /* dropdown: 100 | sticky: 200 | overlay: 300 | modal: 400 | toast: 500 | joule: 600 */
+
+    /* ─── Shell Bar ─── */
+    .shell-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 44px;
+      background: var(--sapShell_Background);
+      padding: 0 10px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0px 2px 2px 0px rgba(34,53,72,0.1);
+    }
+    .shell-bar-left { display: flex; align-items: center; gap: 4px; }
+    .shell-bar-right { display: flex; align-items: center; gap: 2px; }
+    .shell-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; border: none; background: transparent;
+      color: var(--sapShell_TextColor);
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .shell-btn:hover { background: rgba(0,0,0,.05); }
+    .shell-btn:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; border-radius: 8px; }
+    .shell-logo {
+      display: flex; align-items: center; gap: 6px;
+      color: #1d2d3e; font-weight: 700; font-size: 14px; cursor: pointer;
+      padding: 4px 8px; border-radius: 8px; min-height: 44px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .shell-logo:hover { background: rgba(0,0,0,.05); }
+    .shell-logo:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+    .shell-logo svg { flex-shrink: 0; }
+    .shell-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #c8a882; color: #3d2b1a; font-weight: 700; font-size: 11px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      margin-left: 2px; touch-action: manipulation;
+      min-width: 44px; min-height: 44px; margin: -6px -6px -6px 2px;
+      border-radius: 50%; width: 32px; height: 32px;
+      /* Expand tap target to 44px without changing visual size */
+      position: relative;
+    }
+    .shell-avatar::before {
+      content: ''; position: absolute; inset: -6px;
+      border-radius: 50%;
+    }
+    .icon-svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ─── Layout ─── */
+    .app-body { display: flex; height: calc(100vh - 44px); overflow: hidden; }
+
+    /* ─── Side Nav ─── */
+    .side-nav {
+      width: 256px; flex-shrink: 0;
+      background: var(--sapList_Background);
+      border-right: 1px solid var(--sapTile_BorderColor);
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow0);
+      overflow: hidden;
+    }
+    .side-nav-main { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+    .side-nav-bottom {
+      padding: 8px; border-top: 1px solid #d9d9d9;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .nav-item {
+      display: flex; align-items: center; min-height: 40px;
+      padding: 8px 16px; border-radius: 8px; cursor: pointer;
+      gap: 0; position: relative;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-item:hover { background: #f2f4f5; }
+    .nav-item:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+    .nav-item.active { background: var(--sapList_SelectionBackgroundColor); }
+    .nav-item.active::before {
+      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 44px; background: var(--sapList_HighlightColor); border-radius: 2px;
+    }
+    .nav-icon { width: 16px; height: 16px; margin-right: 8px; flex-shrink: 0; }
+    .nav-item img.nav-icon { object-fit: contain; }
+    .nav-label { flex: 1; font-size: 14px; font-weight: 400; color: var(--sapList_TextColor); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item.active .nav-label { font-weight: 600; color: var(--sapList_TextColor); }
+    .nav-arrow { width: 16px; height: 16px; color: #556b82; margin-left: auto; }
+    .nav-children { padding-left: 24px; display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+    .nav-child {
+      display: flex; align-items: center; min-height: 40px;
+      padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 400; color: var(--sapList_TextColor);
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-child:hover { background: #f2f4f5; }
+    .nav-child:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+    .create-btn {
+      display: flex; align-items: center; height: 40px; padding: 0 16px;
+      border: 1px solid var(--sapButton_BorderColor); border-radius: 8px;
+      background: var(--sapButton_Background); color: var(--sapButton_TextColor);
+      cursor: pointer; font-size: 14px; font-weight: 600; gap: 8px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .create-btn:hover { background: #edf6ff; box-shadow: 0 1px 4px rgba(0,100,217,0.12); }
+    .create-btn:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+    .admin-link { display: flex; align-items: center; height: 40px; padding: 0 16px; font-size: 14px; font-weight: 600; color: var(--sapList_TextColor); cursor: pointer; border-radius: 8px; gap: 8px; touch-action: manipulation; transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1); }
+    .admin-link:hover { background: #f2f4f5; }
+    .admin-link:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+
+    /* ─── Page Area ─── */
+    .page-area { flex: 1; overflow-y: auto; padding: 0; }
+    .page-inner { padding: 8px; }
+
+    /* ─── Page Header ─── */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 16px 8px 16px;
+    }
+    .page-title { font-size: 24px; font-weight: 900; color: var(--sapShell_GroupTitleTextColor); }
+    .cart-btn {
+      display: flex; align-items: center; gap: 6px; padding: 5px 8px;
+      border: none; background: transparent; color: var(--sapButton_Lite_TextColor);
+      cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 600;
+    }
+    .cart-btn:hover { background: #edf6ff; }
+
+    /* ─── Search Bar ─── */
+    .search-bar-wrap { margin-bottom: 0; }
+    .search-bar {
+      display: flex; align-items: center; background: #fff;
+      border: 1px solid #bcc3ca; border-radius: 8px; padding: 0 12px; height: 36px;
+      box-shadow: var(--shadow0);
+      transition: border-color 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .search-bar:focus-within {
+      border-color: var(--sapList_HighlightColor);
+      box-shadow: var(--shadow0), 0 0 0 2px rgba(0,100,217,0.15);
+    }
+    .search-bar input {
+      flex: 1; border: none; outline: none; font-size: 14px;
+      font-family: var(--sap-fontFamily); color: var(--sapList_TextColor); background: transparent;
+    }
+    .search-bar input::placeholder { color: #92a2b5; }
+
+    /* ─── Two-column content ─── */
+    .search-bar-wrap { padding: 0 8px 8px; }
+    .content-grid { display: flex; gap: 8px; padding: 0 8px 8px; align-items: flex-start; }
+    .col-left { flex: 0 0 calc(100% - 356px - 16px); min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+    .col-right { flex: 0 0 356px; display: flex; flex-direction: column; gap: 16px; }
+
+    /* ─── Widget Card ─── */
+    .widget-card {
+      background: var(--sapTile_Background);
+      border: 1px solid var(--sapTile_BorderColor);
+      border-radius: var(--sapTile_BorderCornerRadius);
+      box-shadow: var(--shadow0);
+      overflow: hidden;
+    }
+    .widget-toolbar {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--sapGroup_TitleBackground);
+      padding: 3px 8px; min-height: 44px;
+    }
+    .widget-title { font-size: 16px; font-weight: 700; color: var(--sapGroup_TitleTextColor); flex: 1; padding-left: 8px; }
+    .btn-tertiary {
+      background: transparent; border: none; padding: 5px 8px; border-radius: 8px;
+      color: var(--sapButton_TextColor); font-size: 14px; font-weight: 600; cursor: pointer;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-tertiary:hover { background: #edf6ff; }
+    .btn-tertiary:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+    .icon-btn {
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      background: transparent; border: none; border-radius: 8px; cursor: pointer; color: #556b82;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .icon-btn:hover { background: #f2f4f5; }
+    .icon-btn:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+
+    /* ─── Announcement Widget ─── */
+    .announcement-banner {
+      background: linear-gradient(90deg, #14565b 0%, #14565b 100%);
+      padding: 24px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .announcement-title { font-size: 20px; font-weight: 700; color: #fff; }
+    .announcement-desc { font-size: 12px; color: rgba(255,255,255,.9); line-height: 1.4; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 4px; border-radius: 8px; font-size: 12px; font-weight: 700; line-height: 16px;
+    }
+    .tag-info { background: var(--sapIndicationColor_5b_Background); color: var(--sapIndicationColor_5b_TextColor); border: 1px solid var(--sapIndicationColor_5b_BorderColor); }
+    .tag-error { background: var(--sapIndicationColor_2b_Background); color: var(--sapIndicationColor_2b_TextColor); border: 1px solid var(--sapIndicationColor_2b_BorderColor); }
+    .tag-success { background: var(--sapIndicationColor_4b_Background); color: var(--sapIndicationColor_4b_TextColor); border: 1px solid var(--sapIndicationColor_4b_BorderColor); }
+    .tag-warning { background: #fff3d6; color: #c87000; border: 1px solid #fff3d6; }
+    .pr-link { color: var(--sapLinkColor); font-size: 14px; }
+    .carousel-footer {
+      background: var(--sapPageFooter_Background);
+      display: flex; align-items: center; justify-content: center;
+      padding: 6px 8px;
+    }
+    .carousel-nav { display: flex; align-items: center; gap: 16px; padding: 4px 0; }
+    .carousel-btn {
+      width: 44px; height: 44px; border-radius: 22px;
+      border: 1px solid var(--sapButton_BorderColor); background: var(--sapButton_Background);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .carousel-btn:hover { background: #f2f4f5; box-shadow: 0 1px 4px rgba(34,53,72,0.1); }
+    .carousel-btn:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+    .dots { display: flex; align-items: center; gap: 4px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #0064d9; }
+    .dot-sm { width: 4px; height: 4px; border-radius: 50%; background: #bcc3ca; }
+
+    /* ─── Documents Widget – Segmented btn ─── */
+    .seg-btn-wrap {
+      display: flex; align-items: center; gap: 8px;
+      padding: 3px 8px; min-height: 44px;
+      border-bottom: 1px solid var(--sapList_HeaderBorderColor);
+      background: var(--sapGroup_TitleBackground);
+    }
+    .seg-btn {
+      display: flex; border: 1px solid var(--sapButton_BorderColor); border-radius: 8px; overflow: hidden;
+    }
+    .seg-btn-item {
+      padding: 5px 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none;
+      background: transparent; color: var(--sapButton_TextColor);
+    }
+    .seg-btn-item.active {
+      background: var(--sapButton_Selected_Background);
+      border: 1px solid var(--sapButton_Selected_BorderColor);
+      color: var(--sapButton_Selected_TextColor);
+      border-radius: 8px;
+    }
+
+    /* ─── Table ─── */
+    .resp-table { width: 100%; border-collapse: collapse; }
+    .resp-table th {
+      background: var(--sapList_HeaderBackground);
+      border-bottom: 1px solid var(--sapList_HeaderBorderColor);
+      padding: 8px; font-size: 14px; font-weight: 600; color: var(--sapList_HeaderTextColor);
+      text-align: left; position: sticky; top: 0;
+    }
+    .resp-table th.right { text-align: right; }
+    .resp-table td {
+      border-bottom: 1px solid var(--sapList_BorderColor);
+      padding: 4px 8px; font-size: 14px; color: var(--sapList_TextColor); vertical-align: middle;
+    }
+    .resp-table td.right { text-align: right; }
+    .resp-table tr:hover td { background: #f7f9fb; }
+    .obj-id .name { font-weight: 700; }
+    .obj-id .id { color: var(--sapContent_LabelColor); font-size: 14px; }
+    .obj-number { display: flex; gap: 4px; justify-content: flex-end; align-items: baseline; }
+    .obj-number .num { font-weight: 400; }
+    .obj-number .cur { font-weight: 300; color: #556b82; }
+
+    /* ─── Buying Options grid ─── */
+    .bo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 12px 16px 16px;
+    }
+    .bo-item {
+      display: flex; align-items: center; gap: 12px;
+      border: 1px solid #e5e5e5; border-radius: 12px;
+      padding: 10px 12px; cursor: pointer; background: #fff;
+      touch-action: manipulation;
+      transition: box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .bo-item:hover { box-shadow: 0 4px 12px rgba(34,53,72,.12); transform: translateY(-1px); }
+    .bo-item:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(34,53,72,.08); }
+    .bo-item:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+    .bo-thumb {
+      width: 56px; height: 56px; border-radius: 10px;
+      flex-shrink: 0; object-fit: cover; background: #edeef0;
+    }
+    .bo-label {
+      font-size: 14px; font-weight: 600; color: #131e29; line-height: 1.3;
+    }
+
+    /* ─── Insights Widget ─── */
+    .insights-row { display: flex; gap: 16px; padding: 16px; flex-wrap: wrap; }
+    .analytics-card {
+      flex: 1; min-width: 340px;
+      background: var(--sapTile_Background); border: 1px solid #e5e5e5;
+      border-radius: 16px; box-shadow: var(--shadow0); overflow: hidden;
+    }
+    .card-header { padding: 16px 16px 8px; }
+    .card-header-meta { font-size: 12px; color: var(--sapContent_LabelColor); margin-bottom: 4px; }
+    .card-header-title { font-size: 14px; font-weight: 700; color: var(--sapList_TextColor); }
+    .card-numeric { padding: 0 16px 8px; }
+    .card-kpi { font-size: 32px; font-weight: 700; color: var(--sapList_TextColor); }
+    .card-kpi-unit { font-size: 20px; font-weight: 300; color: #556b82; }
+    .chart-area { padding: 8px 16px 16px; }
+    .donut-wrap { display: flex; align-items: center; gap: 24px; }
+    .donut-svg { flex-shrink: 0; }
+    .donut-legend { display: flex; flex-direction: column; gap: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #556b82; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-pct { font-weight: 600; color: var(--sapList_TextColor); }
+    .line-chart-wrap { position: relative; }
+    .line-chart-labels { display: flex; justify-content: space-between; font-size: 12px; color: #92a2b5; margin-top: 4px; padding: 0 4px; }
+
+    /* ─── Right Column Cards ─── */
+    .todo-widget { background: var(--sapGroup_ContentBackground); border: 1px solid var(--sapTile_BorderColor); border-radius: 16px; box-shadow: var(--shadow0); overflow: hidden; }
+    .todo-toolbar { display: flex; align-items: center; padding: 3px 8px; min-height: 44px; background: var(--sapGroup_TitleBackground); border-radius: 16px 16px 0 0; }
+    .todo-items { display: flex; flex-direction: column; gap: 8px; padding: 16px; }
+    .todo-card {
+      background: var(--sapTile_Background); border: 1px solid var(--sapList_BorderColor);
+      border-radius: 16px; box-shadow: var(--shadow0); overflow: hidden; padding-bottom: 16px;
+    }
+    .todo-card-header { padding: 16px 16px 12px; }
+    .todo-card-title { font-size: 14px; font-weight: 700; color: var(--sapTextColor); line-height: 1.3; }
+    .todo-card-sub { font-size: 14px; color: var(--sapContent_LabelColor); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .todo-overdue { font-size: 12px; color: #aa0808; white-space: nowrap; }
+    .todo-card-content { padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+    .todo-item { display: flex; gap: 8px; }
+    .highlight-bar { width: 4px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+    .highlight-red { background: #e90b0b; }
+    .highlight-blue { background: #0070f2; }
+    .todo-item-body { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .todo-item-text { font-size: 14px; color: var(--sapTextColor); line-height: 1.4; }
+    .todo-item-amount { font-size: 18px; font-weight: 700; color: var(--sapNeutralTextColor); }
+    .todo-item-amount span { font-size: 14px; font-weight: 400; color: #556b82; margin-left: 4px; }
+    .todo-card-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 16px 0; }
+    .btn-accept {
+      padding: 8px 12px; border-radius: 8px; border: 1px solid var(--sapButton_Accept_BorderColor);
+      background: var(--sapButton_Accept_Background); color: var(--sapButton_Accept_TextColor);
+      font-size: 14px; font-weight: 600; cursor: pointer; min-height: 36px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-accept:hover { background: #d4f4d5; box-shadow: 0 1px 4px rgba(37,111,40,0.15); }
+    .btn-accept:focus-visible { outline: 2px solid #256f28; outline-offset: 2px; }
+    .btn-reject {
+      padding: 8px 12px; border-radius: 8px; border: 1px solid var(--sapButton_Reject_BorderColor);
+      background: var(--sapButton_Reject_Background); color: var(--sapButton_Reject_TextColor);
+      font-size: 14px; font-weight: 600; cursor: pointer; min-height: 36px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-reject:hover { background: #fcc4c4; box-shadow: 0 1px 4px rgba(170,8,8,0.15); }
+    .btn-reject:focus-visible { outline: 2px solid #aa0808; outline-offset: 2px; }
+    .btn-secondary {
+      padding: 8px 12px; border-radius: 8px;
+      border: 1px solid var(--sapButton_BorderColor); background: var(--sapButton_Background);
+      color: var(--sapButton_TextColor); font-size: 14px; font-weight: 600; cursor: pointer; min-height: 36px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-secondary:hover { background: #edf6ff; }
+    .btn-secondary:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+    .label-value { display: flex; align-items: baseline; gap: 4px; font-size: 14px; }
+    .label-text { color: var(--sapContent_LabelColor); }
+    .value-text { color: var(--sapTextColor); }
+
+    /* ─── Quick Links ─── */
+    .quick-links { background: var(--sapGroup_TitleBackground); border: 1px solid var(--sapTile_BorderColor); border-radius: 16px; box-shadow: var(--shadow0); overflow: hidden; }
+    .ql-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 16px 12px; min-height: 46px; }
+    .ql-title { font-size: 16px; font-weight: 700; color: var(--sapTile_TitleTextColor); }
+    .ql-count { font-size: 12px; color: var(--sapContent_LabelColor); }
+    .ql-list { display: flex; flex-direction: column; }
+    .ql-item {
+      display: flex; align-items: center; min-height: 44px; padding: 0 16px;
+      border-bottom: 1px solid var(--sapList_BorderColor); font-size: 14px;
+      color: var(--sapList_TextColor); cursor: pointer; position: relative;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .ql-item:last-child { border-bottom: none; }
+    .ql-item:hover { background: #f7f9fb; }
+    .ql-item:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+    .ql-more {
+      display: flex; align-items: center; justify-content: center;
+      padding: 14px; min-height: 44px; font-size: 14px; font-weight: 700;
+      color: var(--sapButton_TextColor); cursor: pointer;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .ql-more:hover { background: #edf6ff; }
+    .ql-more:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: -2px; }
+
+    /* ─── Zone A (search row) ─── */
+    .zone-a { padding: 8px 8px; }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #c0c8d0; border-radius: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+
+    /* ─── Expandable text ─── */
+    .expandable { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .show-more { color: var(--sapLinkColor); font-size: 14px; cursor: pointer; }
+
+    /* ─── Joule Popover ─── */
+    .joule-popover {
+      position: fixed; bottom: 24px; right: 24px; z-index: 600;
+      width: 448px; height: 660px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 0 2px rgba(91,115,139,0.16), 0 32px 64px rgba(91,115,139,0.16);
+      display: none; flex-direction: column;
+      font-family: var(--sap-fontFamily);
+      background: #ffffff;
+      transform-origin: bottom right;
+    }
+    .joule-popover.open {
+      display: flex;
+      /* Refined open animation: ease-out-quart, no bounce (impeccable rule) */
+      animation: jouleOpen 0.3s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+    @keyframes jouleOpen {
+      from { opacity: 0; transform: scale(0.92) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .joule-header {
+      background: linear-gradient(180deg, #5d36ff 0%, #6431fa 100%);
+      display: flex; align-items: center; height: 56px;
+      padding: 0 4px 0 0; flex-shrink: 0;
+      position: relative; overflow: hidden;
+    }
+    .joule-header-left {
+      display: flex; align-items: center; flex: 1; overflow: hidden;
+    }
+    .joule-header-menu-btn {
+      width: 44px; height: 44px; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; border-radius: 8px;
+      color: #fff; flex-shrink: 0; margin-left: 0;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .joule-header-menu-btn:hover { background: rgba(255,255,255,.14); }
+    .joule-header-menu-btn:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: -2px; }
+    .joule-header-title {
+      font-size: 16px; font-weight: 700; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      padding-left: 4px;
+    }
+    /* SAP icon helper for header buttons */
+    .sap-icon {
+      font-family: "SAP-icons"; font-style: normal; font-weight: normal;
+      font-size: 16px; color: #fff; line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "liga"; /* enable ligatures */
+      -webkit-font-feature-settings: "liga";
+      text-rendering: optimizeLegibility;
+      display: inline-block; width: 16px; height: 16px;
+      text-align: center;
+    }
+    .joule-header-actions { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+    .joule-header-btn {
+      width: 44px; height: 44px; background: transparent; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #fff;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .joule-header-btn:hover { background: rgba(255,255,255,.14); }
+    .joule-header-btn:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: -2px; }
+
+    /* Body */
+    .joule-body {
+      background: #ffffff;
+      overflow-y: auto; overflow-x: hidden;
+      padding: 0; display: flex; flex-direction: column;
+      flex: 1 1 0; min-height: 0;
+      scroll-behavior: smooth;
+    }
+
+    .joule-body::-webkit-scrollbar { width: 4px; }
+    .joule-body::-webkit-scrollbar-thumb { background: rgba(93,54,255,0.2); border-radius: 4px; }
+
+    .joule-chat-area {
+      padding: 16px 14px 8px; display: flex; flex-direction: column; gap: 16px; flex: 1;
+    }
+    /* Turn containers must also be flex columns with matching gap */
+    .joule-chat-area > div[id^="turn-"] {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .joule-timestamp {
+      text-align: center; font-size: 14px; color: #8396a8; margin-bottom: 4px;
+    }
+    .joule-timestamp strong { font-weight: 700; color: #8396a8; }
+
+    /* ── Bubble entrance animation ── */
+    /* ease-out-quart: smooth, confident — no bounce (impeccable rule) */
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .bubble-animate {
+      animation: bubbleIn 0.28s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    /* User bubble — right aligned, purple */
+    .joule-msg-user {
+      align-self: flex-end; max-width: 82%;
+    }
+    .joule-bubble-user {
+      background: #eae5ff;
+      border: 1px solid #eae5ff;
+      border-radius: 8px 8px 0 8px;
+      padding: 8px 16px; font-size: 14px; color: #1d2d3e; line-height: 1.5;
+    }
+
+    /* AI bubble — left aligned, grey, wraps to content */
+    .joule-msg-ai { align-self: flex-start; max-width: 80%; }
+    .joule-msg-ai.full-width { max-width: 80%; width: 80%; }
+    .joule-turn-loader.full-width { max-width: 80%; width: 80%; }
+    .joule-bubble-ai {
+      background: #eff1f2;
+      border: 1px solid #eff1f2;
+      border-radius: 8px 8px 8px 0;
+      padding: 8px 16px; font-size: 14px; color: #1d2d3e; line-height: 1.5;
+      display: inline-block;
+    }
+
+    /* Streaming cursor — blinks after the last character */
+    .joule-bubble-ai .stream-cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: #556b82;
+      margin-left: 1px;
+      vertical-align: text-bottom;
+      border-radius: 1px;
+      animation: cursorBlink 0.55s steps(1) infinite;
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── Quick reply chips — Figma: Pqg0cqoAWbfdnSX5FgoOCV node 285-5515 ── */
+    .joule-suggestions {
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0 2px 0;
+    }
+    .joule-chip {
+      display: inline-flex; align-items: center;
+      padding: 4px 8px; border-radius: 16px;
+      background: #fff; border: none;
+      color: #0064d9;
+      font-size: 14px; font-weight: 400; font-family: inherit;
+      line-height: 20px; cursor: pointer; white-space: nowrap;
+      touch-action: manipulation;
+      box-shadow: 0px 0px 2px 0px rgba(27,144,255,0.16),
+                  0px 4px 8px 0px rgba(27,144,255,0.16);
+      transition: box-shadow 0.15s, transform 0.1s;
+    }
+    .joule-chip:hover {
+      box-shadow: 0px 0px 4px 0px rgba(27,144,255,0.24),
+                  0px 6px 12px 0px rgba(27,144,255,0.22);
+      transform: translateY(-1px);
+    }
+    .joule-chip:active { transform: translateY(0); }
+    .joule-chip:focus-visible { outline: 2px solid #0064d9; outline-offset: 2px; }
+
+    /* ── Three-dot loading bubble (Figma: 86692-15470) ── */
+    .joule-dots-bubble {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 2px;
+      background: transparent;
+    }
+    .jdot {
+      width: 7px; height: 7px; border-radius: 50%;
+      animation: jdotPulse 1.5s ease-in-out infinite;
+    }
+    .jdot-1 { background: #dbb8f5; animation-delay: 0s; }
+    .jdot-2 { background: #b97ee8; animation-delay: 0.2s; }
+    .jdot-3 { background: #7c5cc4; animation-delay: 0.4s; }
+    @keyframes jdotPulse {
+      0%, 100% { transform: scale(0.85); opacity: 0.75; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* ── Skeleton product card — mirrors jrc-item layout ── */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position:  600px 0; }
+    }
+    .skel-fill {
+      background: linear-gradient(90deg,
+        rgba(226,226,226,0.7) 0%,
+        rgba(226,226,226,0.3) 45%,
+        rgba(226,226,226,0.7) 90%);
+      background-size: 600px 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    /* Card shell matches jrc-item exactly */
+    .joule-skeleton-card {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      box-shadow: 0px 0px 2px 0px rgba(91,115,139,0.16),
+                  0px 4px 8px 0px rgba(91,115,139,0.16);
+      overflow: hidden;
+    }
+    /* Header section — mirrors jrc-card-header */
+    .skel-header {
+      padding: 16px 16px 12px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    /* Product image placeholder — 59×59px, 12px radius */
+    .skel-img {
+      width: 59px; height: 59px; border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .skel-header-meta {
+      flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 4px;
+    }
+    /* Date tag placeholder */
+    .skel-tag  { height: 16px; width: 120px; border-radius: 8px; }
+    /* Product name — two lines */
+    .skel-name1 { height: 12px; width: 90%;  border-radius: 6px; }
+    .skel-name2 { height: 12px; width: 65%;  border-radius: 6px; }
+    /* Body section — mirrors jrc-card-body */
+    .skel-body {
+      padding: 10px 16px 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    /* Supplier name */
+    .skel-supplier { height: 12px; width: 100px; border-radius: 6px; }
+    /* Price row — big number */
+    .skel-price    { height: 22px; width: 130px; border-radius: 6px; }
+    /* Attribute rows */
+    .skel-attr1 { height: 10px; width: 80%;  border-radius: 5px; }
+    .skel-attr2 { height: 10px; width: 60%;  border-radius: 5px; }
+    .skel-attr3 { height: 10px; width: 70%;  border-radius: 5px; }
+    /* Add to Cart button placeholder */
+    .skel-cta {
+      height: 26px; border-radius: 8px;
+      background: rgba(226,226,226,0.35) !important;
+      animation: none !important;
+    }
+
+    /* ── Product result cards — Figma: PRmKIW3BvS9ofIM4zbqo9G node 152-11212 ── */
+    .jrc-context {
+      font-size: 12px; color: #89919a; margin-bottom: 10px; line-height: 1.4;
+    }
+    .jrc-recommended-label {
+      font-size: 10px; font-weight: 700; color: #5d36ff;
+      text-transform: uppercase; letter-spacing: 0.7px;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+    }
+    .jrc-recommended-label::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #5d36ff; flex-shrink: 0;
+    }
+    .jrc-date-tag-row {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .jrc-recommended-badge {
+      font-size: 12px; font-weight: 700; color: #0057b8;
+      background: #dff0ff; border-radius: 100px;
+      padding: 2px 10px; letter-spacing: 0.1px;
+      line-height: 18px; white-space: nowrap;
+    }
+    .jrc-qualified-badge {
+      font-size: 12px; font-weight: 700; color: #107e3e;
+      background: #e8f5e9; border-radius: 100px;
+      padding: 2px 10px; letter-spacing: 0.1px;
+      line-height: 18px; white-space: nowrap;
+    }
+    .jrc-date-tag {
+      display: inline-flex; align-items: center;
+      padding: 2px 8px; line-height: 18px;
+      border: 1px solid #d9d9d9; border-radius: 100px;
+      font-size: 12px; font-weight: 600; color: #2e2e2e;
+      white-space: nowrap;
+    }
+
+    /* Card shell */
+    .jrc-item {
+      background: #fff; border-radius: 8px; margin-bottom: 8px;
+      box-shadow: 0px 0px 2px 0px rgba(91,115,139,0.16),
+                  0px 4px 8px 0px rgba(91,115,139,0.16);
+    }
+
+    /* Card header — product image + name + date tag */
+    .jrc-card-header {
+      padding: 16px 16px 12px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .jrc-product-img {
+      width: 59px; height: 59px; border-radius: 12px;
+      object-fit: cover; flex-shrink: 0;
+      background: #f5f5f5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .jrc-card-header-meta { flex: 1; min-width: 0; }
+    .jrc-item-name {
+      font-size: 16px; font-weight: 600; color: #1d2d3e;
+      line-height: 1.35; margin: 0;
+    }
+    .jrc-item-name.bold { font-weight: 600; }
+
+    /* Card body — supplier, price, attributes */
+    .jrc-card-body { padding: 8px 16px 0; }
+    .jrc-item-supplier {
+      font-size: 14px; color: #0064d9; margin-bottom: 8px;
+    }
+
+    /* Price row */
+    .jrc-price-row {
+      display: flex; align-items: baseline; gap: 4px; margin-bottom: 12px;
+    }
+    .jrc-price-amount {
+      font-size: 24px; font-weight: 400; color: #1d2d3e;
+      letter-spacing: -0.02em; line-height: 1;
+    }
+    .jrc-price-currency {
+      font-size: 24px; font-weight: 300; color: #1d2d3e;
+      line-height: 1;
+    }
+    .jrc-price-unit {
+      font-size: 12px; color: #556b82; margin-left: 2px;
+    }
+
+    /* Attribute rows */
+    .jrc-attrs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .jrc-attr-row { display: flex; align-items: baseline; gap: 0; }
+    .jrc-attr-label { font-size: 14px; color: #556b82; white-space: nowrap; margin-right: 6px; }
+    .jrc-attr-value { font-size: 14px; color: #131e29; }
+    .jrc-attr-value.green { color: #256f3a; }
+    .jrc-attr-value.blue  { color: #0064d9; }
+
+    /* Contract item tag */
+    .jrc-contract-row {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; color: #131e29; margin-bottom: 8px;
+    }
+    .jrc-contract-icon {
+      width: 16px; height: 16px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #131e29;
+    }
+
+    /* Add to cart button */
+    .jrc-add-btn {
+      display: block; width: 100%; box-sizing: border-box;
+      padding: 5px 16px 16px;
+    }
+    .jrc-add-btn button {
+      width: 100%; padding: 5px 12px;
+      border: 1px solid #bcc3ca; border-radius: 8px;
+      background: #fff; color: #0064d9;
+      font-size: 14px; font-weight: 600; font-family: inherit;
+      cursor: pointer; line-height: 20px;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .jrc-add-btn button:hover { background: #f0f5ff; border-color: #0064d9; }
+
+    /* Section dividers */
+    .jrc-divider {
+      font-size: 10px; font-weight: 700; color: #a0a8b4;
+      text-transform: uppercase; letter-spacing: 0.7px;
+      margin: 12px 0 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .jrc-divider::after { content: ''; flex: 1; height: 1px; background: #ebebeb; }
+    .jrc-section-label {
+      font-size: 10px; font-weight: 700; color: #a0a8b4;
+      text-transform: uppercase; letter-spacing: 0.7px;
+      margin: 12px 0 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .jrc-section-label::after { content: ''; flex: 1; height: 1px; background: #ebebeb; }
+
+    /* CTA chips wrapper */
+    .jrc-footer { margin-top: 12px; }
+
+    /* ── Three-dot loader legacy (keep for backward compat) ── */
+    .joule-dots {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #eff1f2; border: 1px solid #eff1f2;
+      border-radius: 8px 8px 8px 0;
+      padding: 12px 16px;
+    }
+    .joule-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: linear-gradient(135deg, #5d36ff 0%, #a100c2 100%);
+      animation: dotBounce 1.3s ease-in-out infinite;
+    }
+    .joule-dot:nth-child(2) { animation-delay: 0.18s; }
+    .joule-dot:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes dotBounce {
+      0%, 60%, 100% { opacity: 0.2; transform: translateY(0) scale(0.75); }
+      30% { opacity: 1; transform: translateY(-4px) scale(1); }
+    }
+
+    /* ══ Named-step loader — Figma "Deep Research Execution Card" ══ */
+    .joule-loader {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 16px;
+      padding: 12px 16px 8px;
+      width: 100%; box-sizing: border-box;
+      overflow: hidden;
+    }
+    /* Progress bar */
+    .joule-loader-bar-wrap {
+      height: 3px; background: #ede9ff; border-radius: 2px 2px 0 0;
+      overflow: hidden; position: relative;
+      margin: 0 0 10px 0;
+    }
+    .joule-loader-bar {
+      height: 3px; width: 50%; border-radius: 0; position: absolute; left: -50%; top: 0;
+      background: linear-gradient(90deg, transparent, #9b6de0, #5d36ff, #9b6de0, transparent);
+      animation: loaderSweep 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes loaderSweep {
+      0%   { left: -40%; }
+      100% { left: 100%; }
+    }
+    .joule-loader.done .joule-loader-bar { animation: none; left: 100%; opacity: 0; }
+
+    /* Step rows — no dividers, clean list */
+    .joule-loader-step {
+      display: flex; flex-direction: column;
+      animation: stepFadeIn 0.22s ease-out both;
+    }
+    .joule-loader-step.pending { display: none; }
+    @keyframes stepFadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .joule-loader-step-header {
+      display: flex; align-items: center; gap: 8px;
+      min-height: 26px; padding: 3px 0;
+      cursor: pointer; user-select: none;
+    }
+    .joule-loader-step-header:hover { opacity: 0.8; }
+
+    /* Status icon — 16×16 slot */
+    .joule-loader-dot {
+      width: 16px; height: 16px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    /* Pending: small grey circle */
+    .joule-loader-dot::after {
+      content: '';
+      width: 7px; height: 7px; border-radius: 50%;
+      border: 1.5px solid #c5c5c5;
+    }
+
+    /* Active: 3 purple dots replace the circle */
+    .joule-loader-step.active .joule-loader-dot { gap: 2px; }
+    .joule-loader-step.active .joule-loader-dot::after { display: none; }
+    .joule-loader-step.active .joule-loader-dot .sd { display: block; }
+    .joule-loader-dot .sd {
+      display: none;
+      width: 3px; height: 3px; border-radius: 50%;
+      background: #5d36ff; flex-shrink: 0;
+      animation: miniDotBounce 1.1s ease-in-out infinite;
+    }
+    .joule-loader-dot .sd:nth-child(2) { animation-delay: 0.18s; }
+    .joule-loader-dot .sd:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes miniDotBounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+      40%           { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* Done: SAP accept icon (grey) */
+    .joule-loader-step.step-done .joule-loader-dot::after { display: none; }
+    .joule-loader-step.step-done .joule-loader-dot::before {
+      font-family: 'SAP-icons'; content: '\e05b';
+      font-size: 12px; font-weight: 400;
+      color: #556b82; line-height: 1;
+    }
+
+    /* Label */
+    .joule-loader-step-label {
+      flex: 1; font-size: 14px; font-weight: 400;
+      color: #556b82; line-height: 20px;
+    }
+    .joule-loader-step.active .joule-loader-step-label {
+      font-weight: 700; color: #131e29;
+    }
+    .joule-loader-step.step-done .joule-loader-step-label {
+      color: #556b82; font-weight: 400;
+    }
+
+    /* Chevron */
+    .joule-loader-step-chevron {
+      color: #5d36ff; font-size: 18px; line-height: 1; flex-shrink: 0;
+      transition: transform 0.2s cubic-bezier(0.25,1,0.5,1);
+    }
+    .joule-loader-step.open .joule-loader-step-chevron { transform: rotate(90deg); }
+
+    /* Detail panel — vertical line layout */
+    .joule-loader-detail {
+      display: none;
+      margin: 0 0 4px 8px;
+      padding: 0 0 8px 0;
+    }
+    .joule-loader-step.open .joule-loader-detail { display: flex; }
+    .joule-loader-detail-line {
+      width: 2px; flex-shrink: 0;
+      background: #d9d9d9; border-radius: 1px;
+      margin: 2px 10px 0 7px;
+      align-self: stretch;
+      min-height: 16px;
+    }
+    .joule-loader-detail-body {
+      flex: 1; padding: 2px 0 2px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .joule-detail-substep {
+      display: flex; align-items: flex-start; gap: 5px;
+      font-size: 14px; color: #556b82; line-height: 1.5;
+    }
+    .joule-detail-substep::before { content: '·'; color: #a0a0b0; flex-shrink: 0; font-size: 16px; line-height: 1.3; }
+    .joule-detail-section { display: flex; flex-direction: column; gap: 2px; }
+    .joule-detail-section-label { font-size: 14px; font-weight: 600; color: #131e29; line-height: 1.4; }
+    .joule-detail-evidence { display: flex; align-items: center; gap: 6px; }
+    .joule-detail-favicon {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 1.2px solid #e6e6e6; background: #f5f5f5;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 9px; overflow: hidden;
+    }
+    .joule-detail-link { font-size: 14px; color: #5d36ff; text-decoration: none; line-height: 1.4; }
+    .joule-detail-link:hover { text-decoration: underline; }
+    .joule-detail-avatar {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: linear-gradient(135deg, #a78bff, #7c4dcc);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 8px; color: #fff; font-weight: 600;
+    }
+
+    /* ── Inline spinner loader (Turn 1 — bare on white) ── */
+    .joule-inline-loader {
+      display: flex; align-items: center; gap: 10px; padding: 4px 0;
+    }
+    .joule-inline-spinner {
+      width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+      border: 3px solid #e0d0f8; border-top-color: #7c4dcc; border-right-color: #9b6de0;
+      animation: inlineSpin 1s linear infinite;
+    }
+    @keyframes inlineSpin { to { transform: rotate(360deg); } }
+    .joule-inline-loader-text { font-size: 14px; color: #556b82; line-height: 1.4; }
+
+    /* Source row inside active step detail — legacy, kept for compatibility */
+    .joule-loader-source { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+    .joule-loader-source-icon { display: none; }
+    .joule-loader-source-link { font-size: 14px; color: #5d36ff; text-decoration: none; }
+    .joule-loader-source-link:hover { text-decoration: underline; }
+
+    /* ── Object card ── */
+    .joule-object-card {
+      border: 1px solid #ede9ff; border-radius: 14px; overflow: hidden;
+      background: #fff; width: 100%;
+      box-shadow: 0 1px 4px rgba(93,54,255,0.08);
+    }
+    .joc-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px 10px;
+      background: linear-gradient(135deg, #f8f6ff 0%, #fdf5ff 100%);
+      border-bottom: 1px solid #ede9ff;
+    }
+    .joc-icon {
+      width: 32px; height: 32px; border-radius: 8px; background: #f0ecff;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .joc-title { font-size: 14px; font-weight: 700; color: #131e29; flex: 1; letter-spacing: -0.01em; }
+    .joc-status {
+      font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px;
+      background: #e9f7e9; color: #256f28; border: 1px solid #bae8bc; flex-shrink: 0;
+    }
+    .joc-rows { padding: 10px 14px 4px; display: flex; flex-direction: column; gap: 5px; }
+    .joc-row { display: flex; gap: 8px; font-size: 13px; line-height: 1.4; }
+    .joc-label { color: #8396a8; min-width: 80px; flex-shrink: 0; font-size: 12px; padding-top: 1px; }
+    .joc-value { color: #131e29; font-weight: 600; }
+    .joc-footer {
+      display: flex; gap: 8px; padding: 10px 14px 12px;
+      border-top: 1px solid #f0ecff;
+    }
+    .joc-btn-primary {
+      flex: 1; padding: 8px 10px; border-radius: 10px;
+      background: #5d36ff; border: none; color: #fff;
+      font-size: 13px; font-weight: 600; cursor: pointer; min-height: 36px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .joc-btn-primary:hover { background: #4a28d4; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(93,54,255,0.3); }
+    .joc-btn-primary:active { transform: translateY(0); }
+    .joc-btn-primary:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+    .joc-btn-secondary {
+      flex: 1; padding: 8px 10px; border-radius: 10px;
+      background: #fff; border: 1.5px solid #5d36ff; color: #5d36ff;
+      font-size: 13px; font-weight: 600; cursor: pointer; min-height: 36px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .joc-btn-secondary:hover { background: #f0ecff; transform: translateY(-1px); }
+    .joc-btn-secondary:active { transform: translateY(0); }
+    .joc-btn-secondary:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+
+    /* ── Cart Summary Card ── */
+    .cart-card {
+      border: 1px solid #e8e8e8; border-radius: 14px; background: #fff;
+      width: 100%; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(34,53,72,0.06);
+    }
+    .cart-card-header {
+      background: linear-gradient(135deg, #f8f7fc 0%, #f5f3ff 100%);
+      padding: 10px 14px;
+      border-bottom: 1px solid #ede9ff;
+      font-size: 11px; font-weight: 700; color: #8396a8; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .cart-item {
+      padding: 10px 14px; border-bottom: 1px solid #f5f5f5;
+    }
+    .cart-item-name { font-size: 13px; font-weight: 700; color: #131e29; margin-bottom: 3px; letter-spacing: -0.01em; }
+    .cart-item-meta { font-size: 12px; color: #8396a8; margin-bottom: 6px; }
+    .cart-item-controls { display: flex; align-items: center; gap: 6px; }
+    .cart-qty-btn {
+      width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #d0d7e0;
+      background: #fff; color: #131e29; font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      flex-shrink: 0; line-height: 1;
+      touch-action: manipulation;
+      transition: border-color 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  color 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cart-qty-btn:hover { border-color: #5d36ff; color: #5d36ff; background: #f0ecff; }
+    .cart-qty-btn:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+    .cart-qty-val { font-size: 13px; font-weight: 700; color: #131e29; min-width: 20px; text-align: center; }
+    .cart-item-total { margin-left: auto; font-size: 13px; font-weight: 700; color: #131e29; }
+    .cart-item-actions { margin-left: 8px; display: flex; gap: 8px; }
+    .cart-action-link {
+      font-size: 12px; color: #5d36ff; cursor: pointer; background: none; border: none; padding: 0;
+      font-weight: 600; touch-action: manipulation;
+      transition: opacity 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cart-action-link:hover { opacity: 0.7; }
+    .cart-action-link:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; border-radius: 2px; }
+    .cart-total-row {
+      padding: 10px 14px 8px; background: #fafafa;
+    }
+    .cart-total-line {
+      display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 2px; color: #556b82;
+    }
+    .cart-total-line.main {
+      font-weight: 700; color: #131e29; font-size: 14px; margin-top: 6px;
+      padding-top: 8px; border-top: 1px solid #ede9ff;
+    }
+    .cart-delivery-info { font-size: 11px; color: #8396a8; padding: 0 14px 8px; }
+    .cart-footer { display: flex; gap: 8px; padding: 10px 14px 12px; }
+    .cart-btn-primary {
+      flex: 1; padding: 9px 10px; border-radius: 10px; border: none;
+      background: #5d36ff; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+      letter-spacing: -0.01em; min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cart-btn-primary:hover { background: #4a28d4; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(93,54,255,0.3); }
+    .cart-btn-primary:active { transform: translateY(0); }
+    .cart-btn-primary:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+    .cart-btn-secondary {
+      padding: 9px 12px; border-radius: 10px; border: 1.5px solid #5d36ff;
+      background: #fff; color: #5d36ff; font-size: 13px; font-weight: 600; cursor: pointer;
+      min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cart-btn-secondary:hover { background: #f0ecff; transform: translateY(-1px); }
+    .cart-btn-secondary:active { transform: translateY(0); }
+    .cart-btn-secondary:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+
+    /* ── PR Summary Card ── */
+    .pr-card {
+      border: 1px solid #e8e8e8; border-radius: 14px; background: #fff;
+      width: 100%; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(34,53,72,0.06);
+    }
+    .pr-card-header {
+      background: linear-gradient(135deg, #f8f7fc 0%, #f5f3ff 100%);
+      padding: 12px 14px; border-bottom: 1px solid #ede9ff;
+    }
+    .pr-card-title { font-size: 14px; font-weight: 700; color: #131e29; letter-spacing: -0.01em; }
+    .pr-card-subtitle { font-size: 11px; color: #8396a8; margin-top: 2px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .pr-card-section {
+      padding: 8px 14px; border-bottom: 1px solid #f5f5f5;
+    }
+    .pr-card-row { display: flex; gap: 8px; font-size: 12.5px; margin-bottom: 4px; }
+    .pr-card-label { color: #8396a8; min-width: 90px; flex-shrink: 0; }
+    .pr-card-value { color: #131e29; font-weight: 600; flex: 1; }
+    .pr-card-value.auto { color: #256f28; }
+    .pr-divider { height: 1px; background: #ede9ff; margin: 0 14px; }
+    .pr-total-row {
+      padding: 10px 14px; display: flex; justify-content: space-between;
+      font-size: 14px; font-weight: 700; color: #131e29;
+    }
+    .pr-card-footer { display: flex; gap: 8px; padding: 10px 14px 12px; }
+    .pr-btn-primary {
+      flex: 1; padding: 9px 10px; border-radius: 10px; border: none;
+      background: #5d36ff; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+      min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .pr-btn-primary:hover { background: #4a28d4; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(93,54,255,0.3); }
+    .pr-btn-primary:active { transform: translateY(0); }
+    .pr-btn-primary:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+    .pr-btn-secondary {
+      padding: 9px 12px; border-radius: 10px; border: 1.5px solid #d0d7e0;
+      background: #fff; color: #556b82; font-size: 13px; font-weight: 600; cursor: pointer;
+      min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .pr-btn-secondary:hover { background: #f5f5f5; }
+    .pr-btn-secondary:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+
+    /* ── Confirmation Card ── */
+    .confirm-card {
+      border: 1px solid #bae8bc; border-radius: 14px; background: #fff;
+      width: 100%; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(37,111,40,0.1);
+    }
+    .confirm-card-header {
+      background: linear-gradient(135deg, #e9f7e9 0%, #d4f4d5 100%);
+      padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid #bae8bc;
+    }
+    .confirm-card-title { font-size: 14px; font-weight: 700; color: #1a5c1d; letter-spacing: -0.01em; }
+    .confirm-card-pr { font-size: 11px; color: #5a8a5c; margin-top: 1px; font-weight: 600; }
+    .confirm-section {
+      padding: 10px 14px; border-bottom: 1px solid #f5f5f5;
+    }
+    .confirm-section-title {
+      font-size: 10px; font-weight: 700; color: #8396a8; letter-spacing: 0.07em;
+      text-transform: uppercase; margin-bottom: 7px;
+    }
+    .confirm-row { display: flex; gap: 6px; font-size: 12.5px; margin-bottom: 4px; }
+    .confirm-label { color: #8396a8; min-width: 80px; flex-shrink: 0; }
+    .confirm-value { color: #131e29; font-weight: 600; }
+    .confirm-next-item {
+      display: flex; align-items: flex-start; gap: 8px; font-size: 13px;
+      color: #2d4a2e; margin-bottom: 5px; line-height: 1.45;
+    }
+    .confirm-next-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #256f28;
+      margin-top: 5px; flex-shrink: 0;
+    }
+    .confirm-card-footer { display: flex; gap: 8px; padding: 10px 14px 12px; }
+    .confirm-btn-primary {
+      flex: 1; padding: 9px 10px; border-radius: 10px; border: none;
+      background: #256f28; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+      min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .confirm-btn-primary:hover { background: #1a5c1d; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(37,111,40,0.3); }
+    .confirm-btn-primary:active { transform: translateY(0); }
+    .confirm-btn-primary:focus-visible { outline: 2px solid #256f28; outline-offset: 2px; }
+    .confirm-btn-secondary {
+      padding: 9px 12px; border-radius: 10px; border: 1.5px solid #d0d7e0;
+      background: #fff; color: #556b82; font-size: 13px; font-weight: 600; cursor: pointer;
+      min-height: 38px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .confirm-btn-secondary:hover { background: #f5f5f5; }
+    .confirm-btn-secondary:focus-visible { outline: 2px solid var(--sapList_HighlightColor); outline-offset: 2px; }
+
+    /* Input area */
+    .joule-input-area {
+      padding: 16px 16px 0; flex-shrink: 0; background: #ffffff;
+    }
+    .joule-disclaimer {
+      text-align: center; font-size: 11px; color: #32363a; padding: 4px 16px 16px;
+    }
+    .joule-input-row {
+      display: flex; align-items: center;
+      border: 2px solid #5d36ff; border-radius: 20px; padding: 8px 8px 8px 16px;
+      background: #fff;
+      box-shadow: 0 0 2px rgba(93,54,255,0.16), 0 4px 8px rgba(93,54,255,0.16);
+      transition: box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  border-color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .joule-input-row:focus-within {
+      box-shadow: 0 0 2px rgba(93,54,255,0.20), 0 4px 8px rgba(93,54,255,0.20);
+    }
+    .joule-input-row:not(:focus-within) {
+      border-color: #d0d7e0; box-shadow: none;
+    }
+    .joule-input {
+      flex: 1; border: none; outline: none; font-size: 14px; background: transparent;
+      font-family: var(--sap-fontFamily); color: var(--sapList_TextColor);
+    }
+    .joule-input::placeholder { color: #556b82; font-style: italic; }
+    .joule-send-btn {
+      width: 28px; height: 28px; border-radius: 24px; background: #5d36ff;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; opacity: 0.4;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.15s;
+    }
+    .joule-send-btn.active { opacity: 1; }
+    .joule-send-btn:hover { background: #4a28d4; transform: scale(1.06); }
+    .joule-send-btn:active { transform: scale(0.96); }
+    .joule-send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .joule-send-btn:focus-visible { outline: 2px solid #5d36ff; outline-offset: 2px; }
+
+    /* ── Maximized / fullscreen Joule ── */
+    .joule-popover.maximized {
+      position: fixed; top: 44px; right: 0; bottom: 0; left: 256px;
+      width: auto; height: auto; border-radius: 0; z-index: 600;
+      display: flex; flex-direction: column;
+    }
+    .joule-popover.maximized .joule-body {
+      flex: 1 1 0; min-height: 0;
+    }
+    .joule-popover.maximized .joule-chat-area {
+      max-width: 760px; width: 100%; margin: 0 auto; padding: 24px 24px 8px;
+    }
+    .joule-popover.maximized .joule-input-area {
+      max-width: 760px; width: 100%; margin: 0 auto;
+      padding: 16px 24px 0; box-sizing: border-box;
+    }
+    .joule-popover.maximized .joule-disclaimer {
+      max-width: 760px; width: 100%; margin: 0 auto;
+    }
+    .joule-popover.maximized .joule-msg-ai { max-width: 72%; }
+    .joule-popover.maximized .joule-msg-ai.full-width { max-width: 100%; width: 100%; }
+    .joule-popover.maximized .joule-turn-loader.full-width { max-width: 100%; width: 100%; }
+    .joule-popover.maximized .joule-msg-user { max-width: 60%; }
+
+    /* ─── Typeahead Search ─── */
+    .search-container { position: relative; }
+    .search-bar-active {
+      display: flex; align-items: center; background: #fff;
+      border-radius: 18px; padding: 0 12px; height: 36px;
+    }
+    .search-bar-active input {
+      flex: 1; border: none; outline: none; font-size: 14px;
+      font-family: var(--sap-fontFamily); color: var(--sapList_TextColor); background: transparent;
+    }
+    .search-bar-active input::placeholder { color: #556b82; font-style: italic; }
+    .typeahead-dropdown {
+      position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 200;
+      background: #fff;
+      border-radius: 17px;
+      box-shadow: 0px 4px 16px 0px rgba(34,53,72,0.16), 0px 0px 2px 0px rgba(34,53,72,0.12);
+      overflow: hidden;
+      display: none;
+    }
+    .ta-row {
+      display: flex; align-items: center; gap: 0;
+      margin: 8px 8px 0; padding: 8px; cursor: pointer;
+      font-size: 14px; color: #1d2d3e; border-radius: 8px; min-height: 40px;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .ta-row:last-of-type { margin-bottom: 0; }
+    .ta-row.ta-selected { background: #ebf8ff; }
+    .ta-row:not(.ta-selected):hover { background: #f2f4f5; }
+    .ta-icon { flex-shrink: 0; width: 44px; display: flex; align-items: center; justify-content: center; }
+    .ta-text { flex: 1; line-height: 1.4; padding: 0 16px; }
+    .ta-section-header {
+      padding: 9px 8px 4px 8px; font-size: 12px; font-weight: 700;
+      color: #556b82;
+    }
+    .ta-product-row {
+      display: flex; align-items: center; gap: 0;
+      padding: 16px 16px; cursor: pointer; opacity: 0.6;
+      touch-action: manipulation;
+      transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .ta-product-row:hover { background: #f2f4f5; opacity: 1; }
+    .ta-product-thumb {
+      width: 48px; height: 48px; border-radius: 12px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; margin-right: 16px;
+    }
+    .ta-product-info { flex: 1; min-width: 0; }
+    .ta-product-name { font-size: 16px; font-weight: 700; color: #131e29; line-height: 1.15; }
+    .ta-product-sub { font-size: 14px; color: #1d2d3e; margin-top: 4px; }
+    .ta-product-sub .ta-sub-supplier { color: #1d2d3e; }
+    .ta-product-sub .ta-sub-dot { color: rgba(29,45,62,0.6); margin: 0 4px; }
+    .ta-product-sub .ta-sub-label { color: #556b82; }
+    .ta-product-sub .ta-sub-id { color: #131e29; }
+    .ta-product-price { text-align: right; flex-shrink: 0; padding-left: 16px; }
+    .ta-price-main { font-size: 16px; font-weight: 700; color: #1d2d3e; white-space: nowrap; }
+    .ta-price-unit { font-size: 14px; font-weight: 300; color: #1d2d3e; }
+    .ta-link-text { color: #1d2d3e; }
+    .ta-rows-dimmed .ta-row:not(.ta-selected) { opacity: 0.6; }
+
+    /* ─── Reduced motion — mandatory (web-design-guidelines + impeccable) ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ SHELL BAR ═══════════════ -->
+<header class="shell-bar">
+  <div class="shell-bar-left">
+    <button class="shell-btn" title="Menu" aria-label="Menu">
+      <svg class="icon-svg" viewBox="0 0 16 16" fill="#1d2d3e" aria-hidden="true"><rect y="2" width="16" height="2" rx="1"/><rect y="7" width="16" height="2" rx="1"/><rect y="12" width="16" height="2" rx="1"/></svg>
+    </button>
+    <div class="shell-logo" role="banner" aria-label="SAP Ariba home">
+      <!-- SAP Logo -->
+      <svg width="32" height="18" viewBox="0 0 32 18" fill="none" aria-hidden="true">
+        <rect width="32" height="18" rx="2" fill="#0064D9"/>
+        <text x="3" y="13" font-family="Arial" font-size="11" font-weight="900" fill="white">SAP</text>
+      </svg>
+      <span>Ariba</span>
+    </div>
+  </div>
+  <div class="shell-bar-right">
+    <!-- Search -->
+    <button class="shell-btn" title="Search" aria-label="Search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1d2d3e" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10" y1="10" x2="14" y2="14"/></svg>
+    </button>
+    <!-- Joule -->
+    <button class="shell-btn" id="jouleShellBtn" title="Open Joule AI assistant" aria-label="Open Joule AI assistant">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <!-- Diamond outline -->
+        <path d="M10 2.5L17.5 10L10 17.5L2.5 10Z" stroke="#1d2d3e" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- 4-pointed star spark inside -->
+        <path d="M10 6.5C10 6.5 10.5 8.5 12 9C10.5 9.5 10 11.5 10 11.5C10 11.5 9.5 9.5 8 9C9.5 8.5 10 6.5 10 6.5Z" fill="#1d2d3e"/>
+      </svg>
+    </button>
+    <!-- Notifications -->
+    <button class="shell-btn" title="Notifications" aria-label="Notifications">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1d2d3e" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 10V6.5a5 5 0 0 1 10 0V10l1 2H2l1-2z"/><path d="M6.5 12a1.5 1.5 0 0 0 3 0"/></svg>
+    </button>
+    <!-- Feedback / face -->
+    <button class="shell-btn" title="Feedback" aria-label="Give feedback">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1d2d3e" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><circle cx="5.5" cy="7" r=".75" fill="#1d2d3e" stroke="none"/><circle cx="10.5" cy="7" r=".75" fill="#1d2d3e" stroke="none"/><path d="M5.5 10.5c.5 1 1 1.5 2.5 1.5s2-.5 2.5-1.5"/></svg>
+    </button>
+    <!-- Help -->
+    <button class="shell-btn" title="Help" aria-label="Help">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1d2d3e" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M6.2 6a2 2 0 1 1 2.5 2c-.7.3-1.2.9-1.2 1.5V11"/><circle cx="7.5" cy="12.5" r=".75" fill="#1d2d3e" stroke="none"/></svg>
+    </button>
+    <div class="shell-avatar" title="Christopher Wiggins" role="button" tabindex="0" aria-label="User profile: Christopher Wiggins">CW</div>
+  </div>
+</header>
+
+<!-- ═══════════════ APP BODY ═══════════════ -->
+<div class="app-body">
+
+  <!-- ─── Side Navigation ─── -->
+  <nav class="side-nav">
+    <div class="side-nav-main">
+
+      <!-- Home (active) -->
+      <div class="nav-item active">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2z"/></svg>
+        <span class="nav-label">Home</span>
+      </div>
+
+      <!-- Spend Insights -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M1 13V7l4-4 3 3 3-4 4 3v8H1zm0 1h14v1H1z"/></svg>
+        <span class="nav-label">Spend Insights</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Category Management -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><circle cx="4" cy="4" r="3" stroke="#131e29" stroke-width="1.5" fill="none"/><circle cx="12" cy="4" r="3" stroke="#131e29" stroke-width="1.5" fill="none"/><circle cx="4" cy="12" r="3" stroke="#131e29" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="#131e29" stroke-width="1.5" fill="none"/></svg>
+        <span class="nav-label">Category Management</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Suppliers -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><rect x="1" y="6" width="10" height="7" rx="1" stroke="#131e29" stroke-width="1.5" fill="none"/><path d="M11 9h2l2 2v2h-4" stroke="#131e29" stroke-width="1.5" fill="none"/><circle cx="4" cy="13.5" r="1.5" fill="#131e29"/><circle cx="12" cy="13.5" r="1.5" fill="#131e29"/></svg>
+        <span class="nav-label">Suppliers</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Sourcing -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><circle cx="8" cy="8" r="6.5" stroke="#131e29" stroke-width="1.5" fill="none"/><path d="M1.5 8h13M8 1.5C6 4 5 6 5 8s1 4 3 6.5M8 1.5C10 4 11 6 11 8s-1 4-3 6.5" stroke="#131e29" stroke-width="1.2" fill="none"/></svg>
+        <span class="nav-label">Sourcing</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Contract Management -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M4 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" stroke="#131e29" stroke-width="1.5" fill="none"/><path d="M5 5h6M5 8h6M5 11h4" stroke="#131e29" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="nav-label">Contract Management</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Buying (expanded) -->
+      <div>
+        <div class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M2 2h2l2 7h6l1.5-5H5" stroke="#131e29" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="13" r="1.2" fill="#131e29"/><circle cx="11" cy="13" r="1.2" fill="#131e29"/><path d="M5 9l1 3h.5" stroke="#131e29" stroke-width="1" fill="none"/><path d="M8 8v2M9.5 8v2" stroke="#131e29" stroke-width="1" stroke-linecap="round"/><path d="M10 12h1" stroke="#131e29" stroke-width="1" stroke-linecap="round"/></svg>
+          <span class="nav-label">Buying</span>
+          <svg class="nav-arrow" style="transform:rotate(90deg)" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+        </div>
+        <div class="nav-children">
+          <div class="nav-child">Shopping</div>
+          <div class="nav-child">My Requests</div>
+          <div class="nav-child">Purchase Requests</div>
+          <div class="nav-child">Purchase Orders</div>
+          <div class="nav-child">Service Entry Sheets</div>
+          <div class="nav-child">Receipts</div>
+        </div>
+      </div>
+
+      <!-- Invoicing -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M3 1h10a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" stroke="#131e29" stroke-width="1.5" fill="none"/><path d="M5 6h6M5 9h4M8 12h3" stroke="#131e29" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="nav-label">Invoicing</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+
+      <!-- Analytics -->
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M1 14V8l3-3 3 2 3-4 3 3v8" stroke="#131e29" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="1" y1="14" x2="15" y2="14" stroke="#131e29" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="nav-label">Analytics</span>
+        <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+
+    <div class="side-nav-bottom">
+      <button class="create-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="#0064d9"><path d="M7 1v6H1v2h6v6h2V9h6V7H9V1z"/></svg>
+        Create
+      </button>
+      <div class="admin-link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="#131e29"><circle cx="8" cy="8" r="6.5" stroke="#131e29" stroke-width="1.5" fill="none"/><path d="M8 5v3l2 2" stroke="#131e29" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        Administration Center
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── Main Content ─── -->
+  <main class="page-area">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <span class="page-title">Hello, Christopher!</span>
+      <button class="cart-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="#0064d9"><path d="M2 2h2l2 7h6l1.5-5H5" stroke="#0064d9" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="13" r="1.2" fill="#0064d9"/><circle cx="11" cy="13" r="1.2" fill="#0064d9"/></svg>
+        Cart
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar-wrap">
+      <div class="search-container" id="searchContainer">
+        <!-- Blue gradient background with anvil shapes -->
+        <div style="position:relative; background: linear-gradient(90deg, #0057d2 0%, #0057d2 100%); border-radius: 16px; padding: 16px; overflow: hidden;">
+          <!-- Anvil decorative shapes -->
+          <svg style="position:absolute;top:-1px;right:15px;pointer-events:none;" width="290" height="67" viewBox="0 0 306 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.9" d="M224 0H89V67H156.5L224 0Z" fill="url(#a1)"/>
+            <path opacity="0.6" d="M290 0H230V30H260L290 0Z" fill="url(#a2)"/>
+            <path opacity="0.4" d="M81 0H0V40H40.5L81 0Z" fill="url(#a3)"/>
+            <defs>
+              <linearGradient id="a1" x1="83.5" y1="67" x2="201.3" y2="-5.2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0057d2"/><stop offset="1" stop-color="#4f9fff"/></linearGradient>
+              <linearGradient id="a2" x1="227.6" y1="30" x2="280.1" y2="-2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0057d2"/><stop offset="1" stop-color="#4f9fff"/></linearGradient>
+              <linearGradient id="a3" x1="-3.3" y1="40" x2="67.2" y2="-3.4" gradientUnits="userSpaceOnUse"><stop offset="0.5" stop-color="#0057d2"/><stop offset="1" stop-color="#4f9fff"/></linearGradient>
+            </defs>
+          </svg>
+          <!-- White pill search field -->
+          <div class="search-bar-active" style="position:relative;z-index:2;background:#fff;border-radius:18px;border:none;box-shadow:none;padding:0 12px;height:36px;">
+            <input type="text" id="searchInput" value="" placeholder="Search or ask Joule..." autocomplete="off" style="font-style:normal;color:#131e29;" />
+            <button onclick="clearSearch()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="#556b82"><path d="M2 2l10 10M12 2L2 12" stroke="#556b82" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="#556b82" style="flex-shrink:0;"><path d="M11.4 10A5 5 0 1 0 10 11.4l3.3 3.3 1.4-1.4L11.4 10zM7 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+          </div>
+        </div>
+        <!-- Typeahead Dropdown — hidden until user types or focuses -->
+        <div class="typeahead-dropdown" id="typeaheadDropdown" style="display:none;">
+          <div class="ta-rows-dimmed">
+            <!-- Suggestion 1 — highlighted #ebf8ff -->
+            <div class="ta-row ta-selected" id="taRow0">
+              <span class="ta-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#556b82" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="#556b82" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="ta-text">I need to order a bulk set of cordless drills for the new seating installation</span>
+            </div>
+            <!-- Suggestion 2 — dimmed 0.6 -->
+            <div class="ta-row" id="taRow1">
+              <span class="ta-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#556b82" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="#556b82" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="ta-text">I want to create a catalog purchasing request for power tools</span>
+            </div>
+            <!-- Action row — dimmed 0.6 -->
+            <div class="ta-row" id="taRow2">
+              <span class="ta-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2h5a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8" stroke="#1d2d3e" stroke-width="1.4" stroke-linecap="round"/><path d="M1 1l5 5M4 1H1v3" stroke="#1d2d3e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="ta-text">Create Catalog Purchasing Request</span>
+            </div>
+          </div>
+          <!-- Catalog section -->
+          <div class="ta-section-header">Catalog</div>
+          <!-- Product 1 — DEWALT 20V MAX -->
+          <div class="ta-product-row" id="taProduct0">
+            <div class="ta-product-thumb">
+              <div style="width:48px;height:48px;border-radius:12px;overflow:hidden;">
+                <img src="/Users/I851522/Pictures/Picture1.jpg" alt="DEWALT 20V MAX XR" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              </div>
+            </div>
+            <div class="ta-product-info">
+              <div class="ta-product-name">DEWALT 20V MAX XR Hammer Drill Kit</div>
+              <div class="ta-product-sub">
+                <span class="ta-sub-supplier">Safford Equipment</span>
+                <span class="ta-sub-dot">•</span>
+                <span class="ta-sub-label">Part ID: </span>
+                <span class="ta-sub-id">DCD996P2</span>
+              </div>
+            </div>
+            <div class="ta-product-price">
+              <div class="ta-price-main">369.95</div>
+              <div class="ta-price-unit">USD / item</div>
+            </div>
+          </div>
+          <!-- Product 2 — Milwaukee M18 -->
+          <div class="ta-product-row" id="taProduct1">
+            <div class="ta-product-thumb">
+              <div style="width:48px;height:48px;border-radius:12px;overflow:hidden;">
+                <img src="/Users/I851522/Pictures/Mil.jpg" alt="Milwaukee M18 FUEL" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              </div>
+            </div>
+            <div class="ta-product-info">
+              <div class="ta-product-name">Milwaukee Tool M18 FUEL Hammer Drill/Driver Kit</div>
+              <div class="ta-product-sub">
+                <span class="ta-sub-supplier">City Electric Supply</span>
+                <span class="ta-sub-dot">•</span>
+                <span class="ta-sub-label">Part ID: </span>
+                <span class="ta-sub-id">2904P-22</span>
+              </div>
+            </div>
+            <div class="ta-product-price">
+              <div class="ta-price-main">343.00</div>
+              <div class="ta-price-unit">USD / item</div>
+            </div>
+          </div>
+          <div style="height:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var input = document.getElementById('searchInput');
+        var dropdown = document.getElementById('typeaheadDropdown');
+        var container = document.getElementById('searchContainer');
+
+        // Show dropdown when search input is focused or typed in
+        input.addEventListener('focus', function() {
+          dropdown.style.display = 'block';
+        });
+        input.addEventListener('input', function() {
+          dropdown.style.display = input.value.trim().length > 0 ? 'block' : 'none';
+        });
+
+        // Hide dropdown on click outside
+        document.addEventListener('click', function(e) {
+          if (!container.contains(e.target)) {
+            dropdown.style.display = 'none';
+          }
+        });
+
+        // Row 0: fills input with drill query → opens Joule
+        var row0 = document.getElementById('taRow0');
+        if (row0) {
+          row0.addEventListener('click', function(e) {
+            input.value = 'I need to order a bulk set of cordless drills for the new seating installation';
+            dropdown.style.display = 'none';
+            if (typeof openJoule === 'function') openJoule();
+            e.stopPropagation();
+          });
+        }
+
+        // Row 1, Row 2: fill input only
+        ['taRow1','taRow2'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('click', function(e) {
+              var t = el.querySelector('.ta-text');
+              if (t) input.value = t.textContent.trim();
+              dropdown.style.display = 'none';
+              e.stopPropagation();
+            });
+          }
+        });
+
+        // Product rows: fill input with product name
+        ['taProduct0','taProduct1'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('click', function(e) {
+              var n = el.querySelector('.ta-product-name');
+              if (n) input.value = n.textContent.trim();
+              dropdown.style.display = 'none';
+              e.stopPropagation();
+            });
+          }
+        });
+      })();
+
+      function clearSearch() {
+        var input = document.getElementById('searchInput');
+        var dropdown = document.getElementById('typeaheadDropdown');
+        input.value = '';
+        input.focus();
+        dropdown.style.display = 'none';
+      }
+    </script>
+
+    <!-- Two-Column Grid -->
+    <div class="content-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="col-left">
+
+        <!-- ── Announcement Widget ── -->
+        <div class="widget-card">
+          <div class="announcement-banner">
+            <div class="announcement-title">Commercial refrigeration lead times extended</div>
+            <div class="announcement-desc">Due to increased demand, some commercial refrigeration units have extended lead times of 3–4 weeks. Check availability before placing an order.</div>
+            <div>
+              <span class="tag tag-info">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="#0067d9"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>
+                New
+              </span>
+            </div>
+          </div>
+          <div class="carousel-footer">
+            <div class="carousel-nav">
+              <button class="carousel-btn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="#131e29"><path d="M10 4L6 8l4 4" stroke="#131e29" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot-sm"></div>
+                <div class="dot-sm"></div>
+              </div>
+              <button class="carousel-btn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="#131e29"><path d="M6 4l4 4-4 4" stroke="#131e29" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Documents Widget ── -->
+        <div class="widget-card">
+          <div class="widget-toolbar">
+            <span class="widget-title">Documents</span>
+            <button class="btn-tertiary">Show All</button>
+            <button class="icon-btn" title="More">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#556b82"><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="14" cy="8" r="1.5"/></svg>
+            </button>
+          </div>
+          <div class="seg-btn-wrap">
+            <div class="seg-btn">
+              <button class="seg-btn-item active">Purchase Requests (5)</button>
+              <button class="seg-btn-item">Form Requests (1)</button>
+            </div>
+          </div>
+          <table class="resp-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th class="right">Items</th>
+                <th class="right">Amount</th>
+                <th class="right">Changed On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="obj-id"><div class="name">Construction Tools</div><div class="id pr-link">PR121211322</div></div></td>
+                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Partially Confirmed</span></td>
+                <td class="right">4</td>
+                <td class="right">2 days ago</td>
+                <td><div class="obj-number"><span class="num">365.50</span><span class="cur">USD</span></div></td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Plumbing Tools</div><div class="id pr-link">PR121211321</div></div></td>
+                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Partially Confirmed</span></td>
+                <td class="right">6</td>
+                <td class="right">3 days ago</td>
+                <td><div class="obj-number"><span class="num">290.21</span><span class="cur">USD</span></div></td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Electrician Service</div><div class="id pr-link">PR121211320</div></div></td>
+                <td><span class="tag tag-neutral">Pending</span></td>
+                <td class="right">1</td>
+                <td class="right">5 days ago</td>
+                <td><div class="obj-number"><span class="num">890.99</span><span class="cur">USD</span></div></td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Legal Service</div><div class="id pr-link">PR121211319</div></div></td>
+                <td><span class="tag tag-error"><svg width="12" height="12" viewBox="0 0 12 12" fill="#aa0808"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M4 4l4 4M8 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Received</span></td>
+                <td class="right">1</td>
+                <td class="right">4 months ago</td>
+                <td><div class="obj-number"><span class="num">1,190.23</span><span class="cur">USD</span></div></td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Valves</div><div class="id pr-link">PR121211318</div></div></td>
+                <td><span class="tag tag-success"><svg width="12" height="12" viewBox="0 0 12 12" fill="#256f28"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M3 6.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Received</span></td>
+                <td class="right">1</td>
+                <td class="right">10 months ago</td>
+                <td><div class="obj-number"><span class="num">20.00</span><span class="cur">USD</span></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── Buying Options Widget ── -->
+        <div class="widget-card">
+          <div class="widget-toolbar">
+            <span class="widget-title">Buying Options</span>
+            <button class="btn-tertiary">Show All</button>
+            <button class="icon-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#556b82"><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="14" cy="8" r="1.5"/></svg>
+            </button>
+          </div>
+          <div class="bo-grid">
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=112&h=112&fit=crop" alt="Laptops and Accessories" />
+              <span class="bo-label">Laptops and Accessories</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=112&h=112&fit=crop" alt="Travel & Entertainment" />
+              <span class="bo-label">Travel &amp; Entertainment</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=112&h=112&fit=crop" alt="Manufacturing Supplies" />
+              <span class="bo-label">Manufacturing Supplies</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=112&h=112&fit=crop" alt="HR & People" />
+              <span class="bo-label">HR &amp; People</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=112&h=112&fit=crop" alt="Logistics, Transportation & Warehouse" />
+              <span class="bo-label">Logistics, Transportation &amp; Warehouse</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=112&h=112&fit=crop" alt="Property & Utilities" />
+              <span class="bo-label">Property &amp; Utilities</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=112&h=112&fit=crop" alt="Marketing & CMD" />
+              <span class="bo-label">Marketing &amp; CMD</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=112&h=112&fit=crop" alt="Professional Services" />
+              <span class="bo-label">Professional Services</span>
+            </div>
+            <div class="bo-item">
+              <img class="bo-thumb" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=112&h=112&fit=crop" alt="Legal" />
+              <span class="bo-label">Legal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Insights Widget ── -->
+        <div class="widget-card">
+          <div class="widget-toolbar">
+            <span class="widget-title">Insights</span>
+            <button class="btn-tertiary">Show All</button>
+          </div>
+          <div class="insights-row">
+            <!-- Donut 1 -->
+            <div class="analytics-card">
+              <div class="card-header">
+                <div class="card-header-meta">Q1, 2025 | Company Code: Palo Alto | Cost Center: Palo Alto | USD</div>
+                <div class="card-header-title">Spend by catalog usage</div>
+              </div>
+              <div class="card-numeric"><span class="card-kpi">5.0</span> <span class="card-kpi-unit">M</span></div>
+              <div class="chart-area">
+                <div class="donut-wrap">
+                  <!-- circumference of r=45 = 2π×45 ≈ 282.7 -->
+                  <!-- Catalog 54% = 152.7, Non-catalog 46% = 130 -->
+                  <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#e5e5e5" stroke-width="18"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#256f28" stroke-width="18"
+                      stroke-dasharray="153 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#e57000" stroke-width="18"
+                      stroke-dasharray="130 283" stroke-dashoffset="-153" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">54%</text>
+                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">Catalog</text>
+                  </svg>
+                  <div class="donut-legend">
+                    <div class="legend-item"><span class="legend-dot" style="background:#256f28"></span><span>Catalog</span><span class="legend-pct">54%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#e57000"></span><span>Non-catalog</span><span class="legend-pct">46%</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Donut 2 -->
+            <div class="analytics-card">
+              <div class="card-header">
+                <div class="card-header-meta">Q1, 2025 | Company Code: Palo Alto | Cost Center: Palo Alto | USD</div>
+                <div class="card-header-title">Spend by contract coverage</div>
+              </div>
+              <div class="card-numeric"><span class="card-kpi">5.0</span> <span class="card-kpi-unit">M</span></div>
+              <div class="chart-area">
+                <div class="donut-wrap">
+                  <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#e5e5e5" stroke-width="18"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#256f28" stroke-width="18"
+                      stroke-dasharray="153 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#e57000" stroke-width="18"
+                      stroke-dasharray="130 283" stroke-dashoffset="-153" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">54%</text>
+                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">Contract</text>
+                  </svg>
+                  <div class="donut-legend">
+                    <div class="legend-item"><span class="legend-dot" style="background:#256f28"></span><span>Contract</span><span class="legend-pct">54%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#e57000"></span><span>Non-contract</span><span class="legend-pct">46%</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Line Chart Row -->
+          <div style="padding: 0 16px 16px;">
+            <div class="analytics-card" style="max-width:100%;">
+              <div class="card-header">
+                <div class="card-header-meta">Q1, 2021 | Company Code: Palo Alto | Cost Center: Palo Alto | Days</div>
+                <div class="card-header-title">Average purchase request approval time</div>
+              </div>
+              <div class="card-numeric"><span class="card-kpi">8.6</span></div>
+              <div class="chart-area">
+                <svg width="100%" height="160" viewBox="0 0 560 140" preserveAspectRatio="xMinYMid meet" style="max-height:200px;display:block;">
+                  <!-- Grid lines -->
+                  <line x1="52" y1="10" x2="540" y2="10" stroke="#e5e5e5" stroke-width="1"/>
+                  <line x1="52" y1="45" x2="540" y2="45" stroke="#e5e5e5" stroke-width="1"/>
+                  <line x1="52" y1="80" x2="540" y2="80" stroke="#e5e5e5" stroke-width="1"/>
+                  <line x1="52" y1="115" x2="540" y2="115" stroke="#e5e5e5" stroke-width="1"/>
+                  <!-- Y labels -->
+                  <text x="0" y="14" font-size="11" fill="#92a2b5">15 days</text>
+                  <text x="0" y="49" font-size="11" fill="#92a2b5">10 days</text>
+                  <text x="4" y="84" font-size="11" fill="#92a2b5">5 days</text>
+                  <text x="6" y="119" font-size="11" fill="#92a2b5">0 day</text>
+                  <!-- Baseline (5 days = y=80) horizontal reference -->
+                  <line x1="52" y1="80" x2="540" y2="80" stroke="#0064d9" stroke-width="1.5" stroke-dasharray="none" opacity="0.3"/>
+                  <!-- Line: Jan(5)=80, Feb(7)=66, Mar(14)=24 -->
+                  <polyline points="130,80 296,66 462,24" fill="none" stroke="#0064d9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- Points -->
+                  <circle cx="130" cy="80" r="5" fill="#0064d9"/>
+                  <circle cx="296" cy="66" r="5" fill="#0064d9"/>
+                  <circle cx="462" cy="24" r="5" fill="#0064d9"/>
+                  <!-- Point labels -->
+                  <text x="122" y="72" font-size="11" font-weight="600" fill="#131e29">5</text>
+                  <text x="290" y="58" font-size="11" font-weight="600" fill="#131e29">7</text>
+                  <text x="456" y="16" font-size="11" font-weight="600" fill="#131e29">14</text>
+                  <!-- X axis -->
+                  <line x1="52" y1="116" x2="540" y2="116" stroke="#d9d9d9" stroke-width="1"/>
+                  <!-- X labels -->
+                  <text x="126" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Jan</text>
+                  <text x="296" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Feb</text>
+                  <text x="466" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Mar</text>
+                </svg>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                  <svg width="20" height="10" viewBox="0 0 20 10"><line x1="0" y1="5" x2="20" y2="5" stroke="#0064d9" stroke-width="2"/><circle cx="10" cy="5" r="3" fill="#0064d9"/></svg>
+                  <span style="font-size:12px;color:#556b82;">Approval Time</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /col-left -->
+
+      <!-- RIGHT COLUMN -->
+      <div class="col-right">
+
+        <!-- To Dos Widget -->
+        <div class="todo-widget">
+          <div class="todo-toolbar">
+            <span class="widget-title" style="font-size:16px;">To Dos</span>
+            <button class="btn-tertiary" style="margin-left:auto;">Show All</button>
+            <button class="icon-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#556b82"><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="14" cy="8" r="1.5"/></svg>
+            </button>
+          </div>
+          <div class="todo-items">
+
+            <!-- Todo Card 1 -->
+            <div class="todo-card">
+              <div class="todo-card-header">
+                <div class="todo-card-title">Request Pending Approval</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                  <span class="todo-card-sub">Isabelle Dupont</span>
+                  <span class="todo-overdue">2 days overdue</span>
+                </div>
+              </div>
+              <div class="todo-card-content">
+                <div class="todo-item">
+                  <div class="highlight-bar highlight-red"></div>
+                  <div class="todo-item-body">
+                    <div class="todo-item-text">Apple Macbook Pro 13" M2 Chip Processor Midnight Black</div>
+                    <div class="todo-item-amount">956.00 <span>USD</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="todo-card-footer">
+                <button class="btn-accept">Approve</button>
+                <button class="btn-reject">Reject</button>
+              </div>
+            </div>
+
+            <!-- Todo Card 2 -->
+            <div class="todo-card">
+              <div class="todo-card-header">
+                <div class="todo-card-title">Your Request was Rejected by Supplier</div>
+                <div style="margin-top:4px;"><span class="todo-card-sub">by Insight Direct</span></div>
+              </div>
+              <div class="todo-card-content">
+                <div class="todo-item">
+                  <div class="highlight-bar highlight-blue"></div>
+                  <div class="todo-item-body">
+                    <div class="expandable todo-item-text">Thank you for your order inquiry. Unfortunately, we are unable to fulfill your request due to the item being discontinued by our supplier.</div>
+                    <span class="show-more">Show More</span>
+                  </div>
+                </div>
+              </div>
+              <div class="todo-card-footer">
+                <button class="btn-secondary">Review</button>
+              </div>
+            </div>
+
+            <!-- Todo Card 3 -->
+            <div class="todo-card">
+              <div class="todo-card-header">
+                <div class="todo-card-title">Did you receive this order?</div>
+                <div style="margin-top:4px;"><span class="todo-card-sub">by SAP Business AI</span></div>
+              </div>
+              <div class="todo-card-content">
+                <div class="todo-item">
+                  <div class="highlight-bar highlight-blue"></div>
+                  <div class="todo-item-body">
+                    <div class="todo-item-text">USB-C to HDMI Cable (4K@60Hz) 6.6FT</div>
+                    <div class="label-value">
+                      <span class="label-text">Quantity Pending to Receive:</span>
+                      <span class="value-text">1 each</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="todo-card-footer">
+                <button class="btn-secondary">Receive Items</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Quick Links Widget -->
+        <div class="quick-links">
+          <div class="ql-header">
+            <span class="ql-title">Quick Links</span>
+            <span class="ql-count">5 of 10</span>
+          </div>
+          <div class="ql-list">
+            <div class="ql-item">Shopping On Behalf Of</div>
+            <div class="ql-item">My Favorites</div>
+            <div class="ql-item">Create Guided Sourcing Request</div>
+            <div class="ql-item">Create Contract Request</div>
+            <div class="ql-item">Request a Non-Catalog Item</div>
+            <div class="ql-more">More</div>
+          </div>
+        </div>
+
+      </div><!-- /col-right -->
+
+    </div><!-- /content-grid -->
+  </main>
+
+</div><!-- /app-body -->
+
+<!-- ═══════════════ JOULE POPOVER ═══════════════ -->
+<div class="joule-popover" id="joulePopover">
+  <!-- Header — 56px, purple gradient -->
+  <div class="joule-header">
+    <div class="joule-header-left">
+      <button class="joule-header-menu-btn" aria-label="Conversation history">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M15.25 12.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Zm0-5.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Zm0-5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Z" fill="white"/>
+        </svg>
+      </button>
+      <span class="joule-header-title" id="jouleTitle">Catalog Goods — Drills</span>
+    </div>
+    <div class="joule-header-actions">
+      <button class="joule-header-btn" aria-label="More options">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm6 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z" fill="white"/>
+        </svg>
+      </button>
+      <button class="joule-header-btn" id="jouleExpandBtn" aria-label="Expand Joule panel">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M1 1h4V0H0v5h1V1Zm10-1v1h4v4h1V0h-5Zm4 11h-1v4h-4v1h5v-5Zm-14 4v-4H0v5h5v-1H1Z" fill="white"/>
+        </svg>
+      </button>
+      <button class="joule-header-btn" id="jouleCloseBtn" aria-label="Close Joule">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M11.72 3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L8 9.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06L6.94 8 3.22 4.28a.75.75 0 1 1 1.06-1.06L8 6.94l3.72-3.72Z" fill="white"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Chat Body -->
+  <div class="joule-body" id="jouleBody">
+    <div class="joule-chat-area" id="jouleChatArea">
+
+      <div class="joule-timestamp"><strong>Today</strong> 9:14 AM</div>
+
+      <!-- ══ TURN 1 ═══════════════════════════════════════
+           Shown immediately on open. Joule asks for specs.
+      ═══════════════════════════════════════════════════ -->
+
+      <!-- User message (hidden until turn plays) -->
+      <div class="joule-msg-user" id="t1-user" style="display:none;">
+        <div class="joule-bubble-user">I need to order a bulk set of cordless drills for the new seating installation.</div>
+      </div>
+
+      <!-- Loading dots — shown briefly before Joule responds -->
+      <div class="joule-msg-ai joule-turn-loader" id="t1-dots" style="display:none;">
+        <div class="joule-dots-bubble">
+          <span class="jdot jdot-1"></span>
+          <span class="jdot jdot-2"></span>
+          <span class="jdot jdot-3"></span>
+        </div>
+      </div>
+
+      <!-- Inline spinner loader (Turn 1 — bare on white) -->
+      <div class="joule-msg-ai joule-turn-loader" id="t1-loader" style="display:none;">
+        <div class="joule-inline-loader" id="t1-inline-loader">
+          <span class="joule-inline-spinner"></span>
+          <span class="joule-inline-loader-text">Understanding context and gathering information</span>
+        </div>
+      </div>
+
+      <!-- Joule response -->
+      <div class="joule-msg-ai joule-turn-response" id="t1-response" style="display:none;">
+        <div class="joule-bubble-ai">Hi Fabian! I can help with that — you need cordless drills for a seating installation. A couple of quick questions to find the right match:<br><br>1. What type of drills do you need? (e.g., hammer drill, standard)<br>2. Any specific requirements? (chuck size, voltage)</div>
+      </div>
+
+      <!-- ══ TURN 2 ═══════════════════════════════════════
+           User gives specs → full explainability loader → results card
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-2" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t2-user-text">Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.</div>
+        </div>
+
+        <!-- Loading dots before the big loader -->
+        <div class="joule-msg-ai joule-turn-loader" id="t2-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- Full explainability loader (shown after skeleton) -->
+        <div class="joule-msg-ai joule-turn-loader full-width" id="t2-loader" style="display:none;">
+          <div class="joule-loader">
+            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Understanding context and gathering information</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Commodity: Power Tools → Heavy-Duty Hammer Drills</div>
+                  <div class="joule-detail-substep">Chuck: 1/2-inch · Voltage: 18V or 20V</div>
+                  <div class="joule-detail-substep">Use: Stadium seating installation</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Classifying request attributes</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Type: Goods · Sub-type: Heavy-duty hammer drills</div>
+                  <div class="joule-detail-substep">Commodity: Power Tools — Construction Grade</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Looking up past requisitions</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">3 similar past purchases found</div>
+                  <div class="joule-detail-substep">Last ordered: October 2025 — Safford Equipment</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Selecting policy</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Selecting the applicable procurement policy based on commodity type and purchase value</div>
+                  <div class="joule-detail-section">
+                    <div class="joule-detail-section-label">Source</div>
+                    <div class="joule-detail-evidence">
+                      <div class="joule-detail-favicon">📄</div>
+                      <a class="joule-detail-link" href="#">Facilities_Procurement_Policy_2026.pdf</a>
+                    </div>
+                  </div>
+                  <div class="joule-detail-section">
+                    <div class="joule-detail-section-label">Agent</div>
+                    <div class="joule-detail-evidence">
+                      <div class="joule-detail-avatar">P</div>
+                      <span style="font-size:14px;color:#131e29;">Policy &amp; Compliance Agent</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Searching all available sources</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Internal Catalog: 1 item found</div>
+                  <div class="joule-detail-substep">L2 Punchout (Amazon Business, Unite): 2 items found</div>
+                  <div class="joule-detail-substep">Business Network: 2 items found</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Classifying your request</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Type: Catalog — Goods</div>
+                  <div class="joule-detail-substep">Policy confirmed · Preferred channel: Catalog buying</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Checking contract coverage</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">DEWALT 20V MAX XR (Safford): Contract pricing applied</div>
+                  <div class="joule-detail-substep">Milwaukee M18 (City Electric): On Contract for Category</div>
+                  <div class="joule-detail-substep">Makita, DCD998W1, Hilti: Non-contracted</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Verifying supplier status</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Safford Equipment: Preferred Supplier</div>
+                  <div class="joule-detail-substep">City Electric Supply: Qualified Supplier</div>
+                  <div class="joule-detail-substep">Others: Non-preferred</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Ranking items found</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">5 options ranked by contract status and supplier preference</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t2-response" style="display:none;">
+          <div class="joule-bubble-ai">Here are the top 5 options available</div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response full-width" id="t2-card" style="display:none;">
+
+          <!-- Card 1 — Recommended -->
+          <div class="jrc-item" style="display:none;">
+            <div class="jrc-card-header">
+              <div class="jrc-product-img">
+                <img src="/Users/I851522/Pictures/Picture1.jpg" alt="DEWALT 20V MAX XR Hammer Drill Kit" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
+              </div>
+              <div class="jrc-card-header-meta">
+                <div class="jrc-date-tag-row">
+                  <span class="jrc-recommended-badge">Recommended</span>
+                  <span class="jrc-date-tag">Requested on 03/12/2026</span>
+                </div>
+                <div class="jrc-item-name bold">DEWALT 20V MAX XR Hammer Drill Kit dcd996p2</div>
+              </div>
+            </div>
+            <div class="jrc-card-body">
+              <div class="jrc-item-supplier">Safford Equipment</div>
+              <div class="jrc-price-row">
+                <span class="jrc-price-amount">369.95</span>
+                <span class="jrc-price-currency">USD</span>
+                <span class="jrc-price-unit">/ Item</span>
+              </div>
+              <div class="jrc-contract-row">
+                <span class="jrc-contract-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#131e29" stroke-width="1.2"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#131e29" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Contract Item
+              </div>
+              <div class="jrc-attrs">
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">DCD996P2</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">2 days</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Policy:</span><span class="jrc-attr-value blue"># Buying Guidelines</span></div>
+              </div>
+            </div>
+            <div class="jrc-add-btn"><button data-prefill="Proceed with Preferred DEWALT">Add to Cart</button></div>
+          </div>
+
+
+          <!-- Card 2 -->
+          <div class="jrc-item" style="display:none;">
+            <div class="jrc-card-header">
+              <div class="jrc-product-img">
+                <img src="/Users/I851522/Pictures/Mil.jpg" alt="Milwaukee Tool M18 FUEL Hammer Drill/Driver Kit" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
+              </div>
+              <div class="jrc-card-header-meta">
+                <div class="jrc-date-tag-row">
+                  <span class="jrc-qualified-badge">Qualified Supplier</span>
+                </div>
+                <div class="jrc-item-name">Milwaukee Tool M18 FUEL 1/2" Hammer Drill/Driver Kit</div>
+              </div>
+            </div>
+            <div class="jrc-card-body">
+              <div class="jrc-item-supplier">City Electric Supply</div>
+              <div class="jrc-price-row">
+                <span class="jrc-price-amount">343.00</span>
+                <span class="jrc-price-currency">USD</span>
+                <span class="jrc-price-unit">/ Item</span>
+              </div>
+              <div class="jrc-contract-row">
+                <span class="jrc-contract-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#131e29" stroke-width="1.2"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#131e29" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Contract Item
+              </div>
+              <div class="jrc-attrs">
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">2904P-22</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">3–5 days</span></div>
+              </div>
+            </div>
+            <div class="jrc-add-btn"><button data-prefill="Select Milwaukee M18 FUEL">Add to Cart</button></div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="jrc-item" style="display:none;">
+            <div class="jrc-card-header">
+              <div class="jrc-product-img">
+                <img src="/Users/I851522/Pictures/Makita.jpg" alt="Makita XPH14Z 18V LXT Hammer Drill/Driver" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
+              </div>
+              <div class="jrc-card-header-meta">
+                <div class="jrc-item-name">Makita XPH14Z 18V LXT Lithium-Ion Brushless Cordless 1/2" Hammer Drill/Driver</div>
+              </div>
+            </div>
+            <div class="jrc-card-body">
+              <div class="jrc-item-supplier">anglerdistrictusa</div>
+              <div class="jrc-price-row">
+                <span class="jrc-price-amount">206.62</span>
+                <span class="jrc-price-currency">USD</span>
+                <span class="jrc-price-unit">/ Item</span>
+              </div>
+              <div class="jrc-attrs">
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">XPH14Z</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">5–7 days</span></div>
+              </div>
+            </div>
+            <div class="jrc-add-btn"><button data-prefill="Select Makita XPH14Z">Add to Cart</button></div>
+          </div>
+
+          <div class="jrc-section-label">Available from Supplier Sites</div>
+
+          <!-- Card 4 -->
+          <div class="jrc-item" style="display:none;">
+            <div class="jrc-card-header">
+              <div class="jrc-product-img">
+                <img src="/Users/I851522/Pictures/DC.jpg" alt="DCD998W1 DEWALT 20V Max XR" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
+              </div>
+              <div class="jrc-card-header-meta">
+                <div class="jrc-item-name">DCD998W1 DEWALT 20V Max XR</div>
+              </div>
+            </div>
+            <div class="jrc-card-body">
+              <div class="jrc-item-supplier">The Power Tool Store</div>
+              <div class="jrc-price-row">
+                <span class="jrc-price-amount">329.00</span>
+                <span class="jrc-price-currency">USD</span>
+                <span class="jrc-price-unit">/ Item</span>
+              </div>
+              <div class="jrc-attrs">
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">DCD998W1</span></div>
+              </div>
+            </div>
+            <div class="jrc-add-btn"><button data-prefill="Select DCD998W1">View Item from Supplier</button></div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="jrc-item" style="display:none;">
+            <div class="jrc-card-header">
+              <div class="jrc-product-img">
+                <img src="/Users/I851522/Pictures/Hilti.jpg" alt="Hilti Sf 6h-a22 Cordless Hammer Drill" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
+              </div>
+              <div class="jrc-card-header-meta">
+                <div class="jrc-item-name">Hilti Sf 6h-a22 Cordless Hammer Drill</div>
+              </div>
+            </div>
+            <div class="jrc-card-body">
+              <div class="jrc-item-supplier">102_store</div>
+              <div class="jrc-price-row">
+                <span class="jrc-price-amount">359.00</span>
+                <span class="jrc-price-currency">USD</span>
+                <span class="jrc-price-unit">/ Item</span>
+              </div>
+              <div class="jrc-attrs">
+                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">SF 6H-A22</span></div>
+              </div>
+            </div>
+            <div class="jrc-add-btn"><button data-prefill="Select Hilti SF 6H-A22">View Item from Supplier</button></div>
+          </div>
+
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t2-question" style="display:none;">
+          <div class="joule-bubble-ai">I recommend the DEWALT 20V MAX XR from Safford Equipment — your preferred supplier (maximum compliance, guaranteed fast shipping, and pre-negotiated enterprise warranties) on contract. It was also previously requested by your department.<br><br>Which would you like to proceed with?</div>
+          <div class="joule-suggestions">
+            <button class="joule-chip" data-prefill="Proceed with Preferred DEWALT">Proceed with Preferred DEWALT</button>
+            <button class="joule-chip" data-prefill="Compare options">Compare options</button>
+            <button class="joule-chip" data-prefill="See more options">See more options</button>
+          </div>
+        </div>
+
+      </div><!-- /turn-2 -->
+
+      <!-- ══ TURN 3 ═══════════════════════════════════════
+           User gives delivery details → Joule asks quantity
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-3" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t3-user-text">Before June 1st. Deliver to Stadium Main Entrance, Section 112 Loading Dock.</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t3-loader">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t3-response" style="display:none;">
+          <div class="joule-bubble-ai">Got it — delivering to Stadium Main Entrance, Section 112 Loading Dock before June 1st. These drills are rated for heavy-duty construction, a great fit for your stadium seating installation.<br><br>One more thing — how many units do you need?</div>
+        </div>
+
+      </div><!-- /turn-3 -->
+
+      <!-- ══ TURN 4 ═══════════════════════════════════════
+           User gives qty → confirms DEWALT + adds batteries
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-4" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t4-user-text">8 units. Let's stick with the DEWALT to stay compliant. Also need two additional batteries per unit.</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t4-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t4-ack" style="display:none;">
+          <div class="joule-bubble-ai">On it! Adding the DEWALT drill kits. Let me check on the batteries.</div>
+        </div>
+
+        <!-- Battery search loader -->
+        <div class="joule-msg-ai joule-turn-loader full-width" id="t4-loader" style="display:none;">
+          <div class="joule-loader">
+            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Searching all available sources</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Catalog match found: DEWALT 20V MAX Premium XR 5.0Ah Battery</div>
+                  <div class="joule-detail-substep">Same supplier — Safford Equipment</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Checking contract coverage</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">DEWALT 20V MAX XR (Safford): Contract pricing applied</div>
+                  <div class="joule-detail-substep">Same active contract confirmed</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Verifying supplier status</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Safford Equipment: Preferred Supplier</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Ranking items found</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">5 options ranked by contract status and supplier preference</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t4-response" style="display:none;">
+          <div class="joule-bubble-ai">Found the batteries in your catalog — same contract and supplier. Adding 16 battery packs (2 per unit). Here's your cart summary.</div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response full-width" id="t4-cart" style="display:none;">
+          <div class="cart-card">
+            <div class="cart-card-header">Your Cart</div>
+            <div class="cart-item">
+              <div class="cart-item-name">DEWALT 20V MAX XR Hammer Drill Kit (dcd996p2)</div>
+              <div class="cart-item-meta">$369.95/unit · Contract pricing ✓ · Safford Equipment ★ Preferred</div>
+              <div class="cart-item-controls">
+                <button class="cart-qty-btn">−</button>
+                <span class="cart-qty-val">8</span>
+                <button class="cart-qty-btn">+</button>
+                <span class="cart-item-total">$2,959.60</span>
+                <div class="cart-item-actions">
+                  <button class="cart-action-link">Remove</button>
+                  <button class="cart-action-link">View Details</button>
+                </div>
+              </div>
+            </div>
+            <div class="cart-item">
+              <div class="cart-item-name">DEWALT 20V MAX Premium XR 5.0Ah Battery</div>
+              <div class="cart-item-meta">$120.00/unit · 16 packs (2 per unit)</div>
+              <div class="cart-item-controls">
+                <button class="cart-qty-btn">−</button>
+                <span class="cart-qty-val">16</span>
+                <button class="cart-qty-btn">+</button>
+                <span class="cart-item-total">$1,920.00</span>
+                <div class="cart-item-actions">
+                  <button class="cart-action-link">Remove</button>
+                  <button class="cart-action-link">View Details</button>
+                </div>
+              </div>
+            </div>
+            <div class="cart-total-row">
+              <div class="cart-total-line"><span>Subtotal (excl. tax)</span><span>$4,879.60 USD</span></div>
+              <div class="cart-total-line main"><span>Total Estimated Cost</span><span>$4,879.60 USD</span></div>
+            </div>
+            <div class="cart-delivery-info">Delivery: Before June 1st, 2026 · Stadium Main Entrance, Section 112 Loading Dock · Heavy-duty seating installation</div>
+            <div class="cart-footer">
+              <button class="cart-btn-primary" data-prefill="Confirm Selections &amp; Proceed">Confirm Selections &amp; Proceed</button>
+              <button class="cart-btn-secondary" data-prefill="Browse More Accessories">Browse More Accessories</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /turn-4 -->
+
+      <!-- ══ TURN 5 ═══════════════════════════════════════
+           User confirms cart → policy check → PR summary
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-5" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t5-user-text">Confirm Selections &amp; Proceed</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t5-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- Policy check loader -->
+        <div class="joule-msg-ai joule-turn-loader full-width" id="t5-loader" style="display:none;">
+          <div class="joule-loader">
+            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Checking checkout policies</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">2 items checked — both on-contract, preferred supplier</div>
+                  <div class="joule-detail-substep">No restrictions found</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Verifying contract compliance</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">No justifications required</div>
+                  <div class="joule-detail-substep">Qualifies for expedited approval</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Assessing approval requirements</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Approval path: Expedited (on-contract preferred supplier)</div>
+                  <div class="joule-detail-substep">Expected: under 24 hours</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t5-response" style="display:none;">
+          <div class="joule-bubble-ai">All good — no policy issues. Because you selected an on-contract preferred supplier, this qualifies for expedited approval. Here's your requisition for a final review.</div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response full-width" id="t5-pr" style="display:none;">
+          <div class="pr-card">
+            <div class="pr-card-header">
+              <div class="pr-card-title">Equipment for Stadium Seating Installation</div>
+              <div class="pr-card-subtitle">Purchase Requisition</div>
+            </div>
+            <div class="pr-card-section">
+              <div class="pr-card-row"><span class="pr-card-label">Item</span><span class="pr-card-value">DEWALT 20V MAX XR Hammer Drill Kit (dcd996p2)</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Supplier</span><span class="pr-card-value">Safford Equipment ✅ Primary Preferred</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Quantity</span><span class="pr-card-value">8 units</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Delivery</span><span class="pr-card-value">Before June 1st, 2026</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Location</span><span class="pr-card-value">Stadium Main Entrance, Sec 112 Loading Dock</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Amount</span><span class="pr-card-value">$2,959.60 USD</span></div>
+            </div>
+            <div class="pr-card-section">
+              <div class="pr-card-row"><span class="pr-card-label">Item</span><span class="pr-card-value">DEWALT 20V MAX Premium XR 5.0Ah Battery</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Supplier</span><span class="pr-card-value">Safford Equipment ✅ Primary Preferred</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Quantity</span><span class="pr-card-value">16 units</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Amount</span><span class="pr-card-value">$1,920.00 USD</span></div>
+            </div>
+            <div class="pr-divider"></div>
+            <div class="pr-total-row"><span>Total Estimated Cost</span><span>$4,879.60 USD</span></div>
+            <div class="pr-card-section" style="border-top:1px solid #f2f2f2;">
+              <div class="pr-card-row"><span class="pr-card-label">Accounting</span><span class="pr-card-value auto">Auto-filled ✓</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Billing</span><span class="pr-card-value auto">Auto-filled ✓</span></div>
+              <div class="pr-card-row"><span class="pr-card-label">Shipping</span><span class="pr-card-value auto">Section 112 Loading Dock ✓</span></div>
+            </div>
+            <div class="pr-card-footer">
+              <button class="pr-btn-primary" data-prefill="Submit">Submit</button>
+              <button class="pr-btn-secondary" data-prefill="Edit Details">Edit Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t5-question" style="display:none;">
+          <div class="joule-bubble-ai">Your requisition is ready. Because you chose an on-contract preferred supplier, this qualifies for expedited approval — expected under 24 hours. Good to go?</div>
+          <div class="joule-suggestions">
+            <button class="joule-chip" data-prefill="Submit">Yes, submit it</button>
+            <button class="joule-chip" data-prefill="Edit Details">Edit details first</button>
+          </div>
+        </div>
+
+      </div><!-- /turn-5 -->
+
+      <!-- ══ TURN 6 ═══════════════════════════════════════
+           User submits → submitting → confirmation card
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-6" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user" id="t6-user-text">Submit</div>
+        </div>
+
+        <!-- Loading dots before submitting message -->
+        <div class="joule-msg-ai joule-turn-loader" id="t6-loader">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t6-submitting" style="display:none;">
+          <div class="joule-bubble-ai">Submitting your request...</div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response full-width" id="t6-confirm" style="display:none;">
+          <div class="confirm-card">
+            <div class="confirm-card-header">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#256f28"/><path d="M5 9.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div>
+                <div class="confirm-card-title">Purchase Requisition Submitted</div>
+                <div class="confirm-card-pr">PR #: PR-2026-045821</div>
+              </div>
+            </div>
+            <div class="confirm-section">
+              <div class="confirm-section-title">Summary</div>
+              <div class="confirm-row"><span class="confirm-label">Items</span><span class="confirm-value">8 DEWALT 20V MAX XR Drill Kits + 16 batteries</span></div>
+              <div class="confirm-row"><span class="confirm-label">Total</span><span class="confirm-value">$4,879.60 USD</span></div>
+              <div class="confirm-row"><span class="confirm-label">Delivery</span><span class="confirm-value">Before June 1st, 2026</span></div>
+              <div class="confirm-row"><span class="confirm-label">Location</span><span class="confirm-value">Stadium Main Entrance, Sec 112 Loading Dock</span></div>
+            </div>
+            <div class="confirm-section">
+              <div class="confirm-section-title">What Happens Next</div>
+              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Now in expedited approval workflow</span></div>
+              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Expected approval: Under 24 hours</span></div>
+              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>PO sent to Safford Equipment via SAP Business Network once approved</span></div>
+              <div class="confirm-next-item"><span class="confirm-next-dot"></span><span>Estimated delivery: 2 business days after approval</span></div>
+            </div>
+            <div class="confirm-card-footer">
+              <button class="confirm-btn-primary">View Purchase Requisition</button>
+              <button class="confirm-btn-secondary">Track Approval Status</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="joule-msg-ai joule-turn-response" id="t6-final" style="display:none;">
+          <div class="joule-bubble-ai">You're all set! Expedited approval expected within 24 hours — your drills should arrive well before June 1st. I'll keep you updated as it progresses.</div>
+        </div>
+
+      </div><!-- /turn-6 -->
+
+    </div><!-- /joule-chat-area -->
+  </div><!-- /joule-body -->
+  <!-- Input area -->
+  <div class="joule-input-area">
+    <div class="joule-input-row">
+      <input type="text" class="joule-input" id="jouleInput" placeholder="Message Joule..." aria-label="Message Joule" autocomplete="off" />
+      <button class="joule-send-btn" id="jouleSendBtn" aria-label="Send message">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 3l5 4-5 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="joule-disclaimer">Joule uses AI, verify results.</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var popover = document.getElementById('joulePopover');
+  var closeBtn = document.getElementById('jouleCloseBtn');
+  var expandBtn = document.getElementById('jouleExpandBtn');
+  var input = document.getElementById('jouleInput');
+  var sendBtn = document.getElementById('jouleSendBtn');
+  var body = document.getElementById('jouleBody');
+  var isMaximized = false;
+
+  // ── Hard reset on every page load ────────────────────
+  // Prevent browser session restore from showing stale panel state
+  popover.classList.remove('open');
+  popover.classList.remove('maximized');
+  popover.style.cssText = '';
+  body.style.cssText = '';
+  isMaximized = false;
+
+  // Hide all conversation elements that should start hidden
+  var resetIds = [
+    't1-user','t1-dots','t1-loader','t1-response',
+    'turn-2','turn-3','turn-4','turn-5','turn-6'
+  ];
+  resetIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+
+  // Remove any dynamically-injected skeleton cards from prior session
+  // Only remove elements that CONTAIN .joule-skeleton-card (injected by showSkeletonThen)
+  // Never remove permanent elements — bubble-animate is also added to real content by show()
+  if (body) {
+    var skels = body.querySelectorAll('.joule-skeleton-card');
+    skels.forEach(function(s) {
+      var parent = s.parentNode;
+      if (parent && parent !== body) parent.parentNode && parent.parentNode.removeChild(parent);
+    });
+  }
+
+  // Clear input on page load
+  input.value = '';
+  sendBtn.classList.remove('active');
+
+  // Toggle send button active state based on input content
+  input.addEventListener('input', function() {
+    if (input.value.trim().length > 0) {
+      sendBtn.classList.add('active');
+    } else {
+      sendBtn.classList.remove('active');
+    }
+  });
+
+  // ── Conversation state ────────────────────────────────
+  // currentTurn: which turn the user is about to send
+  // 0 = waiting to see T1 loader (auto-runs on open)
+  // 1 = user sent T1, now waiting for user to answer T1 question
+  // 2 = user answered T1, etc.
+  var currentTurn = 0;
+
+  // Pre-filled prompts shown in the input after each Joule response
+  var prefills = [
+    '',                                                                                              // turn 0 — blank (auto-starts)
+    'Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.',  // turn 1
+    'Before June 1st. Deliver to Stadium Main Entrance, Section 112 Loading Dock.',                  // turn 2
+    '8 units. Let\'s stick with the DEWALT to stay compliant. Also need two additional batteries per unit.',  // turn 3
+    'Confirm Selections & Proceed',                                                                  // turn 4
+    'Submit',                                                                                        // turn 5
+    ''                                                                                               // turn 6 — done
+  ];
+
+  function scrollToBottom() {
+    setTimeout(function() { body.scrollTop = body.scrollHeight; }, 60);
+  }
+
+  /**
+   * streamText — types out innerHTML of a .joule-bubble-ai element character by character.
+   * Handles <br> tags as newlines. Shows a blinking cursor while typing, removes it when done.
+   */
+  function streamText(bubbleEl, speed) {
+    speed = speed || 18; // ms per character — ~55 chars/sec, similar to Claude
+    // Grab the full HTML content, store it, clear the element
+    var fullHTML = bubbleEl.innerHTML;
+    bubbleEl.innerHTML = '';
+
+    // Inject cursor
+    var cursor = document.createElement('span');
+    cursor.className = 'stream-cursor';
+    bubbleEl.appendChild(cursor);
+
+    // We'll stream the raw HTML but render it safely by building a temp element
+    // Strategy: walk char-by-char through fullHTML, track open tags, build safely
+    var i = 0;
+    var rendered = ''; // the HTML we've committed so far
+
+    function tick() {
+      if (i >= fullHTML.length) {
+        // Done — remove cursor
+        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+        bubbleEl.innerHTML = fullHTML; // set final clean HTML
+        scrollToBottom();
+        return;
+      }
+
+      // If we're at a tag, jump to end of tag in one step
+      if (fullHTML[i] === '<') {
+        var closeIdx = fullHTML.indexOf('>', i);
+        if (closeIdx !== -1) {
+          rendered += fullHTML.slice(i, closeIdx + 1);
+          i = closeIdx + 1;
+        } else {
+          rendered += fullHTML[i];
+          i++;
+        }
+      } else {
+        // Regular character — add it
+        rendered += fullHTML[i];
+        i++;
+      }
+
+      // Re-render with cursor at end
+      bubbleEl.innerHTML = rendered;
+      bubbleEl.appendChild(cursor);
+      scrollToBottom();
+
+      // Vary speed slightly for natural feel (±30%)
+      var jitter = speed * (0.7 + Math.random() * 0.6);
+      setTimeout(tick, jitter);
+    }
+
+    tick();
+  }
+
+  function show(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = '';
+    // Add spring entrance animation — remove first so re-triggering works
+    el.classList.remove('bubble-animate');
+    void el.offsetWidth; // reflow to restart animation
+    el.classList.add('bubble-animate');
+
+    // Stream any AI bubble text inside this element
+    var bubble = el.querySelector('.joule-bubble-ai');
+    if (bubble) {
+      streamText(bubble, 18);
+    }
+
+    scrollToBottom();
+  }
+
+  function showFlex(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = 'flex';
+    el.classList.remove('bubble-animate');
+    void el.offsetWidth;
+    el.classList.add('bubble-animate');
+    scrollToBottom();
+  }
+
+  /**
+   * animateLoaderSteps — reveals steps one-by-one in a .joule-loader
+   * Each step: appears → expands (open) → after stepDuration ms → collapses → next step appears
+   * After all steps done, calls onComplete()
+   *
+   * @param {string} loaderId  - id of the wrapper element containing .joule-loader
+   * @param {number} stepDuration - ms each step stays expanded (default 700)
+   * @param {Function} onComplete - called when all steps are done
+   */
+  function animateLoaderSteps(loaderId, stepDuration, onComplete) {
+    stepDuration = stepDuration || 700;
+    var loaderEl = document.getElementById(loaderId);
+    if (!loaderEl) { if (onComplete) onComplete(); return; }
+    var steps = Array.prototype.slice.call(loaderEl.querySelectorAll('.joule-loader-step'));
+    if (!steps.length) { if (onComplete) onComplete(); return; }
+
+    // Hide all steps initially
+    steps.forEach(function(s) { s.classList.add('pending'); s.classList.remove('open','active','step-done'); });
+
+    var idx = 0;
+    function runStep() {
+      if (idx >= steps.length) {
+        // All done — hide the progress bar, keep steps visible
+        var inner = loaderEl.querySelector('.joule-loader');
+        if (inner) inner.classList.add('done');
+        var barWrap = loaderEl.querySelector('.joule-loader-bar-wrap');
+        if (barWrap) barWrap.style.display = 'none';
+        if (onComplete) onComplete();
+        return;
+      }
+      var step = steps[idx];
+      // Reveal and mark active (dot pulses)
+      step.classList.remove('pending');
+      step.classList.add('active', 'open');
+      scrollToBottom();
+
+      setTimeout(function() {
+        // Collapse and mark done
+        step.classList.remove('active', 'open');
+        step.classList.add('step-done');
+        idx++;
+        // Short pause before next step appears
+        setTimeout(runStep, 120);
+      }, stepDuration);
+    }
+    runStep();
+  }
+
+  // Show loader, hide it after delay, then reveal each response one at a time
+  function showLoaderThenRespond(loaderId, responseIds, nextPrefill, delay) {
+    delay = delay || 1400;
+    var STAGGER = 380; // ms between each bubble
+    show(loaderId);
+    setTimeout(function() {
+      var loader = document.getElementById(loaderId);
+      if (loader) {
+        // Hide the loader wrapper entirely (dots and inline spinner vanish)
+        loader.style.display = 'none';
+      }
+      responseIds.forEach(function(id, i) {
+        setTimeout(function() {
+          show(id);
+        }, i * STAGGER);
+      });
+      var totalWait = responseIds.length * STAGGER + 80;
+      setTimeout(function() {
+        if (nextPrefill) {
+          input.value = nextPrefill;
+          sendBtn.classList.add('active');
+          input.focus();
+          input.setSelectionRange(0, input.value.length);
+        }
+        scrollToBottom();
+      }, totalWait);
+    }, delay);
+  }
+
+  // Reveal turn container, show loader (animated steps), then optionally show skeletons, then pop responses
+  function revealTurnThenAnimate(turnId, loaderId, responseIds, nextPrefill, loaderDelay, skelCount) {
+    loaderDelay = loaderDelay || 1400;
+    var STAGGER = 380;
+    var turnEl = document.getElementById(turnId);
+    if (turnEl && turnEl.style.display === 'none') turnEl.style.display = '';
+
+    // Ensure all steps are hidden BEFORE showing the loader
+    var loaderEl = document.getElementById(loaderId);
+    if (loaderEl) {
+      loaderEl.querySelectorAll('.joule-loader-step').forEach(function(s) {
+        s.classList.add('pending'); s.classList.remove('open','active','step-done');
+      });
+    }
+    show(loaderId);
+
+    // Animate steps one by one; when done, keep loader visible, then show responses
+    animateLoaderSteps(loaderId, 1200, function() {
+      // Loader stays visible for user reference
+
+      function revealResponses() {
+        // Cards stagger in one by one with generous timing
+        var CARD_STAGGER = 480;
+        responseIds.forEach(function(id, i) {
+          setTimeout(function() { show(id); scrollToBottom(); }, i * CARD_STAGGER);
+        });
+        var totalWait = responseIds.length * CARD_STAGGER + 80;
+        setTimeout(function() {
+          if (nextPrefill) {
+            input.value = nextPrefill;
+            sendBtn.classList.add('active');
+            input.focus();
+            input.setSelectionRange(0, input.value.length);
+          }
+          scrollToBottom();
+        }, totalWait);
+      }
+
+      if (skelCount && skelCount > 0) {
+        // Skeletons stagger in one by one, hold ~1.2s, then real cards replace
+        showSkeletonThen(turnEl, skelCount, 1200, revealResponses);
+      } else {
+        revealResponses();
+      }
+    });
+  }
+
+  // Helper: stagger skeleton cards in one by one, hold, then remove all and run callback
+  function showSkeletonThen(container, count, holdDelay, callback) {
+    var skels = [];
+    var SKEL_STAGGER = 350; // ms between each skeleton appearing
+
+    function makeSkel() {
+      var s = document.createElement('div');
+      s.className = 'joule-msg-ai joule-turn-loader full-width bubble-animate';
+      s.innerHTML =
+        '<div class="joule-skeleton-card">' +
+          '<div class="skel-header">' +
+            '<div class="skel-img skel-fill"></div>' +
+            '<div class="skel-header-meta">' +
+              '<div class="skel-tag skel-fill"></div>' +
+              '<div class="skel-name1 skel-fill"></div>' +
+              '<div class="skel-name2 skel-fill"></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="skel-body">' +
+            '<div class="skel-supplier skel-fill"></div>' +
+            '<div class="skel-price skel-fill"></div>' +
+            '<div class="skel-attr1 skel-fill"></div>' +
+            '<div class="skel-attr2 skel-fill"></div>' +
+            '<div class="skel-attr3 skel-fill"></div>' +
+            '<div class="skel-cta skel-fill"></div>' +
+          '</div>' +
+        '</div>';
+      return s;
+    }
+
+    // Stagger each skeleton card in
+    for (var i = 0; i < (count || 3); i++) {
+      (function(idx) {
+        setTimeout(function() {
+          var s = makeSkel();
+          container.appendChild(s);
+          skels.push(s);
+          scrollToBottom();
+        }, idx * SKEL_STAGGER);
+      })(i);
+    }
+
+    // After all are in + hold time, remove them all and fire callback
+    var totalIn = (count - 1) * SKEL_STAGGER;
+    setTimeout(function() {
+      skels.forEach(function(s) { if (s.parentNode) s.parentNode.removeChild(s); });
+      callback();
+    }, totalIn + holdDelay);
+  }
+
+  // Helper: stream text word-by-word into an element, then call callback
+  function streamText(el, text, wordsPerSecond, callback) {
+    var words = text.split(' ');
+    var delay = 1000 / wordsPerSecond;
+    el.textContent = '';
+    words.forEach(function(word, i) {
+      setTimeout(function() {
+        el.textContent += (i === 0 ? '' : ' ') + word;
+        scrollToBottom();
+        if (i === words.length - 1 && callback) callback();
+      }, i * delay);
+    });
+  }
+
+  // Helper: show dots, then after delay hide dots and show the next stage
+  function showDotsThen(dotsId, delay, callback) {
+    show(dotsId);
+    setTimeout(function() {
+      var el = document.getElementById(dotsId);
+      if (el) el.style.display = 'none';
+      callback();
+    }, delay);
+  }
+
+  // ── Turn runners ─────────────────────────────────────
+
+  function runTurn1Open() {
+    // Show user bubble, then dots, then loader, then response
+    show('t1-user');
+    setTimeout(function() {
+      showDotsThen('t1-dots', 1400, function() {
+        showLoaderThenRespond('t1-loader', ['t1-response'], prefills[1], 3000);
+      });
+    }, 200);
+  }
+
+  function runTurn2(userText) {
+    document.getElementById('t2-user-text').textContent = userText;
+    var turnEl = document.getElementById('turn-2');
+    if (turnEl) {
+      turnEl.style.display = '';
+      var userBubble = turnEl.querySelector('.joule-msg-user');
+      if (userBubble) {
+        userBubble.classList.remove('bubble-animate');
+        void userBubble.offsetWidth;
+        userBubble.classList.add('bubble-animate');
+      }
+    }
+    setTimeout(function() {
+
+      // 1. Dots animate
+      showDotsThen('t2-dots', 1600, function() {
+
+        // 2. Explainability loader steps animate
+        var loaderEl = document.getElementById('t2-loader');
+        if (loaderEl) {
+          loaderEl.querySelectorAll('.joule-loader-step').forEach(function(s) {
+            s.classList.add('pending'); s.classList.remove('open','active','step-done');
+          });
+        }
+        show('t2-loader');
+
+        animateLoaderSteps('t2-loader', 1200, function() {
+          // Loader stays visible — user can refer back to reasoning
+
+          // Show the bubble shell first (empty), then stream text word by word
+          var responseEl = document.getElementById('t2-response');
+          if (responseEl) responseEl.style.display = '';
+          var bubbleEl = responseEl ? responseEl.querySelector('.joule-bubble-ai') : null;
+          var fullText = 'Here are the top 5 options available';
+
+          streamText(bubbleEl, fullText, 14, function() {
+            // Text fully streamed — now start card sequence
+            setTimeout(function() {
+
+            // 4+5. Each position: skeleton appears → swaps to real card, one by one
+            var cardEl = document.getElementById('t2-card');
+            if (cardEl) cardEl.style.display = '';
+            var items = cardEl ? cardEl.querySelectorAll('.jrc-item') : [];
+            var SLOT_DELAY = 600;   // gap before next card starts
+            var SKEL_HOLD  = 900;   // how long skeleton shimmers before real card
+
+            items.forEach(function(item, i) {
+              setTimeout(function() {
+                // Inject skeleton placeholder before this card
+                var skel = document.createElement('div');
+                skel.className = 'joule-skel-slot';
+                skel.innerHTML =
+                  '<div class="joule-skeleton-card">' +
+                    '<div class="skel-header">' +
+                      '<div class="skel-img skel-fill"></div>' +
+                      '<div class="skel-header-meta">' +
+                        '<div class="skel-tag skel-fill"></div>' +
+                        '<div class="skel-name1 skel-fill"></div>' +
+                        '<div class="skel-name2 skel-fill"></div>' +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="skel-body">' +
+                      '<div class="skel-supplier skel-fill"></div>' +
+                      '<div class="skel-price skel-fill"></div>' +
+                      '<div class="skel-attr1 skel-fill"></div>' +
+                      '<div class="skel-attr2 skel-fill"></div>' +
+                      '<div class="skel-attr3 skel-fill"></div>' +
+                      '<div class="skel-cta skel-fill"></div>' +
+                    '</div>' +
+                  '</div>';
+                item.parentNode.insertBefore(skel, item);
+                scrollToBottom();
+
+                // After hold, remove skeleton and reveal the real card in its place
+                setTimeout(function() {
+                  if (skel.parentNode) skel.parentNode.removeChild(skel);
+                  item.style.display = '';
+                  item.classList.add('bubble-animate');
+                  scrollToBottom();
+                }, SKEL_HOLD);
+              }, i * (SLOT_DELAY + SKEL_HOLD));
+            });
+
+            // 6. Quick reply chips after all cards are done
+            var totalTime = items.length * (SLOT_DELAY + SKEL_HOLD) + 300;
+            setTimeout(function() {
+              show('t2-question');
+              input.value = prefills[2] || '';
+              if (input.value) sendBtn.classList.add('active');
+              input.focus();
+              scrollToBottom();
+            }, totalTime);
+
+            }, 400); // close inner setTimeout (card reveal sequence)
+          });         // close streamText callback
+
+        });           // close animateLoaderSteps callback
+
+      });             // close showDotsThen callback
+
+    }, 0);            // close outer setTimeout
+  }
+
+  function runTurn3(userText) {
+    document.getElementById('t3-user-text').textContent = userText;
+    var turnEl = document.getElementById('turn-3');
+    if (turnEl) {
+      turnEl.style.display = '';
+      var userBubble = turnEl.querySelector('.joule-msg-user');
+      if (userBubble) {
+        userBubble.classList.remove('bubble-animate');
+        void userBubble.offsetWidth;
+        userBubble.classList.add('bubble-animate');
+      }
+    }
+    setTimeout(function() {
+      showLoaderThenRespond('t3-loader', ['t3-response'], prefills[3], 900);
+    }, 0);
+  }
+
+  function runTurn4(userText) {
+    document.getElementById('t4-user-text').textContent = userText;
+    var turnEl = document.getElementById('turn-4');
+    if (turnEl) {
+      turnEl.style.display = '';
+      var userBubble = turnEl.querySelector('.joule-msg-user');
+      if (userBubble) {
+        userBubble.classList.remove('bubble-animate');
+        void userBubble.offsetWidth;
+        userBubble.classList.add('bubble-animate');
+      }
+    }
+    setTimeout(function() {
+      // Dots → ack bubble → skeleton → loader → cart
+      showDotsThen('t4-dots', 800, function() {
+        show('t4-ack');
+        setTimeout(function() {
+          revealTurnThenAnimate('turn-4', 't4-loader',
+            ['t4-response', 't4-cart'],
+            prefills[4], 2200, 2);
+        }, 600);
+      });
+    }, 0);
+  }
+
+  function runTurn5(userText) {
+    document.getElementById('t5-user-text').textContent = userText;
+    var turnEl = document.getElementById('turn-5');
+    if (turnEl) {
+      turnEl.style.display = '';
+      var userBubble = turnEl.querySelector('.joule-msg-user');
+      if (userBubble) {
+        userBubble.classList.remove('bubble-animate');
+        void userBubble.offsetWidth;
+        userBubble.classList.add('bubble-animate');
+      }
+    }
+    setTimeout(function() {
+      showDotsThen('t5-dots', 800, function() {
+        revealTurnThenAnimate('turn-5', 't5-loader',
+          ['t5-response', 't5-pr', 't5-question'],
+          prefills[5], 1500);
+      });
+    }, 0);
+  }
+
+  function runTurn6(userText) {
+    document.getElementById('t6-user-text').textContent = userText;
+    var turnEl = document.getElementById('turn-6');
+    if (turnEl) {
+      turnEl.style.display = '';
+      var userBubble = turnEl.querySelector('.joule-msg-user');
+      if (userBubble) {
+        userBubble.classList.remove('bubble-animate');
+        void userBubble.offsetWidth;
+        userBubble.classList.add('bubble-animate');
+      }
+    }
+    setTimeout(function() {
+      show('t6-loader');
+      setTimeout(function() {
+        var loader = document.getElementById('t6-loader');
+        if (loader) loader.style.display = 'none';
+        show('t6-submitting');
+        setTimeout(function() {
+          show('t6-confirm');
+          setTimeout(function() {
+            show('t6-final');
+            input.value = '';
+            input.placeholder = 'Conversation complete';
+            input.disabled = true;
+            sendBtn.disabled = true;
+          }, 380);
+        }, 800);
+      }, 1000);
+    }, 200);
+  }
+
+  // ── Dispatch on send ──────────────────────────────────
+  function advanceConversation(text) {
+    switch (currentTurn) {
+      case 1: currentTurn = 2; runTurn2(text); break;
+      case 2: currentTurn = 3; runTurn3(text); break;
+      case 3: currentTurn = 4; runTurn4(text); break;
+      case 4: currentTurn = 5; runTurn5(text); break;
+      case 5: currentTurn = 6; runTurn6(text); break;
+      default: break; // conversation done or free input
+    }
+  }
+
+  function handleSend() {
+    var text = input.value.trim();
+    if (!text || currentTurn === 0 || currentTurn > 5) return;
+    input.value = '';
+    sendBtn.classList.remove('active');
+    advanceConversation(text);
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleSend();
+  });
+
+  // ── Chips and card buttons — prefill input ─────────────
+  // Use event delegation on the chat area so it works for dynamically shown elements
+  document.getElementById('jouleChatArea').addEventListener('click', function(e) {
+    var el = e.target;
+    // joule-chip with data-prefill
+    if (el.classList.contains('joule-chip') && el.dataset.prefill !== undefined) {
+      input.value = el.dataset.prefill;
+      input.focus();
+    }
+    // cart/pr buttons with data-prefill
+    if ((el.classList.contains('cart-btn-primary') || el.classList.contains('cart-btn-secondary') ||
+         el.classList.contains('pr-btn-primary') || el.classList.contains('pr-btn-secondary')) &&
+        el.dataset.prefill !== undefined) {
+      input.value = el.dataset.prefill;
+      input.focus();
+    }
+  });
+
+  // Keep old sendChip for any remaining inline onclick
+  window.sendChip = function(el) {
+    input.value = (el.dataset.prefill || el.textContent).trim();
+    input.focus();
+  };
+
+  // ── Open Joule ────────────────────────────────────────
+  window.openJoule = function() {
+    popover.classList.add('open');
+    if (currentTurn === 0) {
+      currentTurn = 1;
+      setTimeout(runTurn1Open, 400);
+    } else {
+      scrollToBottom();
+    }
+  };
+
+  // Expand / Maximize toggle
+  if (expandBtn) {
+    expandBtn.addEventListener('click', function() {
+      isMaximized = !isMaximized;
+      if (isMaximized) {
+        popover.classList.add('maximized');
+        expandBtn.title = 'Restore';
+        expandBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M1 4H4V1M4 1L1 4M9 6H6V9M6 9L9 6"/></svg>';
+      } else {
+        popover.classList.remove('maximized');
+        expandBtn.title = 'Expand / Maximize';
+        expandBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M6 1h3v3M9 1l-4 4M4 9H1V6M1 9l4-4"/></svg>';
+      }
+      scrollToBottom();
+    });
+  }
+
+  // Shell bar Joule button toggles popover
+  // Accordion toggle for loader steps
+  document.addEventListener('click', function(e) {
+    var header = e.target.closest('.joule-loader-step-header');
+    if (!header) return;
+    var step = header.closest('.joule-loader-step');
+    if (step) step.classList.toggle('open');
+  });
+
+  var shellBtn = document.getElementById('jouleShellBtn');
+  if (shellBtn) {
+    shellBtn.addEventListener('click', function() {
+      if (popover.classList.contains('open') || isMaximized) {
+        popover.classList.remove('open');
+        if (isMaximized) {
+          isMaximized = false;
+          popover.style.cssText = '';
+          body.style.height = '';
+        }
+      } else {
+        window.openJoule();
+      }
+    });
+  }
+
+  // Close Joule
+  closeBtn.addEventListener('click', function() {
+    popover.classList.remove('open');
+    if (isMaximized) {
+      isMaximized = false;
+      popover.style.cssText = '';
+      body.style.height = '';
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

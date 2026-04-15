@@ -771,6 +771,12 @@
       padding: 2px 10px; letter-spacing: 0.1px;
       line-height: 18px; white-space: nowrap;
     }
+    .jrc-preferred-supplier-badge {
+      font-size: 12px; font-weight: 700; color: #107e3e;
+      background: #f1fdf6; border-radius: 100px;
+      padding: 2px 10px; letter-spacing: 0.1px;
+      line-height: 18px; white-space: nowrap;
+    }
     .jrc-qualified-badge {
       font-size: 12px; font-weight: 700; color: #107e3e;
       background: #e8f5e9; border-radius: 100px;
@@ -1027,8 +1033,8 @@
       font-size: 14px; color: #556b82; line-height: 1.5;
     }
     .joule-detail-substep::before { content: '·'; color: #a0a0b0; flex-shrink: 0; font-size: 16px; line-height: 1.3; }
-    .joule-detail-section { display: flex; flex-direction: column; gap: 2px; }
-    .joule-detail-section-label { font-size: 14px; font-weight: 600; color: #131e29; line-height: 1.4; }
+    .joule-detail-section { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; padding-left: 14px; }
+    .joule-detail-section-label { font-size: 13px; font-weight: 700; color: #131e29; line-height: 1.4; }
     .joule-detail-evidence { display: flex; align-items: center; gap: 6px; }
     .joule-detail-favicon {
       width: 18px; height: 18px; border-radius: 50%;
@@ -1039,11 +1045,13 @@
     .joule-detail-link { font-size: 14px; color: #5d36ff; text-decoration: none; line-height: 1.4; }
     .joule-detail-link:hover { text-decoration: underline; }
     .joule-detail-avatar {
-      width: 18px; height: 18px; border-radius: 50%;
-      background: linear-gradient(135deg, #a78bff, #7c4dcc);
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #e8f2ff;
+      border: 1px solid #b3d4ff;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; font-size: 8px; color: #fff; font-weight: 600;
+      flex-shrink: 0; color: #0070f2;
     }
+    .joule-detail-avatar svg { width: 12px; height: 12px; }
 
     /* ── Inline spinner loader (Turn 1 — bare on white) ── */
     .joule-inline-loader {
@@ -2217,9 +2225,8 @@
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
                 <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Commodity: Power Tools → Heavy-Duty Hammer Drills</div>
-                  <div class="joule-detail-substep">Chuck: 1/2-inch · Voltage: 18V or 20V</div>
-                  <div class="joule-detail-substep">Use: Stadium seating installation</div>
+                  <div class="joule-detail-substep">Heavy-duty hammer drills · Chuck: 1/2-inch</div>
+                  <div class="joule-detail-substep">Voltage: 18V or 20V · Use: Stadium seating installation</div>
                 </div>
               </div>
             </div>
@@ -2232,8 +2239,7 @@
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
                 <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Type: Goods · Sub-type: Heavy-duty hammer drills</div>
-                  <div class="joule-detail-substep">Commodity: Power Tools — Construction Grade</div>
+                  <div class="joule-detail-substep">Commodity: Power Tools → Heavy-Duty Hammer Drills ✓</div>
                 </div>
               </div>
             </div>
@@ -2261,6 +2267,8 @@
                 <div class="joule-loader-detail-line"></div>
                 <div class="joule-loader-detail-body">
                   <div class="joule-detail-substep">Selecting the applicable procurement policy based on commodity type and purchase value</div>
+                  <div class="joule-detail-substep">Policy: Facilities Construction Equipment</div>
+                  <div class="joule-detail-substep">Preferred channel: Catalog buying</div>
                   <div class="joule-detail-section">
                     <div class="joule-detail-section-label">Source</div>
                     <div class="joule-detail-evidence">
@@ -2271,10 +2279,26 @@
                   <div class="joule-detail-section">
                     <div class="joule-detail-section-label">Agent</div>
                     <div class="joule-detail-evidence">
-                      <div class="joule-detail-avatar">P</div>
-                      <span style="font-size:14px;color:#131e29;">Policy &amp; Compliance Agent</span>
+                      <div class="joule-detail-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="#0070f2"><circle cx="6" cy="3.5" r="2"/><path d="M10 9.5c0-2.2-1.8-4-4-4s-4 1.8-4 4"/></svg>
+                      </div>
+                      <span style="font-size:14px;color:#131e29;font-weight:400;">Policy &amp; Compliance Agent</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="none" style="margin-left:4px;flex-shrink:0;"><circle cx="8" cy="8" r="7" stroke="#8c8c8c" stroke-width="1.2"/><path d="M5 8l2 2 4-4" stroke="#8c8c8c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Classifying your request</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Catalog - Goods → routing to catalog buying</div>
                 </div>
               </div>
             </div>
@@ -2290,20 +2314,7 @@
                   <div class="joule-detail-substep">Internal Catalog: 1 item found</div>
                   <div class="joule-detail-substep">L2 Punchout (Amazon Business, Unite): 2 items found</div>
                   <div class="joule-detail-substep">Business Network: 2 items found</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Classifying your request</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Type: Catalog — Goods</div>
-                  <div class="joule-detail-substep">Policy confirmed · Preferred channel: Catalog buying</div>
+                  <div class="joule-detail-substep">Total: 5 options aggregated</div>
                 </div>
               </div>
             </div>
@@ -2368,6 +2379,7 @@
               <div class="jrc-card-header-meta">
                 <div class="jrc-date-tag-row">
                   <span class="jrc-recommended-badge">Recommended</span>
+                  <span class="jrc-preferred-supplier-badge">Preferred Supplier</span>
                   <span class="jrc-date-tag">Requested on 10/07/2025</span>
                 </div>
                 <div class="jrc-item-name bold">DEWALT 20V MAX XR Hammer Drill Kit dcd996p2</div>

@@ -1345,10 +1345,14 @@
 
     /* ── Maximized / fullscreen Joule ── */
     .joule-popover.maximized {
-      position: fixed; top: 44px; right: 0; bottom: 0; left: 256px;
+      position: fixed; top: 44px; right: 0; bottom: 0; left: 0;
       width: auto; height: auto; border-radius: 0; z-index: 600;
       display: flex; flex-direction: column;
     }
+    .joule-popover.maximized ~ * .side-nav,
+    body.joule-maximized .side-nav { display: none; }
+    body.joule-maximized .shell-bar { display: none; }
+    body.joule-maximized .joule-popover.maximized { top: 0; }
     .joule-popover.maximized .joule-body {
       flex: 1 1 0; min-height: 0;
     }
@@ -2292,13 +2296,13 @@
             <div class="joule-loader-step pending">
               <div class="joule-loader-step-header">
                 <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Classifying your request</span>
+                <span class="joule-loader-step-label">Classifying your Request's Business Process</span>
                 <span class="joule-loader-step-chevron">›</span>
               </div>
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
                 <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Catalog - Goods → routing to catalog buying</div>
+                  <div class="joule-detail-substep">Catalog Goods Purchase Requisition → Route to Catalog Buying</div>
                 </div>
               </div>
             </div>
@@ -2620,6 +2624,7 @@
   // Prevent browser session restore from showing stale panel state
   popover.classList.remove('open');
   popover.classList.remove('maximized');
+  document.body.classList.remove('joule-maximized');
   popover.style.cssText = '';
   body.style.cssText = '';
   isMaximized = false;
@@ -3211,10 +3216,12 @@
       isMaximized = !isMaximized;
       if (isMaximized) {
         popover.classList.add('maximized');
+        document.body.classList.add('joule-maximized');
         expandBtn.title = 'Restore';
         expandBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M1 4H4V1M4 1L1 4M9 6H6V9M6 9L9 6"/></svg>';
       } else {
         popover.classList.remove('maximized');
+        document.body.classList.remove('joule-maximized');
         expandBtn.title = 'Expand / Maximize';
         expandBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M6 1h3v3M9 1l-4 4M4 9H1V6M1 9l4-4"/></svg>';
       }

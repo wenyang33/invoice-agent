@@ -128,7 +128,7 @@ from search → typeahead → Joule conversation → product selection → appro
 | Joule overlay | `5-81727` | Joule chat panel — bottom-right overlay |
 | File key | `ObFAb4jjfT6ZTpXzYUc8BV` | Main design file |
 
-**Rule:** Always call `get_design_context` on the relevant Figma node BEFORE writing any UI code.
+**Rule — 1:1, NO EXCEPTIONS:** Before every single `use_figma` write call, screenshot the **exact reference node** you are building against. One screenshot = one write. The flag resets after every write — no batching. Taking a screenshot of a different node does not count. Pattern: screenshot → write → screenshot → write.
 
 ---
 

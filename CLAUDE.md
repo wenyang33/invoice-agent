@@ -189,6 +189,49 @@ Cards / product results: dots → skeleton → loader (if applicable) → card.
 
 ---
 
+## Dev Handoff — Joule Panel Component Mapping
+
+> The SAL page (shell, nav, dashboard) is already built — this covers the Joule panel only.
+> Library: Joule Web UI Kit (`lwF70Sz1KC7VbK1FmpIP5x`)
+> Figma reference frames (04–10): [CC_Write](https://www.figma.com/design/uwrn21ALPsGFF8WoCcGXpm/CC_Write)
+
+### Joule Panel Structure
+
+| What it does | Component | Notes |
+|---|---|---|
+| Outer panel shell | `JouleShell` | Purple gradient header, fullscreen or overlay mode |
+| User message bubble | `JouleUserMessage` | Right-aligned, light purple bg `#EAE5FF` |
+| AI response bubble | `JouleAssistantMessage` | Left-aligned, grey bg `#EFF1F2` |
+| 3-dot typing indicator | `JouleLoadingMessage` | Dots only — always shown first, before any response |
+| Skeleton card loader | `JouleSkeletonCard` | Shown after dots, before real cards load |
+| Explainability loader | `JouleDeepResearchCard` | Streaming steps with progress bar — see frame 06 |
+| Product result card | `JouleObjectCard` / `JouleListCard` | See frame 08 — DEWALT preferred, contract badges |
+| Quick reply chips | `JouleQuickReply` | e.g. "Proceed with DEWALT", "Compare all options" |
+| Input bar | `JouleInputBar` | Bottom, purple border + send button |
+| Disclaimer | `JouleDisclaimer` | "Joule uses AI, verify results." |
+
+### Loading Sequence — MANDATORY
+
+Every Joule response must follow this exact order (see frames 04→07):
+
+```
+dots (JouleLoadingMessage)
+  → skeleton (JouleSkeletonCard)        ← only if showing cards
+    → explainability (JouleDeepResearchCard)  ← only if showing reasoning steps
+      → result (JouleObjectCard / JouleAssistantMessage)
+```
+
+Simple text reply: dots → text bubble only (no skeleton).
+
+### Conversation State (suggestion)
+
+```js
+// Each turn in the conversation array:
+{ role: 'user' | 'joule', type: 'text' | 'cards' | 'cart', content, loading: 'dots' | 'skeleton' | 'loader' | null }
+```
+
+---
+
 ## Decisions Log
 
 | Date | Decision | Reason |

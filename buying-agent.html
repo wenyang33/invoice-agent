@@ -653,7 +653,7 @@
 
     /* ── Quick reply chips — Figma: Pqg0cqoAWbfdnSX5FgoOCV node 285-5515 ── */
     .joule-suggestions {
-      display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0 2px 0;
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 2px 0; margin-top: 16px;
     }
     .joule-chip {
       display: inline-flex; align-items: center;
@@ -2324,8 +2324,8 @@
                 <div class="joule-loader-detail-line"></div>
                 <div class="joule-loader-detail-body">
                   <div class="joule-detail-substep">Internal Catalog: 1 item found</div>
-                  <div class="joule-detail-substep">L2 Punchout (Amazon Business, Unite): 2 items found</div>
                   <div class="joule-detail-substep">Business Network: 2 items found</div>
+                  <div class="joule-detail-substep">L2 Punchout (Amazon Business, Unite): 2 items found</div>
                   <div class="joule-detail-substep">Total: 5 options aggregated</div>
                 </div>
               </div>
@@ -2593,7 +2593,7 @@
       <div id="turn-3" style="display:none;">
 
         <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t3-user-text">8 and also add two additional batteries per unit. Need delivery before June 1st to Stadium Main Entrance, Section 112 Loading Dock.</div>
+          <div class="joule-bubble-user" id="t3-user-text">8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock</div>
         </div>
 
         <!-- Loading dots -->
@@ -2644,6 +2644,38 @@
           </svg>
           <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Checking policies</span>
         </div>
+        <!-- Explainability loader: policy steps -->
+        <div class="joule-msg-ai joule-turn-loader full-width" id="t5-loader" style="display:none;">
+          <div class="joule-loader">
+            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Accounting, Billing, Shipping</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Auto-filled from your profile</div>
+                </div>
+              </div>
+            </div>
+            <div class="joule-loader-step pending">
+              <div class="joule-loader-step-header">
+                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
+                <span class="joule-loader-step-label">Comprehensive policy check</span>
+                <span class="joule-loader-step-chevron">›</span>
+              </div>
+              <div class="joule-loader-detail">
+                <div class="joule-loader-detail-line"></div>
+                <div class="joule-loader-detail-body">
+                  <div class="joule-detail-substep">Policy triggered: Budget threshold exceeded</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="joule-msg-ai joule-turn-response full-width" id="t5-response" style="display:none;">
 
           <!-- Single Cart Card — both items -->
@@ -2660,37 +2692,40 @@
             <div style="padding:12px 16px 4px 16px;">
               <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">#1</span>
             </div>
-            <div style="padding:4px 16px 16px;display:flex;gap:16px;align-items:flex-start;">
-              <img src="images/Picture1.jpg" alt="DEWALT 20V MAX XR" style="width:59px;height:59px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
-              <div style="flex:1;min-width:0;">
-                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:16px;font-weight:600;color:#1a2733;margin:0 0 6px 0;line-height:1.35;">DEWALT 20V MAX XR Hammer Drill Kit DCD996P2</p>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;">
-                  <span>Safford Equipment</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Supplier Part ID:</span><span>DCD996P2</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
-                </div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;margin-top:4px;">
-                  <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">369.95 USD</span>
-                </div>
+            <div style="padding:4px 16px 12px;display:flex;flex-direction:column;gap:8px;">
+              <!-- Image + title stacked -->
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <img src="images/Picture1.jpg" alt="DEWALT 20V MAX XR" style="width:56px;height:56px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
+                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1a2733;margin:0;line-height:1.35;">DEWALT 20V MAX XR Hammer Drill Kit DCD996P2</p>
               </div>
-              <div style="flex-shrink:0;">
-                <div style="display:flex;align-items:baseline;gap:4px;justify-content:flex-end;">
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">2,959.60</span>
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
+              <!-- Attribute line 1 — wraps -->
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#131e29;">
+                <span>Safford Equipment</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Supplier Part ID:</span><span>DCD996P2</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
+              </div>
+              <!-- Attribute line 2 — wraps -->
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;">
+                <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">369.95 USD</span>
+              </div>
+              <!-- Price -->
+              <div style="display:flex;align-items:baseline;gap:4px;">
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">2,959.60</span>
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
+              </div>
+              <!-- Quantity -->
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
+                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
+                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">8</span>
+                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
                 </div>
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
               </div>
-            </div>
-            <div style="padding:0 16px 0 91px;display:flex;align-items:center;gap:8px;">
-              <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
-                <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">8</span>
-                <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
-              </div>
-              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
             </div>
             <!-- Justification Policy table -->
             <div style="padding:12px 16px 0 16px;">
@@ -2735,37 +2770,40 @@
             <div style="padding:12px 16px 4px 16px;">
               <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">#2</span>
             </div>
-            <div style="padding:4px 16px 16px;display:flex;gap:16px;align-items:flex-start;">
-              <img src="images/DC.jpg" alt="DEWALT 20V MAX Battery" style="width:59px;height:59px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
-              <div style="flex:1;min-width:0;">
-                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:16px;font-weight:600;color:#1a2733;margin:0 0 6px 0;line-height:1.35;">DEWALT 20V MAX Battery Pack DCB204 (2-Pack)</p>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;">
-                  <span>Safford Equipment</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Supplier Part ID:</span><span>DCB204-2</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
-                </div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;margin-top:4px;">
-                  <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
-                  <span style="color:rgba(29,45,62,0.5);">•</span>
-                  <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">89.00 USD</span>
-                </div>
+            <div style="padding:4px 16px 12px;display:flex;flex-direction:column;gap:8px;">
+              <!-- Image + title stacked -->
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <img src="images/DC.jpg" alt="DEWALT 20V MAX Battery" style="width:56px;height:56px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
+                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1a2733;margin:0;line-height:1.35;">DEWALT 20V MAX Battery Pack DCB204 (2-Pack)</p>
               </div>
-              <div style="flex-shrink:0;">
-                <div style="display:flex;align-items:baseline;gap:4px;justify-content:flex-end;">
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">1,424.00</span>
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
+              <!-- Attribute line 1 — wraps -->
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#131e29;">
+                <span>Safford Equipment</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Supplier Part ID:</span><span>DCB204-2</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
+              </div>
+              <!-- Attribute line 2 — wraps -->
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;">
+                <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
+                <span style="color:rgba(29,45,62,0.5);">•</span>
+                <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">89.00 USD</span>
+              </div>
+              <!-- Price -->
+              <div style="display:flex;align-items:baseline;gap:4px;">
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">1,424.00</span>
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
+              </div>
+              <!-- Quantity -->
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
+                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
+                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">16</span>
+                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
                 </div>
+                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
               </div>
-            </div>
-            <div style="padding:0 16px 0 91px;display:flex;align-items:center;gap:8px;">
-              <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
-                <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">16</span>
-                <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
-              </div>
-              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
             </div>
             <!-- Item 2 Details -->
             <div style="margin:0 16px;padding-bottom:16px;">
@@ -2791,6 +2829,99 @@
 
         </div>
       </div><!-- /turn-5 -->
+
+      <!-- ══ TURN 6 ═══════════════════════════════════════
+           Agent follow-up + quick action chips
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-6" style="display:none;">
+        <div class="joule-msg-ai joule-turn-loader" id="t6-loader" style="display:none;">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+        <div class="joule-msg-ai joule-turn-response" id="t6-response" style="display:none;">
+          <div class="joule-bubble-ai">Your requisition is ready. Because you chose an on-contract preferred supplier, this qualifies for expedited approval — expected under 24 hours. Good to go?</div>
+        </div>
+        <div class="joule-suggestions" id="t6-chips" style="display:none;">
+          <button class="joule-chip" id="chip-submit-request">Submit Request</button>
+          <button class="joule-chip">Review Cart</button>
+        </div>
+      </div><!-- /turn-6 -->
+
+      <!-- ══ TURN 7 ═══════════════════════════════════════
+           Submit Request → circle loader → PR card
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-7" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user">Submit Request</div>
+        </div>
+
+        <!-- Dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t7-loader" style="display:none;">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- Circle loader: Submitting your request -->
+        <div class="joule-msg-ai" id="t7-circle-loader" style="display:none;align-items:center;gap:10px;padding:4px 0;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;animation:spin 0.9s linear infinite;">
+            <circle cx="9" cy="9" r="7" stroke="#e0d9ff" stroke-width="2.5"/>
+            <path d="M9 2a7 7 0 0 1 7 7" stroke="#5d36ff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Submitting your request</span>
+        </div>
+
+        <!-- Illustrated success card -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t7-response" style="display:none;">
+          <div style="background:#fff;border-radius:16px;box-shadow:0px 0px 2px 0px rgba(91,115,139,0.16),0px 4px 8px 0px rgba(91,115,139,0.16);overflow:hidden;margin-bottom:8px;width:384px;max-width:100%;">
+            <div style="display:flex;flex-direction:column;align-items:center;padding:16px 32px 24px;text-align:center;">
+              <!-- SAP Success illustration — inline SVG -->
+              <div style="width:128px;height:128px;flex-shrink:0;margin-bottom:8px;">
+                <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Moon base -->
+                  <ellipse cx="64" cy="92" rx="38" ry="22" fill="#8396A8"/>
+                  <!-- Moon craters -->
+                  <circle cx="50" cy="90" r="8" fill="#A8B8C4"/>
+                  <circle cx="68" cy="95" r="5" fill="#A8B8C4"/>
+                  <!-- Flag pole -->
+                  <line x1="64" y1="38" x2="64" y2="92" stroke="#1D2D3E" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Flag -->
+                  <path d="M64 38 L90 50 L64 62 Z" fill="#4DB1FF"/>
+                  <!-- Gold sparkle left -->
+                  <path d="M34 58 L36 52 L38 58 L44 60 L38 62 L36 68 L34 62 L28 60 Z" fill="#FFB727"/>
+                  <!-- Small blue diamond top-right -->
+                  <rect x="88" y="28" width="7" height="7" rx="1" fill="#0070F2" transform="rotate(45 91.5 31.5)"/>
+                  <!-- Small blue square mid-right -->
+                  <rect x="80" y="58" width="5" height="5" rx="0.5" fill="#4DB1FF" transform="rotate(15 82.5 60.5)"/>
+                  <!-- Cross sparkle top-left -->
+                  <line x1="42" y1="36" x2="42" y2="44" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="38" y1="40" x2="46" y2="40" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
+                  <!-- Cross sparkle right -->
+                  <line x1="96" y1="68" x2="96" y2="76" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="92" y1="72" x2="100" y2="72" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <!-- Title -->
+              <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:20px;font-weight:700;color:#1d2d3e;margin:0 0 8px 0;line-height:1.2;">Your request has been submitted for approval</p>
+              <!-- Body -->
+              <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0 0 16px 0;line-height:1.5;">The requisition ID is PR66766033.</p>
+              <!-- Button -->
+              <a href="#" style="display:inline-block;background:#0070f2;border:1px solid #0070f2;border-radius:8px;padding:4px 16px;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#fff;text-decoration:none;line-height:18px;">View Request</a>
+            </div>
+          </div>
+        </div>
+        <!-- Follow-up message after card -->
+        <div class="joule-msg-ai" id="t7-followup" style="display:none;">
+          <div class="joule-bubble-ai">You're all set! Expedited approval expected within 24 hours — your drills should arrive well before June 1st. I'll keep you updated as it progresses.</div>
+        </div>
+
+      </div><!-- /turn-7 -->
 
     </div><!-- /joule-chat-area -->
   </div><!-- /joule-body -->
@@ -2828,8 +2959,10 @@
   // Hide all conversation elements that should start hidden
   var resetIds = [
     't1-user','t1-dots','t1-loader','t1-response',
-    'turn-2','turn-2b','turn-3','turn-4','turn-5',
-    't2b-circle-loader','t4-circle-loader','t5-circle-loader','t5-response'
+    'turn-2','turn-2b','turn-3','turn-4','turn-5','turn-6','turn-7',
+    't2b-circle-loader','t4-circle-loader','t5-circle-loader','t5-loader','t5-response',
+    't6-loader','t6-response','t6-chips',
+    't7-loader','t7-circle-loader','t7-response','t7-followup'
   ];
   resetIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2872,7 +3005,7 @@
     '',                                                                                              // turn 0 — blank (auto-starts)
     'Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.',  // turn 1
     'Proceed with Preferred DEWALT',                                                                 // turn 2 → 2b
-    '8 and also add two additional batteries per unit.',                                             // turn 2b → 3
+    '8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock',                                             // turn 2b → 3
   ];
 
   function scrollToBottom() {
@@ -3324,13 +3457,37 @@
             var turn5 = document.getElementById('turn-5');
             if (turn5) turn5.style.display = '';
             var t5circle = document.getElementById('t5-circle-loader');
+            var t5loader = document.getElementById('t5-loader');
             var t5response = document.getElementById('t5-response');
             if (t5circle) t5circle.style.display = 'flex';
             scrollToBottom();
             setTimeout(function() {
               if (t5circle) t5circle.style.display = 'none';
-              if (t5response) t5response.style.display = '';
+              if (t5loader) t5loader.style.display = '';
               scrollToBottom();
+              animateLoaderSteps('t5-loader', 900, function() {
+                setTimeout(function() {
+                  if (t5response) t5response.style.display = '';
+                  scrollToBottom();
+                  // Turn 6 — agent message + chips
+                  var turn6 = document.getElementById('turn-6');
+                  var t6loader = document.getElementById('t6-loader');
+                  var t6response = document.getElementById('t6-response');
+                  var t6chips = document.getElementById('t6-chips');
+                  if (turn6) turn6.style.display = '';
+                  if (t6loader) t6loader.style.display = '';
+                  scrollToBottom();
+                  setTimeout(function() {
+                    if (t6loader) t6loader.style.display = 'none';
+                    if (t6response) t6response.style.display = '';
+                    scrollToBottom();
+                    setTimeout(function() {
+                      if (t6chips) t6chips.style.display = '';
+                      scrollToBottom();
+                    }, 300);
+                  }, 1200);
+                }, 400);
+              });
             }, 2000);
           }, 800);
         }, 2000);
@@ -3375,11 +3532,38 @@
 
         // Populate input field after a short pause
         setTimeout(function() {
-          input.value = '8 and also add two additional batteries per unit.';
+          input.value = '8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock';
           sendBtn.classList.add('active');
           input.focus();
           scrollToBottom();
         }, 200);
+      }, 2000);
+    }, 1500);
+  }
+
+  // ── Turn 7: Submit Request ─────────────────────────────
+  function runTurn7() {
+    var turn7 = document.getElementById('turn-7');
+    if (turn7) turn7.style.display = '';
+    var t7loader = document.getElementById('t7-loader');
+    var t7circle = document.getElementById('t7-circle-loader');
+    var t7response = document.getElementById('t7-response');
+    if (t7loader) t7loader.style.display = '';
+    scrollToBottom();
+    // Dots → circle loader → PR card
+    setTimeout(function() {
+      if (t7loader) t7loader.style.display = 'none';
+      if (t7circle) t7circle.style.display = 'flex';
+      scrollToBottom();
+      setTimeout(function() {
+        if (t7circle) t7circle.style.display = 'none';
+        if (t7response) t7response.style.display = '';
+        scrollToBottom();
+        setTimeout(function() {
+          var t7followup = document.getElementById('t7-followup');
+          if (t7followup) t7followup.style.display = '';
+          scrollToBottom();
+        }, 800);
       }, 2000);
     }, 1500);
   }
@@ -3418,6 +3602,14 @@
       input.value = '';
       sendBtn.classList.remove('active');
       advanceConversation(chipText);
+      return;
+    }
+    // Submit Request chip (turn-6 → turn-7)
+    if (el.id === 'chip-submit-request') {
+      // Hide chips so they can't be clicked again
+      var chips = document.getElementById('t6-chips');
+      if (chips) chips.style.display = 'none';
+      runTurn7();
       return;
     }
     // cart/pr buttons with data-prefill

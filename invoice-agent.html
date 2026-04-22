@@ -2914,9 +2914,13 @@
 
             <div class="stream-section quick-actions-box">
               <div class="qa-header">📋 QUICK ACTIONS</div>
-              <div class="qa-option-title">Option 1: Post Good Receipt</div>
+              <div class="qa-option-title">Option 1: Open Microsoft Teams</div>
+              <ul><li>Would you like to open a direct Teams conversation with John Miller to discuss the missing Goods Receipt?</li></ul>
+              <div class="qa-option-title">Option 2: Send GR Reminder</div>
+              <ul><li>Would you like me to send John Miller an automated reminder to confirm goods delivery and post the Goods Receipt for PO#2026-4500?</li></ul>
+              <div class="qa-option-title">Option 3: Post Good Receipt</div>
               <ul><li>Would you like me to post the Goods Receipt directly, confirming that the goods have been received at the warehouse?</li></ul>
-              <div class="qa-option-title">Option 2: Review All Invoices with Exceptions</div>
+              <div class="qa-option-title">Option 4: Review All Invoices with Exceptions</div>
               <ul><li>Would you like to see a full list of all invoices currently blocked or flagged with exceptions?</li></ul>
               <div class="qa-prompt">Which would you like to do?</div>
             </div>
@@ -2925,6 +2929,8 @@
 
         <!-- Action chips after Turn 3c response -->
         <div class="joule-suggestions" id="t3c-chips" style="display:none;">
+          <button class="joule-chip" id="chip-open-teams">Open MSTeams</button>
+          <button class="joule-chip" id="chip-send-reminder">Send GR Reminder</button>
           <button class="joule-chip" id="chip-post-gr-t3c">Post Good Receipt</button>
           <button class="joule-chip" id="chip-review-all-t3c">Review All Invoices with Exceptions</button>
         </div>

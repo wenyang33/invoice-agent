@@ -44,9 +44,9 @@ from search → typeahead → Joule conversation → invoice selection → appro
 ## Current State of the App
 
 **Format:** Plain HTML/CSS/JS — single file, opens by double-clicking
-**File:** `/Users/I851522/Desktop/Claude Code/invoice-agent/invoice-agent.html`
-**Live URL:** `https://github.tools.sap/pages/I851522/invoice-agent/`
-**Repo:** `https://github.tools.sap/I851522/invoice-agent` (SAP internal network)
+**File:** `invoice-agent.html`
+**Live URL:** `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
+**Repo:** `https://github.com/wenyang33/invoice-agent`
 
 ### 3 States / Flow
 
@@ -163,8 +163,8 @@ Cards / product results: dots → skeleton → loader (if applicable) → card.
 
 ## Git / Deploy Rules
 
-- Repo: `github.tools.sap/I851522/invoice-agent` (SAP internal, requires VPN)
-- GitHub Pages URL: `https://github.tools.sap/pages/I851522/invoice-agent/`
+- Repo: `github.com/wenyang33/invoice-agent`
+- GitHub Pages URL: `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
 - Always show local file path AND GitHub Pages URL after any deploy
 - Always confirm commit message with user before pushing
 - Source HTML must always be committed — never commit without source
@@ -238,5 +238,5 @@ Simple text reply: dots → text bubble only (no skeleton).
 |---|---|---|
 | 2026-04 | Plain HTML not React | Designer needs double-click file, no dev setup |
 | 2026-04 | Figma MCP before all UI code | Previous code looked wrong when written from memory |
-| 2026-04 | GitHub Pages for sharing | Stakeholders on SAP VPN can access internal GitHub Pages |
+| 2026-04 | GitHub Pages for sharing | Public GitHub Pages for easy sharing |
 | 2026-04 | 448px Joule panel width | Matched exactly from Figma frame 5-81727 |

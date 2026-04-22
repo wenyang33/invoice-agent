@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAP Ariba Nexus – Home</title>
+  <title>SAP Ariba – Invoice Management</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <!-- SAP 72 font via CDN -->
   <link rel="stylesheet" href="https://ui5.sap.com/resources/sap/ui/core/themes/sap_horizon/fonts/72-regular.woff2" />
@@ -97,6 +97,81 @@
       /* Shadow */
       --shadow0: 0px 0px 2px 0px rgba(34,53,72,0.2), 0px 2px 4px 0px rgba(34,53,72,0.2);
     }
+
+    /* ─── Joule Sidebar ─── */
+    .joule-sidebar {
+      position: absolute; top: 56px; left: 0; bottom: 0; width: 260px;
+      background: #fff; border-right: 1px solid #e5e5e5; z-index: 20;
+      display: flex; flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+    .joule-sidebar.open { transform: translateX(0); }
+    .joule-sidebar-header { display: flex; align-items: center; gap: 8px; padding: 16px 16px 12px; }
+    .joule-sidebar-search-btn { margin-left: auto; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; }
+    .joule-sidebar-search-btn:hover { background: #f0f0f0; }
+    .joule-sidebar-new-btn {
+      display: flex; align-items: center; gap: 8px; margin: 0 12px 12px;
+      padding: 8px 14px; background: none; border: 1px solid #e5e5e5; border-radius: 8px;
+      font-family: '72', 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600;
+      color: #1d2d3e; cursor: pointer; transition: background 0.15s;
+    }
+    .joule-sidebar-new-btn:hover { background: #f5f5f5; }
+    .joule-sidebar-section { margin-bottom: 4px; }
+    .joule-sidebar-section-header {
+      display: flex; align-items: center; gap: 6px; padding: 8px 16px;
+      font-family: '72', 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 700;
+      color: #1d2d3e; cursor: pointer; user-select: none;
+    }
+    .joule-sidebar-count { font-weight: 400; color: #556b82; font-size: 12px; }
+    .joule-sidebar-chevron { margin-left: auto; transition: transform 0.2s; transform: rotate(90deg); }
+    .joule-sidebar-chevron.collapsed { transform: rotate(0deg); }
+    .joule-sidebar-items { display: flex; flex-direction: column; }
+    .joule-sidebar-items.collapsed { display: none; }
+    .joule-sidebar-item {
+      display: flex; align-items: center; gap: 8px; padding: 8px 16px 8px 20px;
+      font-family: '72', 'Segoe UI', Arial, sans-serif; font-size: 13px; color: #1d2d3e;
+      cursor: pointer; position: relative; transition: background 0.15s;
+    }
+    .joule-sidebar-item:hover { background: #f5f5f5; }
+    .joule-sidebar-item.active { background: #f0edff; }
+    .joule-sidebar-item.active .joule-sidebar-item-indicator {
+      position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px;
+      background: #5d36ff; border-radius: 0 3px 3px 0;
+    }
+    .joule-sidebar-item-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .joule-sidebar-item-more {
+      background: none; border: none; cursor: pointer; padding: 2px; border-radius: 4px;
+      opacity: 0; transition: opacity 0.15s;
+    }
+    .joule-sidebar-item:hover .joule-sidebar-item-more { opacity: 1; }
+
+    /* ─── Joule Exception Table (Fiori-style) ─── */
+    .joule-exception-table {
+      width: 100%; border-collapse: collapse; font-family: '72', 'Segoe UI', Arial, sans-serif;
+      font-size: 14px; margin-top: 12px; background: #ffffff;
+      border: 1px solid #e5e5e5; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .joule-exception-table thead th {
+      text-align: left; padding: 16px 20px; font-weight: 700; font-size: 14px;
+      color: #556b82; border-bottom: 1px solid #e5e5e5; background: #f8f9fa;
+    }
+    .joule-exception-table thead th:last-child { }
+    .joule-exception-table tbody td {
+      padding: 16px 20px; color: #1d2d3e; border-bottom: 1px solid #eef0f2; vertical-align: middle;
+      background: #ffffff; font-size: 14px;
+    }
+    .joule-exception-table tbody td:last-child { }
+    .joule-exception-table tbody tr:last-child td { border-bottom: none; }
+    .joule-invoice-link { color: #0064d9; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .joule-invoice-link:hover { text-decoration: underline; color: #0054b5; }
+    .joule-chip-solve {
+      background: #f8fafe !important; color: #1a5fc9 !important;
+      border-color: #e0e7ef !important; font-weight: 500 !important;
+    }
+    .joule-chip-solve:hover { background: #edf3fc !important; border-color: #c0cfe0 !important; }
 
     /* ─── Reset ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -370,7 +445,7 @@
     .obj-number .num { font-weight: 400; }
     .obj-number .cur { font-weight: 300; color: #556b82; }
 
-    /* ─── Buying Options grid ─── */
+    /* ─── Invoice Options grid ─── */
     .bo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -441,23 +516,23 @@
     .todo-item-amount span { font-size: 14px; font-weight: 400; color: #556b82; margin-left: 4px; }
     .todo-card-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 16px 0; }
     .btn-accept {
-      padding: 8px 12px; border-radius: 8px; border: 1px solid var(--sapButton_Accept_BorderColor);
-      background: var(--sapButton_Accept_Background); color: var(--sapButton_Accept_TextColor);
+      padding: 8px 20px; border-radius: 20px; border: 1.5px solid #4a90d9;
+      background: #f0f6ff; color: #2a6ec2;
       font-size: 14px; font-weight: 600; cursor: pointer; min-height: 36px;
       touch-action: manipulation;
       transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
     }
-    .btn-accept:hover { background: #d4f4d5; box-shadow: 0 1px 4px rgba(37,111,40,0.15); }
-    .btn-accept:focus-visible { outline: 2px solid #256f28; outline-offset: 2px; }
+    .btn-accept:hover { background: #dce9f7; box-shadow: 0 1px 4px rgba(42,110,194,0.15); }
+    .btn-accept:focus-visible { outline: 2px solid #2a6ec2; outline-offset: 2px; }
     .btn-reject {
-      padding: 8px 12px; border-radius: 8px; border: 1px solid var(--sapButton_Reject_BorderColor);
-      background: var(--sapButton_Reject_Background); color: var(--sapButton_Reject_TextColor);
+      padding: 8px 20px; border-radius: 20px; border: 1.5px solid #4a90d9;
+      background: #f0f6ff; color: #2a6ec2;
       font-size: 14px; font-weight: 600; cursor: pointer; min-height: 36px;
       touch-action: manipulation;
       transition: background 0.15s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
     }
-    .btn-reject:hover { background: #fcc4c4; box-shadow: 0 1px 4px rgba(170,8,8,0.15); }
-    .btn-reject:focus-visible { outline: 2px solid #aa0808; outline-offset: 2px; }
+    .btn-reject:hover { background: #dce9f7; box-shadow: 0 1px 4px rgba(42,110,194,0.15); }
+    .btn-reject:focus-visible { outline: 2px solid #2a6ec2; outline-offset: 2px; }
     .btn-secondary {
       padding: 8px 12px; border-radius: 8px;
       border: 1px solid var(--sapButton_BorderColor); background: var(--sapButton_Background);
@@ -654,27 +729,136 @@
 
     /* ── Quick reply chips — Figma: Pqg0cqoAWbfdnSX5FgoOCV node 285-5515 ── */
     .joule-suggestions {
-      display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 2px 0;
+      display: flex; flex-wrap: wrap; gap: 12px; padding: 0 0 2px 0;
+      margin-top: 4px;
+    }
+    .quick-actions-box {
+      margin-top: 16px;
+      padding: 16px 18px 0;
+      background: transparent;
+      border-radius: 0;
+      border: none;
+      border-top: 1px solid #d9d9d9;
+      font-family: '72', 'Segoe UI', Arial, sans-serif;
+    }
+    .quick-actions-box .qa-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d2d3e;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 14px;
+    }
+    .quick-actions-box .qa-option-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d2d3e;
+      margin: 12px 0 4px 0;
+    }
+    .quick-actions-box .qa-option-title:first-of-type {
+      margin-top: 0;
+    }
+    .quick-actions-box ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .quick-actions-box ul li {
+      font-size: 13px;
+      color: #556b82;
+      line-height: 1.6;
+    }
+    .quick-actions-box .qa-prompt {
+      font-size: 13px;
+      color: #1d2d3e;
+      margin-top: 14px;
+      font-style: italic;
     }
     .joule-chip {
       display: inline-flex; align-items: center;
-      padding: 4px 8px; border-radius: 16px;
-      background: #fff; border: none;
-      color: #0064d9;
-      font-size: 14px; font-weight: 400; font-family: inherit;
+      padding: 10px 24px; border-radius: 100px;
+      background: #f8fafe; border: 1.5px solid #e0e7ef;
+      color: #1a5fc9;
+      font-size: 14px; font-weight: 500; font-family: inherit;
       line-height: 20px; cursor: pointer; white-space: nowrap;
       touch-action: manipulation;
-      box-shadow: 0px 0px 2px 0px rgba(27,144,255,0.16),
-                  0px 4px 8px 0px rgba(27,144,255,0.16);
-      transition: box-shadow 0.15s, transform 0.1s;
+      box-shadow: none;
+      transition: box-shadow 0.15s, transform 0.1s, background 0.15s, border-color 0.15s;
     }
     .joule-chip:hover {
-      box-shadow: 0px 0px 4px 0px rgba(27,144,255,0.24),
-                  0px 6px 12px 0px rgba(27,144,255,0.22);
+      box-shadow: 0px 2px 6px 0px rgba(27,144,255,0.10);
+      background: #edf3fc;
+      border-color: #c0cfe0;
       transform: translateY(-1px);
     }
     .joule-chip:active { transform: translateY(0); }
     .joule-chip:focus-visible { outline: 2px solid #0064d9; outline-offset: 2px; }
+
+    /* ── Deep Analysis Loader ── */
+    .deep-analysis-card {
+      background: #fff;
+      border: 1px solid #e8ecf0;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-top: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .deep-analysis-progress {
+      position: relative;
+      height: 4px;
+      background: #e8ecf0;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: visible;
+    }
+    .deep-analysis-progress-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #6b44ff, #8b6aff);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    .deep-analysis-progress-dot {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: #6b44ff;
+      border-radius: 50%;
+      left: 0%;
+      transition: left 0.5s ease;
+      box-shadow: 0 0 6px rgba(107,68,255,0.4);
+    }
+    .deep-analysis-step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f2f5;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .deep-analysis-step:last-child { border-bottom: none; }
+    .deep-analysis-step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .deep-analysis-step-text {
+      font-family: '72','Segoe UI',Arial,sans-serif;
+      font-size: 14px;
+      color: #556b82;
+    }
+    .deep-analysis-step-chevron {
+      color: #6b44ff;
+      font-size: 18px;
+      font-weight: 600;
+    }
 
     /* ── Three-dot loading bubble (Figma: 86692-15470) ── */
     .joule-dots-bubble {
@@ -1545,11 +1729,11 @@
         <svg class="nav-arrow" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
       </div>
 
-      <!-- Buying (expanded) -->
+      <!-- Invoice (expanded) -->
       <div>
         <div class="nav-item">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="#131e29"><path d="M2 2h2l2 7h6l1.5-5H5" stroke="#131e29" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="13" r="1.2" fill="#131e29"/><circle cx="11" cy="13" r="1.2" fill="#131e29"/><path d="M5 9l1 3h.5" stroke="#131e29" stroke-width="1" fill="none"/><path d="M8 8v2M9.5 8v2" stroke="#131e29" stroke-width="1" stroke-linecap="round"/><path d="M10 12h1" stroke="#131e29" stroke-width="1" stroke-linecap="round"/></svg>
-          <span class="nav-label">Buying</span>
+          <span class="nav-label">Invoice</span>
           <svg class="nav-arrow" style="transform:rotate(90deg)" viewBox="0 0 16 16" fill="#92a2b5"><path d="M6 4l4 4-4 4"/></svg>
         </div>
         <div class="nav-children">
@@ -1595,7 +1779,7 @@
     <!-- Page Header -->
     <div class="page-header">
       <span class="page-title">Hello, Christopher!</span>
-      <button class="cart-btn">
+      <button class="cart-btn" style="display:none;">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="#0064d9"><path d="M2 2h2l2 7h6l1.5-5H5" stroke="#0064d9" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="13" r="1.2" fill="#0064d9"/><circle cx="11" cy="13" r="1.2" fill="#0064d9"/></svg>
         Cart
       </button>
@@ -1619,7 +1803,7 @@
           </svg>
           <!-- White pill search field -->
           <div class="search-bar-active" style="position:relative;z-index:2;background:#fff;border-radius:18px;border:none;box-shadow:none;padding:0 12px;height:36px;">
-            <input type="text" id="searchInput" value="" placeholder="Search or ask Joule..." autocomplete="off" style="font-style:normal;color:#131e29;" />
+            <input type="text" id="searchInput" value="" placeholder="Search invoices or ask Joule..." autocomplete="off" style="font-style:normal;color:#131e29;" />
             <button onclick="clearSearch()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;" title="Clear">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="#556b82"><path d="M2 2l10 10M12 2L2 12" stroke="#556b82" stroke-width="1.8" stroke-linecap="round"/></svg>
             </button>
@@ -1634,65 +1818,61 @@
               <span class="ta-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#556b82" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="#556b82" stroke-width="1.5" stroke-linecap="round"/></svg>
               </span>
-              <span class="ta-text">I need to order a bulk set of cordless drills for the new seating installation</span>
+              <span class="ta-text">Check my overnight invoice exceptions</span>
             </div>
             <!-- Suggestion 2 — dimmed 0.6 -->
             <div class="ta-row" id="taRow1">
               <span class="ta-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#556b82" stroke-width="1.5"/><line x1="10" y1="10" x2="14" y2="14" stroke="#556b82" stroke-width="1.5" stroke-linecap="round"/></svg>
               </span>
-              <span class="ta-text">I want to create a catalog purchasing request for power tools</span>
+              <span class="ta-text">Upload an invoice received by email</span>
             </div>
             <!-- Action row — dimmed 0.6 -->
             <div class="ta-row" id="taRow2">
               <span class="ta-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2h5a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8" stroke="#1d2d3e" stroke-width="1.4" stroke-linecap="round"/><path d="M1 1l5 5M4 1H1v3" stroke="#1d2d3e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <span class="ta-text">Create Catalog Purchasing Request</span>
+              <span class="ta-text">Check payment terms mismatch on recent invoices</span>
             </div>
           </div>
           <!-- Catalog section -->
-          <div class="ta-section-header">Catalog</div>
-          <!-- Product 1 — DEWALT 20V MAX -->
+          <div class="ta-section-header">Recent Invoices</div>
+          <!-- Invoice 1 -->
           <div class="ta-product-row" id="taProduct0">
             <div class="ta-product-thumb">
-              <div style="width:48px;height:48px;border-radius:12px;overflow:hidden;">
-                <img src="images/Picture1.jpg" alt="DEWALT 20V MAX XR" style="width:100%;height:100%;object-fit:cover;display:block;" />
-              </div>
+              <div style="width:48px;height:48px;border-radius:12px;background:#fce8e8;display:flex;align-items:center;justify-content:center;font-size:22px;">📄</div>
             </div>
             <div class="ta-product-info">
-              <div class="ta-product-name">DEWALT 20V MAX XR Hammer Drill Kit</div>
+              <div class="ta-product-name">INV-2026-0892</div>
               <div class="ta-product-sub">
-                <span class="ta-sub-supplier">Safford Equipment</span>
+                <span class="ta-sub-supplier">Horizon Tech Ltd</span>
                 <span class="ta-sub-dot">•</span>
-                <span class="ta-sub-label">Part ID: </span>
-                <span class="ta-sub-id">DCD996P2</span>
+                <span class="ta-sub-label">Status: </span>
+                <span class="ta-sub-id" style="color:#c87000;">Validation Error</span>
               </div>
             </div>
             <div class="ta-product-price">
-              <div class="ta-price-main">369.95</div>
-              <div class="ta-price-unit">USD / item</div>
+              <div class="ta-price-main">12,450.00</div>
+              <div class="ta-price-unit">USD</div>
             </div>
           </div>
-          <!-- Product 2 — Milwaukee M18 -->
+          <!-- Invoice 2 -->
           <div class="ta-product-row" id="taProduct1">
             <div class="ta-product-thumb">
-              <div style="width:48px;height:48px;border-radius:12px;overflow:hidden;">
-                <img src="images/Mil.jpg" alt="Milwaukee M18 FUEL" style="width:100%;height:100%;object-fit:cover;display:block;" />
-              </div>
+              <div style="width:48px;height:48px;border-radius:12px;background:#fff3d6;display:flex;align-items:center;justify-content:center;font-size:22px;">📄</div>
             </div>
             <div class="ta-product-info">
-              <div class="ta-product-name">Milwaukee Tool M18 FUEL Hammer Drill/Driver Kit</div>
+              <div class="ta-product-name">INV-2026-0891</div>
               <div class="ta-product-sub">
-                <span class="ta-sub-supplier">City Electric Supply</span>
+                <span class="ta-sub-supplier">Acme Supplies GmbH</span>
                 <span class="ta-sub-dot">•</span>
-                <span class="ta-sub-label">Part ID: </span>
-                <span class="ta-sub-id">2904P-22</span>
+                <span class="ta-sub-label">Status: </span>
+                <span class="ta-sub-id" style="color:#aa0808;">Blocked — Duplicate</span>
               </div>
             </div>
             <div class="ta-product-price">
-              <div class="ta-price-main">343.00</div>
-              <div class="ta-price-unit">USD / item</div>
+              <div class="ta-price-main">8,400.00</div>
+              <div class="ta-price-unit">USD</div>
             </div>
           </div>
           <div style="height:8px;"></div>
@@ -1711,7 +1891,7 @@
         input.addEventListener('focus', function() {
           if (!hasAutofilled) {
             hasAutofilled = true;
-            input.value = 'I need to order a bulk set of cordless drills for the new seating installation';
+            input.value = 'Check my overnight invoice exceptions';
           }
           dropdown.style.display = 'block';
         });
@@ -1726,13 +1906,13 @@
           }
         });
 
-        // Row 0: fills input with drill query → opens Joule
+        // Row 0: fills input with invoice query → opens Joule
         var row0 = document.getElementById('taRow0');
         if (row0) {
           row0.addEventListener('click', function(e) {
-            input.value = 'I need to order a bulk set of cordless drills for the new seating installation';
+            input.value = 'Check my overnight invoice exceptions';
             dropdown.style.display = 'none';
-            if (typeof openJoule === 'function') openJoule();
+            if (typeof openJoule === 'function') openJoule('What invoices do I need to pay attention to since last night?');
             e.stopPropagation();
           });
         }
@@ -1782,12 +1962,12 @@
         <!-- ── Announcement Widget ── -->
         <div class="widget-card">
           <div class="announcement-banner">
-            <div class="announcement-title">Commercial refrigeration lead times extended</div>
-            <div class="announcement-desc">Due to increased demand, some commercial refrigeration units have extended lead times of 3–4 weeks. Check availability before placing an order.</div>
+            <div class="announcement-title">New e-invoicing mandate effective June 2026</div>
+            <div class="announcement-desc">All EU supplier invoices must include a valid VAT ID and structured XML attachment. Invoices without these fields will be automatically blocked from June 1st.</div>
             <div>
               <span class="tag tag-info">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="#0067d9"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>
-                New
+                Important
               </span>
             </div>
           </div>
@@ -1819,64 +1999,58 @@
           </div>
           <div class="seg-btn-wrap">
             <div class="seg-btn">
-              <button class="seg-btn-item active">Purchase Requests (5)</button>
-              <button class="seg-btn-item">Form Requests (1)</button>
+              <button class="seg-btn-item active">Invoices (5)</button>
+              <button class="seg-btn-item">Exceptions (3)</button>
             </div>
           </div>
           <table class="resp-table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Invoice</th>
                 <th>Status</th>
-                <th class="right">Items</th>
                 <th class="right">Amount</th>
-                <th class="right">Changed On</th>
+                <th class="right">Received</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><div class="obj-id"><div class="name">Construction Tools</div><div class="id pr-link">PR121211322</div></div></td>
-                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Partially Confirmed</span></td>
-                <td class="right">4</td>
+                <td><div class="obj-id"><div class="name">Horizon Tech Ltd</div><div class="id pr-link">INV-2026-0892</div></div></td>
+                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Validation Error</span></td>
+                <td class="right"><div class="obj-number"><span class="num">12,450.00</span><span class="cur">USD</span></div></td>
+                <td class="right">Today</td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Acme Supplies GmbH</div><div class="id pr-link">INV-2026-0891</div></div></td>
+                <td><span class="tag tag-error"><svg width="12" height="12" viewBox="0 0 12 12" fill="#aa0808"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M4 4l4 4M8 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Blocked</span></td>
+                <td class="right"><div class="obj-number"><span class="num">8,400.00</span><span class="cur">USD</span></div></td>
+                <td class="right">Today</td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Delta Industrial Co.</div><div class="id pr-link">INV-2026-0893</div></div></td>
+                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Missing GR</span></td>
+                <td class="right"><div class="obj-number"><span class="num">3,200.00</span><span class="cur">USD</span></div></td>
+                <td class="right">Today</td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Vertex Solutions AG</div><div class="id pr-link">INV-2026-0890</div></div></td>
+                <td><span class="tag tag-success"><svg width="12" height="12" viewBox="0 0 12 12" fill="#256f28"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M3 6.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Processed</span></td>
+                <td class="right"><div class="obj-number"><span class="num">5,760.00</span><span class="cur">USD</span></div></td>
+                <td class="right">Yesterday</td>
+              </tr>
+              <tr>
+                <td><div class="obj-id"><div class="name">Nordic Parts AS</div><div class="id pr-link">INV-2026-0889</div></div></td>
+                <td><span class="tag tag-success"><svg width="12" height="12" viewBox="0 0 12 12" fill="#256f28"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M3 6.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Processed</span></td>
+                <td class="right"><div class="obj-number"><span class="num">1,100.00</span><span class="cur">USD</span></div></td>
                 <td class="right">2 days ago</td>
-                <td><div class="obj-number"><span class="num">365.50</span><span class="cur">USD</span></div></td>
-              </tr>
-              <tr>
-                <td><div class="obj-id"><div class="name">Plumbing Tools</div><div class="id pr-link">PR121211321</div></div></td>
-                <td><span class="tag tag-warning"><svg width="12" height="12" viewBox="0 0 12 12" fill="#c87000"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="5.25" y="5" width="1.5" height="4.5" fill="currentColor" rx=".5"/><circle cx="6" cy="3.5" r=".75" fill="currentColor"/></svg>Partially Confirmed</span></td>
-                <td class="right">6</td>
-                <td class="right">3 days ago</td>
-                <td><div class="obj-number"><span class="num">290.21</span><span class="cur">USD</span></div></td>
-              </tr>
-              <tr>
-                <td><div class="obj-id"><div class="name">Electrician Service</div><div class="id pr-link">PR121211320</div></div></td>
-                <td><span class="tag tag-neutral">Pending</span></td>
-                <td class="right">1</td>
-                <td class="right">5 days ago</td>
-                <td><div class="obj-number"><span class="num">890.99</span><span class="cur">USD</span></div></td>
-              </tr>
-              <tr>
-                <td><div class="obj-id"><div class="name">Legal Service</div><div class="id pr-link">PR121211319</div></div></td>
-                <td><span class="tag tag-error"><svg width="12" height="12" viewBox="0 0 12 12" fill="#aa0808"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M4 4l4 4M8 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Received</span></td>
-                <td class="right">1</td>
-                <td class="right">4 months ago</td>
-                <td><div class="obj-number"><span class="num">1,190.23</span><span class="cur">USD</span></div></td>
-              </tr>
-              <tr>
-                <td><div class="obj-id"><div class="name">Valves</div><div class="id pr-link">PR121211318</div></div></td>
-                <td><span class="tag tag-success"><svg width="12" height="12" viewBox="0 0 12 12" fill="#256f28"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M3 6.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Received</span></td>
-                <td class="right">1</td>
-                <td class="right">10 months ago</td>
-                <td><div class="obj-number"><span class="num">20.00</span><span class="cur">USD</span></div></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- ── Buying Options Widget ── -->
+        <!-- ── Invoice Options Widget ── -->
         <div class="widget-card">
           <div class="widget-toolbar">
-            <span class="widget-title">Buying Options</span>
+            <span class="widget-title">Invoice Options</span>
             <button class="btn-tertiary">Show All</button>
             <button class="icon-btn">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="#556b82"><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="14" cy="8" r="1.5"/></svg>
@@ -1884,40 +2058,40 @@
           </div>
           <div class="bo-grid">
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=112&h=112&fit=crop" alt="Laptops and Accessories" />
-              <span class="bo-label">Laptops and Accessories</span>
+              <div class="bo-thumb" style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:26px;">📄</div>
+              <span class="bo-label">Standard Invoice</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=112&h=112&fit=crop" alt="Travel & Entertainment" />
-              <span class="bo-label">Travel &amp; Entertainment</span>
+              <div class="bo-thumb" style="background:#fce8e8;display:flex;align-items:center;justify-content:center;font-size:26px;">🔄</div>
+              <span class="bo-label">Credit Memo</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=112&h=112&fit=crop" alt="Manufacturing Supplies" />
-              <span class="bo-label">Manufacturing Supplies</span>
+              <div class="bo-thumb" style="background:#fff3d6;display:flex;align-items:center;justify-content:center;font-size:26px;">📋</div>
+              <span class="bo-label">Debit Memo</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=112&h=112&fit=crop" alt="HR & People" />
-              <span class="bo-label">HR &amp; People</span>
+              <div class="bo-thumb" style="background:#e8f4ff;display:flex;align-items:center;justify-content:center;font-size:26px;">🔧</div>
+              <span class="bo-label">Service Invoice</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=112&h=112&fit=crop" alt="Logistics, Transportation & Warehouse" />
-              <span class="bo-label">Logistics, Transportation &amp; Warehouse</span>
+              <div class="bo-thumb" style="background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-size:26px;">🧾</div>
+              <span class="bo-label">Expense Report</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=112&h=112&fit=crop" alt="Property & Utilities" />
-              <span class="bo-label">Property &amp; Utilities</span>
+              <div class="bo-thumb" style="background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:26px;">🔁</div>
+              <span class="bo-label">Recurring Invoice</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=112&h=112&fit=crop" alt="Marketing & CMD" />
-              <span class="bo-label">Marketing &amp; CMD</span>
+              <div class="bo-thumb" style="background:#e8f4ff;display:flex;align-items:center;justify-content:center;font-size:26px;">📦</div>
+              <span class="bo-label">PO-Based Invoice</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=112&h=112&fit=crop" alt="Professional Services" />
-              <span class="bo-label">Professional Services</span>
+              <div class="bo-thumb" style="background:#fff3d6;display:flex;align-items:center;justify-content:center;font-size:26px;">📝</div>
+              <span class="bo-label">Non-PO Invoice</span>
             </div>
             <div class="bo-item">
-              <img class="bo-thumb" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=112&h=112&fit=crop" alt="Legal" />
-              <span class="bo-label">Legal</span>
+              <div class="bo-thumb" style="background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-size:26px;">⚡</div>
+              <span class="bo-label">EDI Invoice</span>
             </div>
           </div>
         </div>
@@ -1929,54 +2103,58 @@
             <button class="btn-tertiary">Show All</button>
           </div>
           <div class="insights-row">
-            <!-- Donut 1 -->
+            <!-- Donut 1 — Invoices by status -->
             <div class="analytics-card">
               <div class="card-header">
-                <div class="card-header-meta">Q1, 2025 | Company Code: Palo Alto | Cost Center: Palo Alto | USD</div>
-                <div class="card-header-title">Spend by catalog usage</div>
+                <div class="card-header-meta">Q1, 2026 | Company Code: DE01 | USD</div>
+                <div class="card-header-title">Invoices by processing status</div>
               </div>
-              <div class="card-numeric"><span class="card-kpi">5.0</span> <span class="card-kpi-unit">M</span></div>
+              <div class="card-numeric"><span class="card-kpi">1,248</span> <span class="card-kpi-unit">invoices</span></div>
               <div class="chart-area">
                 <div class="donut-wrap">
-                  <!-- circumference of r=45 = 2π×45 ≈ 282.7 -->
-                  <!-- Catalog 54% = 152.7, Non-catalog 46% = 130 -->
                   <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="45" fill="none" stroke="#e5e5e5" stroke-width="18"/>
                     <circle cx="60" cy="60" r="45" fill="none" stroke="#256f28" stroke-width="18"
-                      stroke-dasharray="153 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                      stroke-dasharray="197 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
                     <circle cx="60" cy="60" r="45" fill="none" stroke="#e57000" stroke-width="18"
-                      stroke-dasharray="130 283" stroke-dashoffset="-153" transform="rotate(-90 60 60)"/>
-                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">54%</text>
-                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">Catalog</text>
+                      stroke-dasharray="57 283" stroke-dashoffset="-197" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#aa0808" stroke-width="18"
+                      stroke-dasharray="29 283" stroke-dashoffset="-254" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">70%</text>
+                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">Processed</text>
                   </svg>
                   <div class="donut-legend">
-                    <div class="legend-item"><span class="legend-dot" style="background:#256f28"></span><span>Catalog</span><span class="legend-pct">54%</span></div>
-                    <div class="legend-item"><span class="legend-dot" style="background:#e57000"></span><span>Non-catalog</span><span class="legend-pct">46%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#256f28"></span><span>Processed</span><span class="legend-pct">70%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#e57000"></span><span>Pending</span><span class="legend-pct">20%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#aa0808"></span><span>Exceptions</span><span class="legend-pct">10%</span></div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Donut 2 -->
+            <!-- Donut 2 — By type -->
             <div class="analytics-card">
               <div class="card-header">
-                <div class="card-header-meta">Q1, 2025 | Company Code: Palo Alto | Cost Center: Palo Alto | USD</div>
-                <div class="card-header-title">Spend by contract coverage</div>
+                <div class="card-header-meta">Q1, 2026 | Company Code: DE01 | USD</div>
+                <div class="card-header-title">Invoices by type</div>
               </div>
-              <div class="card-numeric"><span class="card-kpi">5.0</span> <span class="card-kpi-unit">M</span></div>
+              <div class="card-numeric"><span class="card-kpi">1,248</span> <span class="card-kpi-unit">invoices</span></div>
               <div class="chart-area">
                 <div class="donut-wrap">
                   <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="45" fill="none" stroke="#e5e5e5" stroke-width="18"/>
-                    <circle cx="60" cy="60" r="45" fill="none" stroke="#256f28" stroke-width="18"
-                      stroke-dasharray="153 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
-                    <circle cx="60" cy="60" r="45" fill="none" stroke="#e57000" stroke-width="18"
-                      stroke-dasharray="130 283" stroke-dashoffset="-153" transform="rotate(-90 60 60)"/>
-                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">54%</text>
-                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">Contract</text>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#0064d9" stroke-width="18"
+                      stroke-dasharray="183 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#5d36ff" stroke-width="18"
+                      stroke-dasharray="70 283" stroke-dashoffset="-183" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="45" fill="none" stroke="#92a2b5" stroke-width="18"
+                      stroke-dasharray="30 283" stroke-dashoffset="-253" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#131e29">65%</text>
+                    <text x="60" y="70" text-anchor="middle" font-size="11" fill="#556b82">PO-Based</text>
                   </svg>
                   <div class="donut-legend">
-                    <div class="legend-item"><span class="legend-dot" style="background:#256f28"></span><span>Contract</span><span class="legend-pct">54%</span></div>
-                    <div class="legend-item"><span class="legend-dot" style="background:#e57000"></span><span>Non-contract</span><span class="legend-pct">46%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#0064d9"></span><span>PO-Based</span><span class="legend-pct">65%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#5d36ff"></span><span>Non-PO</span><span class="legend-pct">25%</span></div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#92a2b5"></span><span>Other</span><span class="legend-pct">10%</span></div>
                   </div>
                 </div>
               </div>
@@ -1986,44 +2164,36 @@
           <div style="padding: 0 16px 16px;">
             <div class="analytics-card" style="max-width:100%;">
               <div class="card-header">
-                <div class="card-header-meta">Q1, 2021 | Company Code: Palo Alto | Cost Center: Palo Alto | Days</div>
-                <div class="card-header-title">Average purchase request approval time</div>
+                <div class="card-header-meta">Q1, 2026 | Company Code: DE01 | Days</div>
+                <div class="card-header-title">Average invoice processing time</div>
               </div>
-              <div class="card-numeric"><span class="card-kpi">8.6</span></div>
+              <div class="card-numeric"><span class="card-kpi">3.2</span> <span class="card-kpi-unit">days</span></div>
               <div class="chart-area">
                 <svg width="100%" height="160" viewBox="0 0 560 140" preserveAspectRatio="xMinYMid meet" style="max-height:200px;display:block;">
-                  <!-- Grid lines -->
                   <line x1="52" y1="10" x2="540" y2="10" stroke="#e5e5e5" stroke-width="1"/>
                   <line x1="52" y1="45" x2="540" y2="45" stroke="#e5e5e5" stroke-width="1"/>
                   <line x1="52" y1="80" x2="540" y2="80" stroke="#e5e5e5" stroke-width="1"/>
                   <line x1="52" y1="115" x2="540" y2="115" stroke="#e5e5e5" stroke-width="1"/>
-                  <!-- Y labels -->
-                  <text x="0" y="14" font-size="11" fill="#92a2b5">15 days</text>
-                  <text x="0" y="49" font-size="11" fill="#92a2b5">10 days</text>
-                  <text x="4" y="84" font-size="11" fill="#92a2b5">5 days</text>
+                  <text x="0" y="14" font-size="11" fill="#92a2b5">8 days</text>
+                  <text x="0" y="49" font-size="11" fill="#92a2b5">5 days</text>
+                  <text x="4" y="84" font-size="11" fill="#92a2b5">3 days</text>
                   <text x="6" y="119" font-size="11" fill="#92a2b5">0 day</text>
-                  <!-- Baseline (5 days = y=80) horizontal reference -->
                   <line x1="52" y1="80" x2="540" y2="80" stroke="#0064d9" stroke-width="1.5" stroke-dasharray="none" opacity="0.3"/>
-                  <!-- Line: Jan(5)=80, Feb(7)=66, Mar(14)=24 -->
-                  <polyline points="130,80 296,66 462,24" fill="none" stroke="#0064d9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <!-- Points -->
-                  <circle cx="130" cy="80" r="5" fill="#0064d9"/>
+                  <polyline points="130,45 296,66 462,80" fill="none" stroke="#0064d9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="130" cy="45" r="5" fill="#0064d9"/>
                   <circle cx="296" cy="66" r="5" fill="#0064d9"/>
-                  <circle cx="462" cy="24" r="5" fill="#0064d9"/>
-                  <!-- Point labels -->
-                  <text x="122" y="72" font-size="11" font-weight="600" fill="#131e29">5</text>
-                  <text x="290" y="58" font-size="11" font-weight="600" fill="#131e29">7</text>
-                  <text x="456" y="16" font-size="11" font-weight="600" fill="#131e29">14</text>
-                  <!-- X axis -->
+                  <circle cx="462" cy="80" r="5" fill="#0064d9"/>
+                  <text x="122" y="37" font-size="11" font-weight="600" fill="#131e29">5.1</text>
+                  <text x="290" y="58" font-size="11" font-weight="600" fill="#131e29">4.2</text>
+                  <text x="456" y="72" font-size="11" font-weight="600" fill="#131e29">3.2</text>
                   <line x1="52" y1="116" x2="540" y2="116" stroke="#d9d9d9" stroke-width="1"/>
-                  <!-- X labels -->
                   <text x="126" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Jan</text>
                   <text x="296" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Feb</text>
                   <text x="466" y="132" font-size="11" fill="#92a2b5" text-anchor="middle">Mar</text>
                 </svg>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
                   <svg width="20" height="10" viewBox="0 0 20 10"><line x1="0" y1="5" x2="20" y2="5" stroke="#0064d9" stroke-width="2"/><circle cx="10" cy="5" r="3" fill="#0064d9"/></svg>
-                  <span style="font-size:12px;color:#556b82;">Approval Time</span>
+                  <span style="font-size:12px;color:#556b82;">Avg Processing Time (days)</span>
                 </div>
               </div>
             </div>
@@ -2049,67 +2219,67 @@
             <!-- Todo Card 1 -->
             <div class="todo-card">
               <div class="todo-card-header">
-                <div class="todo-card-title">Request Pending Approval</div>
+                <div class="todo-card-title">Duplicate Invoice Detected</div>
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-                  <span class="todo-card-sub">Isabelle Dupont</span>
-                  <span class="todo-overdue">2 days overdue</span>
+                  <span class="todo-card-sub">INV-2026-0891 · TechSupply GmbH</span>
+                  <span class="todo-overdue">Blocked</span>
                 </div>
               </div>
               <div class="todo-card-content">
                 <div class="todo-item">
                   <div class="highlight-bar highlight-red"></div>
                   <div class="todo-item-body">
-                    <div class="todo-item-text">Apple Macbook Pro 13" M2 Chip Processor Midnight Black</div>
-                    <div class="todo-item-amount">956.00 <span>USD</span></div>
+                    <div class="todo-item-text">Possible duplicate of INV-2026-0885 submitted 2 days ago</div>
+                    <div class="todo-item-amount">12,450.00 <span>EUR</span></div>
                   </div>
                 </div>
               </div>
               <div class="todo-card-footer">
-                <button class="btn-accept">Approve</button>
-                <button class="btn-reject">Reject</button>
+                <button class="btn-accept">Override & Process</button>
+                <button class="btn-reject">Mark Duplicate</button>
               </div>
             </div>
 
             <!-- Todo Card 2 -->
             <div class="todo-card">
               <div class="todo-card-header">
-                <div class="todo-card-title">Your Request was Rejected by Supplier</div>
-                <div style="margin-top:4px;"><span class="todo-card-sub">by Insight Direct</span></div>
+                <div class="todo-card-title">Tax Code Validation Error</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                  <span class="todo-card-sub">INV-2026-0892 · Globex Corp</span>
+                  <span class="todo-overdue">Action required</span>
+                </div>
               </div>
               <div class="todo-card-content">
                 <div class="todo-item">
-                  <div class="highlight-bar highlight-blue"></div>
+                  <div class="highlight-bar highlight-red"></div>
                   <div class="todo-item-body">
-                    <div class="expandable todo-item-text">Thank you for your order inquiry. Unfortunately, we are unable to fulfill your request due to the item being discontinued by our supplier.</div>
-                    <span class="show-more">Show More</span>
+                    <div class="todo-item-text">Tax code V1 used — contract requires V0 for EU vendors</div>
+                    <div class="todo-item-amount">8,920.00 <span>EUR</span></div>
                   </div>
                 </div>
               </div>
               <div class="todo-card-footer">
-                <button class="btn-secondary">Review</button>
+                <button class="btn-secondary">Fix with Joule</button>
               </div>
             </div>
 
             <!-- Todo Card 3 -->
             <div class="todo-card">
               <div class="todo-card-header">
-                <div class="todo-card-title">Did you receive this order?</div>
-                <div style="margin-top:4px;"><span class="todo-card-sub">by SAP Business AI</span></div>
+                <div class="todo-card-title">Missing Goods Receipt</div>
+                <div style="margin-top:4px;"><span class="todo-card-sub">INV-2026-0893 · ACME Supplies Ltd</span></div>
               </div>
               <div class="todo-card-content">
                 <div class="todo-item">
                   <div class="highlight-bar highlight-blue"></div>
                   <div class="todo-item-body">
-                    <div class="todo-item-text">USB-C to HDMI Cable (4K@60Hz) 6.6FT</div>
-                    <div class="label-value">
-                      <span class="label-text">Quantity Pending to Receive:</span>
-                      <span class="value-text">1 each</span>
-                    </div>
+                    <div class="todo-item-text">Goods receipt not found for PO-2024-44521</div>
+                    <div class="todo-item-amount">3,200.00 <span>EUR</span></div>
                   </div>
                 </div>
               </div>
               <div class="todo-card-footer">
-                <button class="btn-secondary">Receive Items</button>
+                <button class="btn-secondary">Create GR</button>
               </div>
             </div>
 
@@ -2123,11 +2293,11 @@
             <span class="ql-count">5 of 10</span>
           </div>
           <div class="ql-list">
-            <div class="ql-item">Shopping On Behalf Of</div>
-            <div class="ql-item">My Favorites</div>
-            <div class="ql-item">Create Guided Sourcing Request</div>
-            <div class="ql-item">Create Contract Request</div>
-            <div class="ql-item">Request a Non-Catalog Item</div>
+            <div class="ql-item">Upload Invoice</div>
+            <div class="ql-item">Invoice Inbox</div>
+            <div class="ql-item">Check Payment Terms</div>
+            <div class="ql-item">Create Credit Memo</div>
+            <div class="ql-item">View Exceptions Report</div>
             <div class="ql-more">More</div>
           </div>
         </div>
@@ -2149,7 +2319,7 @@
           <path d="M15.25 12.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Zm0-5.5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Zm0-5a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1 0-1.5h14.5Z" fill="white"/>
         </svg>
       </button>
-      <span class="joule-header-title" id="jouleTitle">Catalog Goods — Drills</span>
+      <span class="joule-header-title" id="jouleTitle">Invoice Intake — Overnight Exceptions</span>
     </div>
     <div class="joule-header-actions">
       <button class="joule-header-btn" aria-label="More options">
@@ -2169,22 +2339,74 @@
       </button>
     </div>
   </div>
+  <!-- Sidebar for conversation history -->
+  <div class="joule-sidebar" id="jouleSidebar">
+    <div class="joule-sidebar-header">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#5d36ff"/><text x="5" y="14" font-size="11" font-weight="700" fill="white">J</text></svg>
+      <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:700;color:#1d2d3e;">Joule</span>
+      <button class="joule-sidebar-search-btn" aria-label="Search conversations">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.5 11.5L14 14M10 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" stroke="#556b82" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <button class="joule-sidebar-new-btn" id="jouleSidebarNewBtn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="#1d2d3e" stroke-width="1.5" stroke-linecap="round"/></svg>
+      New Conversation
+    </button>
+    <div class="joule-sidebar-section">
+      <div class="joule-sidebar-section-header" id="sidebarActiveToggle">
+        <span>Active</span>
+        <span class="joule-sidebar-count">4/10</span>
+        <svg class="joule-sidebar-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="#556b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="joule-sidebar-items" id="sidebarActiveItems">
+        <div class="joule-sidebar-item active">
+          <div class="joule-sidebar-item-indicator"></div>
+          <span class="joule-sidebar-item-text">Overnight Invoice Deliveries ...</span>
+          <button class="joule-sidebar-item-more" aria-label="More options">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="#556b82"><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="11" cy="7" r="1.2"/></svg>
+          </button>
+        </div>
+        <div class="joule-sidebar-item">
+          <span class="joule-sidebar-item-text">Match Invoice and PO Terms</span>
+        </div>
+        <div class="joule-sidebar-item">
+          <span class="joule-sidebar-item-text">Invoices requiring attention today</span>
+        </div>
+        <div class="joule-sidebar-item">
+          <span class="joule-sidebar-item-text">Invoices requiring attention today</span>
+        </div>
+      </div>
+    </div>
+    <div class="joule-sidebar-section">
+      <div class="joule-sidebar-section-header" id="sidebarExpiredToggle">
+        <span>Expired</span>
+        <svg class="joule-sidebar-chevron collapsed" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="#556b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="joule-sidebar-items collapsed" id="sidebarExpiredItems">
+        <div class="joule-sidebar-item">
+          <span class="joule-sidebar-item-text">Q4 Invoice Reconciliation</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Chat Body -->
   <div class="joule-body" id="jouleBody">
     <div class="joule-chat-area" id="jouleChatArea">
 
       <div class="joule-timestamp"><strong>Today</strong> 9:14 AM</div>
 
-      <!-- ══ TURN 1 ═══════════════════════════════════════
-           Shown immediately on open. Joule asks for specs.
-      ═══════════════════════════════════════════════════ -->
-
-      <!-- User message (hidden until turn plays) -->
-      <div class="joule-msg-user" id="t1-user" style="display:none;">
-        <div class="joule-bubble-user">I need to order a bulk set of cordless drills for the new seating installation.</div>
+      <!-- ══ TURN 0 — User prompt ═════════════════════════ -->
+      <div id="turn-0" style="display:none;">
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user">What invoices do I need to pay attention to since last night?</div>
+        </div>
       </div>
 
-      <!-- Loading dots — shown briefly before Joule responds -->
+      <!-- ══ TURN 1 ═══════════════════════════════════════
+           AI response to user question — exception table.
+      ═══════════════════════════════════════════════════ -->
+
+      <!-- Loading dots — shown briefly before Joule's message -->
       <div class="joule-msg-ai joule-turn-loader" id="t1-dots" style="display:none;">
         <div class="joule-dots-bubble">
           <span class="jdot jdot-1"></span>
@@ -2193,29 +2415,112 @@
         </div>
       </div>
 
-      <!-- Inline spinner loader (Turn 1 — bare on white) -->
-      <div class="joule-msg-ai joule-turn-loader" id="t1-loader" style="display:none;">
-        <div class="joule-inline-loader" id="t1-inline-loader">
-          <span class="joule-inline-spinner"></span>
-          <span class="joule-inline-loader-text">Understanding context and gathering information</span>
+      <!-- Deep Analysis Loader for Turn 1 -->
+      <div class="joule-msg-ai" id="t1-analysis" style="display:none;">
+        <div class="deep-analysis-card">
+          <div class="deep-analysis-progress">
+            <div class="deep-analysis-progress-fill" id="t1-progress-fill"></div>
+            <div class="deep-analysis-progress-dot" id="t1-progress-dot"></div>
+          </div>
+          <div class="deep-analysis-step" data-step="0">
+            <span class="deep-analysis-step-text">Connecting to invoice management system</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
+          <div class="deep-analysis-step" data-step="1">
+            <span class="deep-analysis-step-text">Scanning overnight invoice deliveries</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
+          <div class="deep-analysis-step" data-step="2">
+            <span class="deep-analysis-step-text">Running validation &amp; exception detection</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
+          <div class="deep-analysis-step" data-step="3">
+            <span class="deep-analysis-step-text">Cross-referencing purchase orders</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
+          <div class="deep-analysis-step" data-step="4">
+            <span class="deep-analysis-step-text">Checking duplicate invoices &amp; goods receipts</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
+          <div class="deep-analysis-step" data-step="5">
+            <span class="deep-analysis-step-text">Generating summary report</span>
+            <span class="deep-analysis-step-chevron">›</span>
+          </div>
         </div>
       </div>
 
-      <!-- Joule response -->
-      <div class="joule-msg-ai joule-turn-response" id="t1-response" style="display:none;">
-        <div class="joule-bubble-ai">Hi Fabian! I can help with that — you need cordless drills for a seating installation. A couple of quick questions to find the right match:<br><br>1. What type of drills do you need? (e.g., hammer drill, standard)<br>2. Any specific requirements? (chuck size, voltage)</div>
+      <!-- Joule proactive message -->
+      <div class="joule-msg-ai joule-turn-response full-width" id="t1-response" style="display:none;">
+        <div class="joule-bubble-ai" style="display:block; width:100%;">
+          Perfect! Here's a summary of the <strong>20 invoices</strong> that arrived today (April 21, 2026):
+
+          <h3 style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:18px;font-weight:700;color:#1d2d3e;margin:16px 0 8px 0;">Overnight Deliveries - Summary</h3>
+
+          <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#1d2d3e;margin:0 0 6px 0;">Key Statistics:</p>
+          <ul style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0 0 12px 0;padding-left:20px;line-height:1.7;">
+            <li><strong>Total Invoices:</strong> 20</li>
+            <li><strong>Total Amount:</strong> €5,690.30 + Other currencies</li>
+            <li><strong>Status Breakdown:</strong>
+              <ul style="padding-left:18px;margin:4px 0 0 0;list-style-type:circle;color:#556b82;">
+                <li><strong style="color:#1d2d3e;">ADJUST:</strong> 14 invoices (awaiting adjustments)</li>
+                <li><strong style="color:#1d2d3e;">CANCELLED:</strong> 2 invoices</li>
+                <li><strong style="color:#1d2d3e;">DOX:</strong> 1 invoice (document extraction processing)</li>
+                <li><strong style="color:#1d2d3e;">BLOCKED:</strong> 1 invoice</li>
+                <li><strong style="color:#1d2d3e;">Other:</strong> 2 invoices</li>
+              </ul>
+            </li>
+          </ul>
+
+          <div class="stream-section">
+          I found <strong>2 exceptions</strong> that need your attention before processing:
+          <table class="joule-exception-table">
+            <thead>
+              <tr><th>Invoice ID</th><th>Amount</th><th>Supplier</th><th>Issue</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" class="joule-invoice-link" data-invoice="INV-2026-0891">INV-2026-0891</a></td>
+                <td>€12,450.00</td>
+                <td>TechSupply GmbH</td>
+                <td>Potential duplicate invoice</td>
+              </tr>
+              <tr>
+                <td><a href="#" class="joule-invoice-link" data-invoice="INV-2026-0892">INV-2026-0892</a></td>
+                <td>€8,920.00</td>
+                <td>Globex Corp</td>
+                <td>Invoice missing goods receipt</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="stream-section quick-actions-box">
+            <div class="qa-header">📋 QUICK ACTIONS</div>
+            <div class="qa-option-title">Option 1: Solve Invoice 0891 (Duplicate)</div>
+            <ul><li>Would you like me to investigate the potential duplicate invoice INV-2026-0891 and compare it against existing records?</li></ul>
+            <div class="qa-option-title">Option 2: Solve Invoice 0892 (Missing GR)</div>
+            <ul><li>Would you like me to look into the missing goods receipt for INV-2026-0892 and identify next steps?</li></ul>
+            <div class="qa-prompt">Which would you like to prioritize?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solve buttons after T1 table -->
+      <div class="joule-suggestions" id="t1-chips" style="display:none;">
+        <button class="joule-chip joule-chip-solve" id="chip-solve-0891" data-invoice="INV-2026-0891">Solve Invoice 0891</button>
+        <button class="joule-chip joule-chip-solve" id="chip-solve-0892" data-invoice="INV-2026-0892">Solve Invoice 0892</button>
       </div>
 
       <!-- ══ TURN 2 ═══════════════════════════════════════
-           User gives specs → full explainability loader → results card
+           "Solve Invoice 0891" → comparison table
       ═══════════════════════════════════════════════════ -->
       <div id="turn-2" style="display:none;">
 
         <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t2-user-text">Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.</div>
+          <div class="joule-bubble-user">Solve Invoice 0891</div>
         </div>
 
-        <!-- Loading dots before the big loader -->
+        <!-- Loading dots -->
         <div class="joule-msg-ai joule-turn-loader" id="t2-dots">
           <div class="joule-dots-bubble">
             <span class="jdot jdot-1"></span>
@@ -2224,705 +2529,396 @@
           </div>
         </div>
 
-        <!-- Full explainability loader (shown after skeleton) -->
-        <div class="joule-msg-ai joule-turn-loader full-width" id="t2-loader" style="display:none;">
+        <!-- Deep Analysis Loader -->
+        <div class="joule-msg-ai" id="t2-analysis" style="display:none;">
+          <div class="deep-analysis-card">
+            <div class="deep-analysis-progress">
+              <div class="deep-analysis-progress-fill" id="t2-progress-fill"></div>
+              <div class="deep-analysis-progress-dot" id="t2-progress-dot"></div>
+            </div>
+            <div class="deep-analysis-step" data-step="0">
+              <span class="deep-analysis-step-text">Invoice header extraction &amp; validation</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+            <div class="deep-analysis-step" data-step="1">
+              <span class="deep-analysis-step-text">Duplicate detection &amp; cross-referencing</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+            <div class="deep-analysis-step" data-step="2">
+              <span class="deep-analysis-step-text">Purchase order &amp; line item matching</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+            <div class="deep-analysis-step" data-step="3">
+              <span class="deep-analysis-step-text">Goods receipt verification</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+            <div class="deep-analysis-step" data-step="4">
+              <span class="deep-analysis-step-text">Amount &amp; payment terms analysis</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+            <div class="deep-analysis-step" data-step="5">
+              <span class="deep-analysis-step-text">Generating comparison report</span>
+              <span class="deep-analysis-step-chevron">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Joule intro text + Comparison Table inside one bubble -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t2-response" style="display:none;">
+          <div class="joule-bubble-ai" style="display:block;width:100%;">
+            <strong>INV-2026-0891</strong> is flagged as a <strong>potential duplicate</strong> of <strong>INV-2026-0885</strong>. Here's a side-by-side comparison:
+            <div class="stream-section">
+            <table class="joule-exception-table" style="margin-top:12px;">
+              <thead>
+                <tr>
+                  <th style="width:25%;background:#f8f9fa;">Field</th>
+                  <th style="width:37.5%;background:#f8f9fa;"><a href="#" class="joule-invoice-link" style="font-weight:700;font-size:14px;">INV-2026-0891</a></th>
+                  <th style="width:37.5%;background:#f8f9fa;"><a href="#" class="joule-invoice-link" style="font-weight:700;font-size:14px;">INV-2026-0885</a></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">Supplier</td>
+                  <td>TechSupply GmbH</td>
+                  <td>TechSupply GmbH</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">Amount</td>
+                  <td style="font-weight:700;">€12,450.00</td>
+                  <td style="font-weight:700;">€12,450.00</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">PO Number</td>
+                  <td>PO-2024-44210</td>
+                  <td>PO-2024-44210</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">Invoice Date</td>
+                  <td style="color:#aa0808;font-weight:700;">2026-04-19</td>
+                  <td>2026-04-17</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">Received</td>
+                  <td>Today</td>
+                  <td>2 days ago</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">Status</td>
+                  <td><span style="display:inline-block;font-size:12px;font-weight:700;color:#aa0808;background:#fcc4c4;border-radius:100px;padding:4px 12px;">Blocked</span></td>
+                  <td><span style="display:inline-block;font-size:12px;font-weight:700;color:#107e3e;background:#dff5e0;border-radius:100px;padding:4px 12px;">Processed</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;color:#1d2d3e;">GR Confirmed</td>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+          <div class="stream-section quick-actions-box">
+            <div class="qa-header">📋 QUICK ACTIONS</div>
+            <div class="qa-option-title">Option 1: Reject INV-2026-0891</div>
+            <ul><li>This invoice appears to be a duplicate of an already-processed invoice. Would you like me to reject it and notify the supplier?</li></ul>
+            <div class="qa-option-title">Option 2: Accept INV-2026-0891</div>
+            <ul><li>If you believe this is a valid separate invoice despite the date discrepancy, I can unblock it and move it to the processing queue.</li></ul>
+            <div class="qa-prompt">Which action would you like to take?</div>
+          </div>
+        </div>
+
+        <!-- Accept / Reject chips after comparison table -->
+        <div class="joule-suggestions" id="t2-chips" style="display:none;">
+          <button class="joule-chip" id="chip-reject-0891">Reject INV-2026-0891</button>
+          <button class="joule-chip" id="chip-accept-0891">Accept INV-2026-0891</button>
+        </div>
+
+      </div><!-- /turn-2 -->
+
+      <!-- ══ TURN 3 ═══════════════════════════════════════
+           "Fix Validation Error" → explainability loader → fix proposal card
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-3" style="display:none;flex-direction:column;gap:16px;">
+
+        <div class="joule-msg-user" style="align-self:flex-end;">
+          <div class="joule-bubble-user">Fix Validation Error — INV-2026-0892</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t3-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- Explainability loader — 3 steps -->
+        <div class="joule-msg-ai joule-turn-loader full-width" id="t3-loader" style="display:none;">
           <div class="joule-loader">
             <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
             <div class="joule-loader-step pending">
               <div class="joule-loader-step-header">
                 <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Understanding context and gathering information</span>
+                <span class="joule-loader-step-label">Fetching invoice details and validation rules</span>
                 <span class="joule-loader-step-chevron">›</span>
               </div>
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Heavy-duty hammer drills · Chuck: 1/2-inch · Voltage: 18V or 20V · Use: Stadium seating installation</div>
-                  <div class="joule-detail-substep">Type: Goods</div>
-                  <div class="joule-detail-substep">Region: North America · Business Unit: IT</div>
-                </div>
+                <div class="joule-detail-substep">Retrieved INV-2026-0892 from Globex Corp · €8,920.00</div>
+                <div class="joule-detail-substep">Loaded contract PO-2024-44481 validation rules</div>
               </div>
             </div>
             <div class="joule-loader-step pending">
               <div class="joule-loader-step-header">
                 <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Classifying request attributes</span>
+                <span class="joule-loader-step-label">Identifying tax code mismatch (V1 → V0)</span>
                 <span class="joule-loader-step-chevron">›</span>
               </div>
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Commodity: Power Tools → Heavy-Duty Hammer Drills ✓</div>
-                </div>
+                <div class="joule-detail-substep">Tax code V1 detected on invoice line items</div>
+                <div class="joule-detail-substep">Finance policy: EU vendors require V0 per directive 2024-AP-112</div>
               </div>
             </div>
             <div class="joule-loader-step pending">
               <div class="joule-loader-step-header">
                 <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Looking up past requisitions</span>
+                <span class="joule-loader-step-label">Preparing automated fix proposal</span>
                 <span class="joule-loader-step-chevron">›</span>
               </div>
               <div class="joule-loader-detail">
                 <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">3 similar past purchases found</div>
-                  <div class="joule-detail-substep">Last ordered: October 2025 — Safford Equipment</div>
+                <div class="joule-detail-substep">Fix: Replace tax code V1 with V0 on all 4 line items</div>
+                <div class="joule-detail-substep">Change will not affect invoice total — tax recalculation included</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoice fix proposal card -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t3-fix-card" style="display:none;">
+          <div style="background:#fff;border-radius:12px;box-shadow:0px 0px 2px 0px rgba(34,54,73,0.2),0px 2px 4px 0px rgba(34,54,73,0.2);overflow:hidden;width:100%;max-width:420px;">
+            <!-- Card header -->
+            <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #ededed;">
+              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#1d2d3e;">Tax Code Fix — INV-2026-0892</span>
+              <span style="margin-left:auto;font-size:12px;font-weight:700;color:#E8710A;background:#FEF0D9;border-radius:100px;padding:2px 10px;">Validation Error</span>
+            </div>
+            <!-- Details grid -->
+            <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Supplier</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;font-weight:600;">Globex Corp</p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Amount</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;font-weight:600;">€8,920.00</p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">PO Reference</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#0064d9;margin:0;">PO-2024-44481</p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Vendor Region</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">EU (Germany)</p></div>
+              </div>
+              <!-- Fix proposal row -->
+              <div style="background:#fffbf0;border:1px solid #f5c842;border-radius:8px;padding:10px 14px;">
+                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 6px 0;">Proposed fix</p>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#aa0808;background:#fcc4c4;border-radius:4px;padding:2px 8px;">V1</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#556b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#107e3e;background:#bae8bc;border-radius:4px;padding:2px 8px;">V0</span>
+                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin-left:4px;">on 4 line items</span>
                 </div>
+                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:6px 0 0 0;">EU standard per finance policy directive 2024-AP-112. Invoice total unchanged.</p>
               </div>
             </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Selecting policy</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Selecting the applicable procurement policy based on commodity type and purchase value</div>
-                  <div class="joule-detail-substep">Policy: Facilities Construction Equipment</div>
-                  <div class="joule-detail-substep">Preferred channel: Catalog buying</div>
-                  <div class="joule-detail-section">
-                    <div class="joule-detail-section-label">Source</div>
-                    <div class="joule-detail-evidence">
-                      <div class="joule-detail-favicon">📄</div>
-                      <a class="joule-detail-link" href="#">Facilities_Procurement_Policy_2026.pdf</a>
-                    </div>
-                  </div>
-                  <div class="joule-detail-section">
-                    <div class="joule-detail-section-label">Agent</div>
-                    <div class="joule-detail-evidence">
-                      <div class="joule-detail-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="#0070f2"><circle cx="6" cy="3.5" r="2"/><path d="M10 9.5c0-2.2-1.8-4-4-4s-4 1.8-4 4"/></svg>
-                      </div>
-                      <span style="font-size:14px;color:#131e29;font-weight:400;">Process Orchestration Agent</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="none" style="margin-left:4px;flex-shrink:0;"><circle cx="8" cy="8" r="7" stroke="#8c8c8c" stroke-width="1.2"/><path d="M5 8l2 2 4-4" stroke="#8c8c8c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Classifying your Request's Business Process</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Catalog Goods Purchase Requisition → Route to Catalog Buying</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Searching all available sources</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Internal Catalog: 1 item found</div>
-                  <div class="joule-detail-substep">Business Network: 2 items found</div>
-                  <div class="joule-detail-substep">L2 Punchout (Amazon Business, Unite): 2 items found</div>
-                  <div class="joule-detail-substep">Total: 5 options aggregated</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Checking contract coverage</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">DEWALT 20V MAX XR (Safford): Contract pricing applied</div>
-                  <div class="joule-detail-substep">Milwaukee M18 (City Electric): On Contract for Category</div>
-                  <div class="joule-detail-substep">Makita, DCD998W1, Hilti: Non-contracted</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Verifying supplier status</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Safford Equipment: Preferred Supplier</div>
-                  <div class="joule-detail-substep">City Electric Supply: Qualified Supplier</div>
-                  <div class="joule-detail-substep">Others: Non-preferred</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Ranking items found</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">5 options ranked by contract status and supplier preference</div>
-                </div>
-              </div>
+            <!-- Action buttons -->
+            <div style="display:flex;gap:8px;padding:0 16px 16px;">
+              <button class="btn-apply-fix" style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid #5d36ff;background:#5d36ff;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#fff;cursor:pointer;font-weight:700;">Apply Fix</button>
+              <button style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid #bcc3ca;background:#fff;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;cursor:pointer;">Skip</button>
             </div>
           </div>
         </div>
 
-        <div class="joule-msg-ai joule-turn-response" id="t2-response" style="display:none;">
-          <div class="joule-bubble-ai">Here are the top 5 options available</div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response full-width" id="t2-card" style="display:none;">
-
-          <!-- Card 1 — Recommended -->
-          <div class="jrc-item" style="display:none;">
-            <div class="jrc-card-header">
-              <div class="jrc-product-img">
-                <img src="images/Picture1.jpg" alt="DEWALT 20V MAX XR Hammer Drill Kit" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
-              </div>
-              <div class="jrc-card-header-meta">
-                <div class="jrc-date-tag-row">
-                  <span class="jrc-recommended-badge">Recommended</span>
-                  <span class="jrc-preferred-supplier-badge">Preferred Supplier</span>
-                  <span class="jrc-date-tag">Requested on 10/07/2025</span>
-                </div>
-                <div class="jrc-item-name bold">DEWALT 20V MAX XR Hammer Drill Kit dcd996p2</div>
-              </div>
-            </div>
-            <div class="jrc-card-body">
-              <div class="jrc-item-supplier">Safford Equipment</div>
-              <div class="jrc-price-row">
-                <span class="jrc-price-amount">369.95</span>
-                <span class="jrc-price-currency">USD</span>
-                <span class="jrc-price-unit">/ Item</span>
-              </div>
-              <div class="jrc-contract-row">
-                <span class="jrc-contract-icon">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#131e29" stroke-width="1.2"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#131e29" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                Contract Item
-              </div>
-              <div class="jrc-attrs">
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">DCD996P2</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">2 days</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Policy:</span><span class="jrc-attr-value blue"># Buying Guidelines</span></div>
-              </div>
-            </div>
-            <div class="jrc-add-btn"><button data-prefill="Proceed with Preferred DEWALT">Add to Cart</button></div>
-          </div>
-
-
-          <!-- Card 2 -->
-          <div class="jrc-item" style="display:none;">
-            <div class="jrc-card-header">
-              <div class="jrc-product-img">
-                <img src="images/Mil.jpg" alt="Milwaukee Tool M18 FUEL Hammer Drill/Driver Kit" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
-              </div>
-              <div class="jrc-card-header-meta">
-                <div class="jrc-date-tag-row">
-                  <span class="jrc-qualified-badge">Qualified Supplier</span>
-                </div>
-                <div class="jrc-item-name">Milwaukee Tool M18 FUEL 1/2" Hammer Drill/Driver Kit</div>
-              </div>
-            </div>
-            <div class="jrc-card-body">
-              <div class="jrc-item-supplier">City Electric Supply</div>
-              <div class="jrc-price-row">
-                <span class="jrc-price-amount">343.00</span>
-                <span class="jrc-price-currency">USD</span>
-                <span class="jrc-price-unit">/ Item</span>
-              </div>
-              <div class="jrc-contract-row">
-                <span class="jrc-contract-icon">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="#131e29" stroke-width="1.2"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#131e29" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                Contract Item
-              </div>
-              <div class="jrc-attrs">
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">2904P-22</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">3–5 days</span></div>
-              </div>
-            </div>
-            <div class="jrc-add-btn"><button data-prefill="Select Milwaukee M18 FUEL">Add to Cart</button></div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="jrc-item" style="display:none;">
-            <div class="jrc-card-header">
-              <div class="jrc-product-img">
-                <img src="images/Makita.jpg" alt="Makita XPH14Z 18V LXT Hammer Drill/Driver" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
-              </div>
-              <div class="jrc-card-header-meta">
-                <div class="jrc-item-name">Makita XPH14Z 18V LXT Lithium-Ion Brushless Cordless 1/2" Hammer Drill/Driver</div>
-              </div>
-            </div>
-            <div class="jrc-card-body">
-              <div class="jrc-item-supplier">anglerdistrictusa</div>
-              <div class="jrc-price-row">
-                <span class="jrc-price-amount">206.62</span>
-                <span class="jrc-price-currency">USD</span>
-                <span class="jrc-price-unit">/ Item</span>
-              </div>
-              <div class="jrc-attrs">
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">XPH14Z</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Availability:</span><span class="jrc-attr-value green">In Stock</span></div>
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Lead Time:</span><span class="jrc-attr-value">5–7 days</span></div>
-              </div>
-            </div>
-            <div class="jrc-add-btn"><button data-prefill="Select Makita XPH14Z">Add to Cart</button></div>
-          </div>
-
-          <div class="jrc-section-label">Available From Supplier Sites</div>
-
-          <!-- Card 4 -->
-          <div class="jrc-item" style="display:none;">
-            <div class="jrc-card-header">
-              <div class="jrc-product-img">
-                <img src="images/DC.jpg" alt="DCD998W1 DEWALT 20V Max XR" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
-              </div>
-              <div class="jrc-card-header-meta">
-                <div class="jrc-item-name">DCD998W1 DEWALT 20V Max XR</div>
-              </div>
-            </div>
-            <div class="jrc-card-body">
-              <div class="jrc-item-supplier">The Power Tool Store</div>
-              <div class="jrc-price-row">
-                <span class="jrc-price-amount">329.00</span>
-                <span class="jrc-price-currency">USD</span>
-                <span class="jrc-price-unit">/ Item</span>
-              </div>
-              <div class="jrc-attrs">
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">DCD998W1</span></div>
-              </div>
-            </div>
-            <div class="jrc-add-btn"><button data-prefill="Select DCD998W1">View Item from Supplier</button></div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="jrc-item" style="display:none;">
-            <div class="jrc-card-header">
-              <div class="jrc-product-img">
-                <img src="images/Hilti.jpg" alt="Hilti Sf 6h-a22 Cordless Hammer Drill" style="width:59px;height:59px;object-fit:cover;border-radius:12px;display:block;" />
-              </div>
-              <div class="jrc-card-header-meta">
-                <div class="jrc-item-name">Hilti Sf 6h-a22 Cordless Hammer Drill</div>
-              </div>
-            </div>
-            <div class="jrc-card-body">
-              <div class="jrc-item-supplier">102_store</div>
-              <div class="jrc-price-row">
-                <span class="jrc-price-amount">359.00</span>
-                <span class="jrc-price-currency">USD</span>
-                <span class="jrc-price-unit">/ Item</span>
-              </div>
-              <div class="jrc-attrs">
-                <div class="jrc-attr-row"><span class="jrc-attr-label">Supplier Part ID:</span><span class="jrc-attr-value">SF 6H-A22</span></div>
-              </div>
-            </div>
-            <div class="jrc-add-btn"><button data-prefill="Select Hilti SF 6H-A22">View Item from Supplier</button></div>
-          </div>
-
-        </div>
-
-        <!-- Dots loader before the recommendation bubble -->
-        <div class="joule-msg-ai joule-turn-loader" id="t2-question-dots" style="display:none;">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t2-question" style="display:none;">
-          <div class="joule-bubble-ai">I recommend the DEWALT 20V MAX XR from Safford Equipment — your preferred supplier (maximum compliance, guaranteed fast shipping, and pre-negotiated enterprise warranties) on contract. It was also previously requested by your department.<br><br>Which would you like to proceed with?</div>
-          <div class="joule-suggestions">
-            <button class="joule-chip" data-prefill="Proceed with Preferred DEWALT">Proceed with Preferred DEWALT</button>
-            <button class="joule-chip" data-prefill="Compare options">Compare options</button>
-            <button class="joule-chip" data-prefill="See more options">See more options</button>
-          </div>
-        </div>
-
-      </div><!-- /turn-2 -->
-
-      <!-- ══ TURN 2b ══════════════════════════════════════
-           User clicks Proceed with Preferred DEWALT → Joule asks quantity
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-2b" style="display:none;">
-
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t2b-user-text">Proceed with Preferred DEWALT</div>
-        </div>
-
-        <!-- Loading dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t2b-loader" style="display:none;">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <!-- Circle loader: Identifying required fields -->
-        <div class="joule-msg-ai" id="t2b-circle-loader" style="display:none;align-items:center;gap:10px;padding:4px 0;">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;animation:spin 0.9s linear infinite;">
-            <circle cx="9" cy="9" r="7" stroke="#e0d9ff" stroke-width="2.5"/>
-            <path d="M9 2a7 7 0 0 1 7 7" stroke="#5d36ff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Identifying required fields</span>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t2b-response" style="display:none;">
-          <div class="joule-bubble-ai">Got it — going with the DEWALT. Two quick things:<br><br>1. How many units do you need?<br>2. When do you need them delivered?</div>
-        </div>
-
-      </div><!-- /turn-2b -->
-
-      <!-- ══ TURN 3 ═══════════════════════════════════════
-           User gives quantity + batteries
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-3" style="display:none;">
-
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user" id="t3-user-text">8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock</div>
-        </div>
-
-        <!-- Loading dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t3-loader" style="display:none;">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <div class="joule-msg-ai joule-turn-response" id="t3-response" style="display:none;">
-          <div class="joule-bubble-ai">On it! Adding the DEWALT drill kits. Let me check on the batteries.</div>
+        <!-- Action chips after Turn 3 response -->
+        <div class="joule-suggestions" id="t3-chips" style="display:none;">
+          <button class="joule-chip joule-chip-solve" id="chip-solve-0892-t3">Solve Invoice 0892 (Missing Goods Receipt)</button>
+          <button class="joule-chip" id="chip-review-all">Review All Invoices with Exceptions</button>
         </div>
 
       </div><!-- /turn-3 -->
 
-      <div id="turn-4" style="display:none;">
-        <div class="joule-msg-ai joule-turn-loader" id="t4-loader">
+      <!-- ══ TURN 3B — Solve Invoice 0892 (Missing Goods Receipt) ══ -->
+      <div id="turn-3b" style="display:none;flex-direction:column;gap:16px;">
+
+        <div class="joule-msg-user" style="align-self:flex-end;">
+          <div class="joule-bubble-user">Solve Invoice 0892 (Missing Goods Receipt)</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t3b-dots">
           <div class="joule-dots-bubble">
             <span class="jdot jdot-1"></span>
             <span class="jdot jdot-2"></span>
             <span class="jdot jdot-3"></span>
           </div>
         </div>
-        <!-- Circle loader: Identifying required fields -->
+
+        <!-- AI explanation response -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t3b-response" style="display:none;">
+          <div class="joule-bubble-ai" style="display:block;width:100%;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#e76500"/><path d="M12 7v6M12 16h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <strong style="color:#e76500;">Missing Goods Receipt</strong>
+            </div>
+            <p style="margin:0 0 10px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;line-height:1.5;">
+              <strong>INV-2026-0892</strong> from <strong>Hilti Corporation</strong> cannot be processed because <strong>no Goods Receipt (GR)</strong> has been posted against the referenced Purchase Order. The invoice amount of <strong>€12,400.00</strong> requires a matching GR before three-way matching can complete.
+            </p>
+
+            <!-- Related PO Information Card -->
+            <div class="stream-section" style="background:#ffffff;border-radius:16px;padding:20px;margin-bottom:12px;border:1px solid #e4e4e4;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+              <!-- Card Header -->
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                <div style="width:44px;height:44px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#2e7d32" stroke-width="1.8"/><path d="M8 7h8M8 11h8M8 15h5" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </div>
+                <div style="flex:1;">
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:700;color:#1d2d3e;">PO#2026-4500</p>
+                  <p style="margin:2px 0 0 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">On: Apr 10, 2026 • Hilti Corporation</p>
+                  <p style="margin:2px 0 0 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#1d2d3e;">12,400.00 EUR</p>
+                </div>
+              </div>
+
+              <!-- Section Title -->
+              <p style="margin:0 0 16px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1d2d3e;">Purchase Order Details</p>
+
+              <!-- Label-Value Pairs -->
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Invoice ID</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">INV-2026-0892</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Invoice Number</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">0892</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Status</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#aa0808;">Blocked — Missing Goods Receipt</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Supplier</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Hilti Corporation</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:11px;color:#556b82;">Preferred Vendor</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Receiver</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">John Miller — Warehouse Ops</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Total Amount</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">€12,400.00</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Tax Amount</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">€2,356.00</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Issue Date</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Apr 18, 2026</p>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #e4e4e4;">
+                <button onclick="document.getElementById('chip-contact-receiver').click();" style="background:none;border:1px solid #0070f2;color:#0070f2;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;padding:8px 24px;border-radius:8px;cursor:pointer;width:80%;text-align:center;">Contact Receiver</button>
+                <button style="background:none;border:1px solid #0070f2;color:#0070f2;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;padding:8px 24px;border-radius:8px;cursor:pointer;width:80%;text-align:center;">Post Goods Receipt</button>
+              </div>
+            </div>
+
+            <div class="stream-section">
+            <p style="margin:0 0 4px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;line-height:1.5;">
+              The goods were expected on <strong>Apr 10, 2026</strong> but no receipt has been confirmed. Contact the receiver to verify delivery status and post the Goods Receipt.
+            </p>
+            </div>
+
+            <div class="stream-section quick-actions-box">
+              <div class="qa-header">📋 QUICK ACTIONS</div>
+              <div class="qa-option-title">Option 1: Contact Receiver</div>
+              <ul><li>Would you like me to send a notification to John Miller (Warehouse Ops) requesting confirmation of the goods delivery and posting of the Goods Receipt?</li></ul>
+              <div class="qa-prompt">Would you like to proceed?</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action chips after Turn 3b response -->
+        <div class="joule-suggestions" id="t3b-chips" style="display:none;">
+          <button class="joule-chip" id="chip-contact-receiver">Contact Receiver</button>
+          <button class="joule-chip" id="chip-post-goods-receipt">Post Goods Receipt</button>
+        </div>
+
+      </div><!-- /turn-3b -->
+
+      <!-- ══ TURN 4 ═══════════════════════════════════════
+           "Apply Fix" → circle loader → green confirmation card
+      ═══════════════════════════════════════════════════ -->
+      <div id="turn-4" style="display:none;">
+
+        <div class="joule-msg-user">
+          <div class="joule-bubble-user">Apply Fix</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t4-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- Circle loader -->
         <div class="joule-msg-ai" id="t4-circle-loader" style="display:none;align-items:center;gap:10px;padding:4px 0;">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;animation:spin 0.9s linear infinite;">
             <circle cx="9" cy="9" r="7" stroke="#e0d9ff" stroke-width="2.5"/>
             <path d="M9 2a7 7 0 0 1 7 7" stroke="#5d36ff" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
-          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Identifying required fields</span>
+          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Applying tax code correction…</span>
         </div>
-        <div class="joule-msg-ai joule-turn-response" id="t4-response" style="display:none;">
-          <div class="joule-bubble-ai">Found a matching DEWALT 20V MAX battery from Safford Equipment. Adding 16 packs (2 per unit) — same contract, and keeps your enterprise warranty intact.</div>
+
+        <!-- Green confirmation card -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t4-success-card" style="display:none;">
+          <div style="background:#fff;border-radius:12px;box-shadow:0px 0px 2px 0px rgba(34,54,73,0.2),0px 2px 4px 0px rgba(34,54,73,0.2);overflow:hidden;width:100%;max-width:420px;">
+            <!-- Green header stripe -->
+            <div style="background:linear-gradient(135deg,#107e3e,#0d6632);padding:16px;display:flex;align-items:center;gap:12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.2)"/><path d="M7 12l3.5 3.5L17 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:700;color:#fff;">Invoice Validated</span>
+            </div>
+            <!-- Details -->
+            <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Invoice</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;font-weight:600;">INV-2026-0892</p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Tax Code Fixed</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;margin:0;"><span style="color:#aa0808;font-weight:700;">V1</span> → <span style="color:#107e3e;font-weight:700;">V0</span></p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Status</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#107e3e;margin:0;font-weight:600;">In processing queue</p></div>
+                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:12px;color:#556b82;margin:0 0 2px 0;">Expected Payment</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Within 30 days (Net 30)</p></div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Follow-up bubble -->
+        <div class="joule-msg-ai" id="t4-followup" style="display:none;">
+          <div class="joule-bubble-ai">Done! INV-2026-0892 is now validated and in the processing queue. <strong>2 exceptions remain</strong> — the duplicate and the missing GR.
+
+            <div class="stream-section quick-actions-box">
+              <div class="qa-header">📋 QUICK ACTIONS</div>
+              <div class="qa-option-title">Option 1: Handle Next Exception</div>
+              <ul><li>Would you like me to investigate and resolve the next invoice exception in the queue?</li></ul>
+              <div class="qa-option-title">Option 2: View All Invoices</div>
+              <ul><li>Would you like to see a full overview of all overnight invoices and their current statuses?</li></ul>
+              <div class="qa-prompt">Which would you like to do next?</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action chips -->
+        <div class="joule-suggestions" id="t4-chips" style="display:none;">
+          <button class="joule-chip">Handle next exception</button>
+          <button class="joule-chip">View all invoices</button>
+        </div>
+
       </div><!-- /turn-4 -->
-
-      <!-- ══ TURN 5 ═══════════════════════════════════════
-           System processing card — cart created
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-5" style="display:none;">
-        <!-- Circle loader: Checking policies -->
-        <div class="joule-msg-ai" id="t5-circle-loader" style="display:none;align-items:center;gap:10px;padding:4px 0;">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;animation:spin 0.9s linear infinite;">
-            <circle cx="9" cy="9" r="7" stroke="#e0d9ff" stroke-width="2.5"/>
-            <path d="M9 2a7 7 0 0 1 7 7" stroke="#5d36ff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Checking policies</span>
-        </div>
-        <!-- Explainability loader: policy steps -->
-        <div class="joule-msg-ai joule-turn-loader full-width" id="t5-loader" style="display:none;">
-          <div class="joule-loader">
-            <div class="joule-loader-bar-wrap"><div class="joule-loader-bar"></div></div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Accounting, Billing, Shipping</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Auto-filled from your profile</div>
-                </div>
-              </div>
-            </div>
-            <div class="joule-loader-step pending">
-              <div class="joule-loader-step-header">
-                <span class="joule-loader-dot"><span class="sd"></span><span class="sd"></span><span class="sd"></span></span>
-                <span class="joule-loader-step-label">Comprehensive policy check</span>
-                <span class="joule-loader-step-chevron">›</span>
-              </div>
-              <div class="joule-loader-detail">
-                <div class="joule-loader-detail-line"></div>
-                <div class="joule-loader-detail-body">
-                  <div class="joule-detail-substep">Policy triggered: Budget threshold exceeded</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="joule-msg-ai joule-turn-response full-width" id="t5-response" style="display:none;">
-
-          <!-- Single Cart Card — both items -->
-          <div style="background:#fff;border-radius:12px;box-shadow:0px 0px 2px 0px rgba(34,54,73,0.2),0px 2px 4px 0px rgba(34,54,73,0.2);overflow:hidden;margin-bottom:8px;">
-
-            <!-- Toolbar -->
-            <div style="display:flex;align-items:center;padding:0 8px;height:44px;border-bottom:1px solid #d9d9d9;background:#fff;">
-              <img src="https://www.figma.com/api/mcp/asset/a06a695e-5770-465c-ba37-3dcc1c165a1f" alt="cart" style="width:16px;height:16px;object-fit:contain;margin-right:6px;flex-shrink:0;" /><span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Your cart</span>
-              <div style="flex:1;"></div>
-              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">2 items</span>
-            </div>
-
-            <!-- Item 1 — DEWALT Drill Kit -->
-            <div style="padding:12px 16px 4px 16px;">
-              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">#1</span>
-            </div>
-            <div style="padding:4px 16px 12px;display:flex;flex-direction:column;gap:8px;">
-              <!-- Image + title stacked -->
-              <div style="display:flex;gap:12px;align-items:flex-start;">
-                <img src="images/Picture1.jpg" alt="DEWALT 20V MAX XR" style="width:56px;height:56px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
-                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1a2733;margin:0;line-height:1.35;">DEWALT 20V MAX XR Hammer Drill Kit DCD996P2</p>
-              </div>
-              <!-- Attribute line 1 — wraps -->
-              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#131e29;">
-                <span>Safford Equipment</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Supplier Part ID:</span><span>DCD996P2</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
-              </div>
-              <!-- Attribute line 2 — wraps -->
-              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;">
-                <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">369.95 USD</span>
-              </div>
-              <!-- Price -->
-              <div style="display:flex;align-items:baseline;gap:4px;">
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">2,959.60</span>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
-              </div>
-              <!-- Quantity -->
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
-                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">8</span>
-                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
-                </div>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
-              </div>
-            </div>
-            <!-- Justification Policy table -->
-            <div style="padding:12px 16px 0 16px;">
-              <table style="width:100%;border-collapse:collapse;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;">
-                <thead>
-                  <tr style="border-bottom:1px solid #d9d9d9;">
-                    <th style="text-align:left;padding:8px 0;font-weight:600;color:#1d2d3e;">Justification Policy</th>
-                    <th style="text-align:left;padding:8px 16px;font-weight:600;color:#1d2d3e;width:222px;">Answer <span style="color:#e72b42;">*</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr style="border-bottom:1px solid #ededed;">
-                    <td style="padding:8px 0;color:#1d2d3e;vertical-align:top;">Employees are only allowed 1 laptop. Please provide a business reason for this purchase.</td>
-                    <td style="padding:8px 16px;color:#1d2d3e;vertical-align:top;width:222px;">Purchasing on behalf of new hires.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Item 1 Details -->
-            <div style="margin:0 16px;">
-              <div style="display:flex;align-items:center;gap:4px;padding:10px 0;border-bottom:1px solid #a8b3bd;">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M3 5.5L8 10.5L13 5.5" stroke="#0064d9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:16px;font-weight:700;color:#1d2d3e;">Details</span>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding-bottom:12px;">
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Ship to:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Mark Davis (I851522)</p></div>
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Shipping Address:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Stadium Main Entrance<br>Section 112 Loading Dock</p></div>
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Need-By Date:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">May 31, 2025</p></div>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding-bottom:16px;">
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Bill to:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">SAP America (30283)</p></div>
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Account Assignment:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Cost Center (K)</p></div>
-                <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Cost Center:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">IT Operations (278292)</p></div>
-              </div>
-            </div>
-
-            <!-- Divider between items -->
-            <div style="height:1px;background:#d9d9d9;margin:0;"></div>
-
-            <!-- Item 2 — DEWALT Battery -->
-            <div style="padding:12px 16px 4px 16px;">
-              <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">#2</span>
-            </div>
-            <div style="padding:4px 16px 12px;display:flex;flex-direction:column;gap:8px;">
-              <!-- Image + title stacked -->
-              <div style="display:flex;gap:12px;align-items:flex-start;">
-                <img src="images/DC.jpg" alt="DEWALT 20V MAX Battery" style="width:56px;height:56px;object-fit:cover;border-radius:10px;flex-shrink:0;" />
-                <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1a2733;margin:0;line-height:1.35;">DEWALT 20V MAX Battery Pack DCB204 (2-Pack)</p>
-              </div>
-              <!-- Attribute line 1 — wraps -->
-              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#131e29;">
-                <span>Safford Equipment</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Supplier Part ID:</span><span>DCB204-2</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Contract (ID):</span><span style="color:#0064d9;">Machinery Equipment (C334)</span>
-              </div>
-              <!-- Attribute line 2 — wraps -->
-              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;">
-                <span style="color:#556b82;">Available In:</span><span style="color:#131e29;">2 Days</span>
-                <span style="color:rgba(29,45,62,0.5);">•</span>
-                <span style="color:#556b82;">Price / Item:</span><span style="color:#131e29;">89.00 USD</span>
-              </div>
-              <!-- Price -->
-              <div style="display:flex;align-items:baseline;gap:4px;">
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:400;color:#1d2d3e;letter-spacing:-0.02em;line-height:1;">1,424.00</span>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:300;color:#1d2d3e;line-height:1;">USD</span>
-              </div>
-              <!-- Quantity -->
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div style="display:flex;align-items:center;border:1px solid rgba(85,107,129,0.25);border-radius:4px;overflow:hidden;height:26px;">
-                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">−</button>
-                  <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#131e29;min-width:32px;text-align:right;padding-right:4px;">16</span>
-                  <button style="width:32px;height:26px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#131e29;display:flex;align-items:center;justify-content:center;">+</button>
-                </div>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">/ Item</span>
-              </div>
-            </div>
-            <!-- Item 2 Details -->
-            <div style="margin:0 16px;padding-bottom:16px;">
-              <div onclick="var c=this.nextElementSibling;c.style.display=c.style.display==='none'?'block':'none';var svg=this.querySelector('svg');svg.style.transform=c.style.display==='none'?'rotate(-90deg)':'rotate(0deg)';" style="display:flex;align-items:center;gap:4px;padding:10px 0;border-bottom:1px solid #a8b3bd;cursor:pointer;">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;transform:rotate(-90deg);transition:transform 0.2s;"><path d="M3 5.5L8 10.5L13 5.5" stroke="#0064d9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:16px;font-weight:700;color:#1d2d3e;">Details</span>
-              </div>
-              <div style="display:none;">
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding-bottom:12px;padding-top:12px;">
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Ship to:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Mark Davis (I851522)</p></div>
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Shipping Address:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Stadium Main Entrance<br>Section 112 Loading Dock</p></div>
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Need-By Date:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">May 31, 2025</p></div>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding-bottom:16px;">
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Bill to:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">SAP America (30283)</p></div>
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Account Assignment:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">Cost Center (K)</p></div>
-                  <div><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;margin:0 0 2px 0;">Cost Center:</p><p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0;">IT Operations (278292)</p></div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div><!-- /turn-5 -->
-
-      <!-- ══ TURN 6 ═══════════════════════════════════════
-           Agent follow-up + quick action chips
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-6" style="display:none;">
-        <div class="joule-msg-ai joule-turn-loader" id="t6-loader" style="display:none;">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-        <div class="joule-msg-ai joule-turn-response" id="t6-response" style="display:none;">
-          <div class="joule-bubble-ai">Your requisition is ready. Because you chose an on-contract preferred supplier, this qualifies for expedited approval — expected under 24 hours. Good to go?</div>
-        </div>
-        <div class="joule-suggestions" id="t6-chips" style="display:none;">
-          <button class="joule-chip" id="chip-submit-request">Submit Request</button>
-          <button class="joule-chip">Review Cart</button>
-        </div>
-      </div><!-- /turn-6 -->
-
-      <!-- ══ TURN 7 ═══════════════════════════════════════
-           Submit Request → circle loader → PR card
-      ═══════════════════════════════════════════════════ -->
-      <div id="turn-7" style="display:none;">
-
-        <div class="joule-msg-user">
-          <div class="joule-bubble-user">Submit Request</div>
-        </div>
-
-        <!-- Dots -->
-        <div class="joule-msg-ai joule-turn-loader" id="t7-loader" style="display:none;">
-          <div class="joule-dots-bubble">
-            <span class="jdot jdot-1"></span>
-            <span class="jdot jdot-2"></span>
-            <span class="jdot jdot-3"></span>
-          </div>
-        </div>
-
-        <!-- Circle loader: Submitting your request -->
-        <div class="joule-msg-ai" id="t7-circle-loader" style="display:none;align-items:center;gap:10px;padding:4px 0;">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;animation:spin 0.9s linear infinite;">
-            <circle cx="9" cy="9" r="7" stroke="#e0d9ff" stroke-width="2.5"/>
-            <path d="M9 2a7 7 0 0 1 7 7" stroke="#5d36ff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-          <span style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#556b82;">Submitting your request</span>
-        </div>
-
-        <!-- Illustrated success card -->
-        <div class="joule-msg-ai joule-turn-response full-width" id="t7-response" style="display:none;">
-          <div style="background:#fff;border-radius:16px;box-shadow:0px 0px 2px 0px rgba(91,115,139,0.16),0px 4px 8px 0px rgba(91,115,139,0.16);overflow:hidden;margin-bottom:8px;width:384px;max-width:100%;">
-            <div style="display:flex;flex-direction:column;align-items:center;padding:16px 32px 24px;text-align:center;">
-              <!-- SAP Success illustration — inline SVG -->
-              <div style="width:128px;height:128px;flex-shrink:0;margin-bottom:8px;">
-                <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Moon base -->
-                  <ellipse cx="64" cy="92" rx="38" ry="22" fill="#8396A8"/>
-                  <!-- Moon craters -->
-                  <circle cx="50" cy="90" r="8" fill="#A8B8C4"/>
-                  <circle cx="68" cy="95" r="5" fill="#A8B8C4"/>
-                  <!-- Flag pole -->
-                  <line x1="64" y1="38" x2="64" y2="92" stroke="#1D2D3E" stroke-width="2" stroke-linecap="round"/>
-                  <!-- Flag -->
-                  <path d="M64 38 L90 50 L64 62 Z" fill="#4DB1FF"/>
-                  <!-- Gold sparkle left -->
-                  <path d="M34 58 L36 52 L38 58 L44 60 L38 62 L36 68 L34 62 L28 60 Z" fill="#FFB727"/>
-                  <!-- Small blue diamond top-right -->
-                  <rect x="88" y="28" width="7" height="7" rx="1" fill="#0070F2" transform="rotate(45 91.5 31.5)"/>
-                  <!-- Small blue square mid-right -->
-                  <rect x="80" y="58" width="5" height="5" rx="0.5" fill="#4DB1FF" transform="rotate(15 82.5 60.5)"/>
-                  <!-- Cross sparkle top-left -->
-                  <line x1="42" y1="36" x2="42" y2="44" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="38" y1="40" x2="46" y2="40" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
-                  <!-- Cross sparkle right -->
-                  <line x1="96" y1="68" x2="96" y2="76" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="92" y1="72" x2="100" y2="72" stroke="#8396A8" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <!-- Title -->
-              <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:20px;font-weight:700;color:#1d2d3e;margin:0 0 8px 0;line-height:1.2;">Your request has been submitted for approval</p>
-              <!-- Body -->
-              <p style="font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;color:#1d2d3e;margin:0 0 16px 0;line-height:1.5;">The requisition ID is PR66766033.</p>
-              <!-- Button -->
-              <a href="#" style="display:inline-block;background:#0070f2;border:1px solid #0070f2;border-radius:8px;padding:4px 16px;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:700;color:#fff;text-decoration:none;line-height:18px;">View Request</a>
-            </div>
-          </div>
-        </div>
-        <!-- Follow-up message after card -->
-        <div class="joule-msg-ai" id="t7-followup" style="display:none;">
-          <div class="joule-bubble-ai">You're all set! Expedited approval expected within 24 hours — your drills should arrive well before June 1st. I'll keep you updated as it progresses.</div>
-        </div>
-
-      </div><!-- /turn-7 -->
 
     </div><!-- /joule-chat-area -->
   </div><!-- /joule-body -->
@@ -2949,7 +2945,6 @@
   var isMaximized = false;
 
   // ── Hard reset on every page load ────────────────────
-  // Prevent browser session restore from showing stale panel state
   popover.classList.remove('open');
   popover.classList.remove('maximized');
   document.body.classList.remove('joule-maximized');
@@ -2959,11 +2954,12 @@
 
   // Hide all conversation elements that should start hidden
   var resetIds = [
-    't1-user','t1-dots','t1-loader','t1-response',
-    'turn-2','turn-2b','turn-3','turn-4','turn-5','turn-6','turn-7',
-    't2b-circle-loader','t4-circle-loader','t5-circle-loader','t5-loader','t5-response',
-    't6-loader','t6-response','t6-chips',
-    't7-loader','t7-circle-loader','t7-response','t7-followup'
+    'turn-0','t1-dots','t1-analysis','t1-response','t1-chips',
+    'turn-2','turn-3','turn-3b','turn-4',
+    't2-dots','t2-analysis','t2-response','t2-chips',
+    't3-dots','t3-loader','t3-fix-card','t3-chips',
+    't3b-dots','t3b-response','t3b-chips',
+    't4-dots','t4-circle-loader','t4-success-card','t4-followup','t4-chips'
   ];
   resetIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -2971,8 +2967,6 @@
   });
 
   // Remove any dynamically-injected skeleton cards from prior session
-  // Only remove elements that CONTAIN .joule-skeleton-card (injected by showSkeletonThen)
-  // Never remove permanent elements — bubble-animate is also added to real content by show()
   if (body) {
     var skels = body.querySelectorAll('.joule-skeleton-card');
     skels.forEach(function(s) {
@@ -2981,11 +2975,9 @@
     });
   }
 
-  // Clear input on page load
   input.value = '';
   sendBtn.classList.remove('active');
 
-  // Toggle send button active state based on input content
   input.addEventListener('input', function() {
     if (input.value.trim().length > 0) {
       sendBtn.classList.add('active');
@@ -2994,98 +2986,27 @@
     }
   });
 
-  // ── Conversation state ────────────────────────────────
-  // currentTurn: which turn the user is about to send
-  // 0 = waiting to see T1 loader (auto-runs on open)
-  // 1 = user sent T1, now waiting for user to answer T1 question
-  // 2 = user answered T1, etc.
+  // currentTurn tracks conversation state
+  // 0 = waiting for Joule to auto-open, 1 = T1 done / waiting for chip, 2 = T2 in progress, etc.
   var currentTurn = 0;
-
-  // Pre-filled prompts shown in the input after each Joule response
-  var prefills = [
-    '',                                                                                              // turn 0 — blank (auto-starts)
-    'Heavy-duty hammer drills for stadium seating installation. Need a 1/2-inch chuck and an 18V or 20V battery platform.',  // turn 1
-    'Proceed with Preferred DEWALT',                                                                 // turn 2 → 2b
-    '8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock',                                             // turn 2b → 3
-  ];
 
   function scrollToBottom() {
     setTimeout(function() { body.scrollTop = body.scrollHeight; }, 60);
   }
 
-  /**
-   * streamText — types out innerHTML of a .joule-bubble-ai element character by character.
-   * Handles <br> tags as newlines. Shows a blinking cursor while typing, removes it when done.
-   */
-  function streamText(bubbleEl, speed) {
-    speed = speed || 18; // ms per character — ~55 chars/sec, similar to Claude
-    // Grab the full HTML content, store it, clear the element
-    var fullHTML = bubbleEl.innerHTML;
-    bubbleEl.innerHTML = '';
-
-    // Inject cursor
-    var cursor = document.createElement('span');
-    cursor.className = 'stream-cursor';
-    bubbleEl.appendChild(cursor);
-
-    // We'll stream the raw HTML but render it safely by building a temp element
-    // Strategy: walk char-by-char through fullHTML, track open tags, build safely
-    var i = 0;
-    var rendered = ''; // the HTML we've committed so far
-
-    function tick() {
-      if (i >= fullHTML.length) {
-        // Done — remove cursor
-        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
-        bubbleEl.innerHTML = fullHTML; // set final clean HTML
-        scrollToBottom();
-        return;
-      }
-
-      // If we're at a tag, jump to end of tag in one step
-      if (fullHTML[i] === '<') {
-        var closeIdx = fullHTML.indexOf('>', i);
-        if (closeIdx !== -1) {
-          rendered += fullHTML.slice(i, closeIdx + 1);
-          i = closeIdx + 1;
-        } else {
-          rendered += fullHTML[i];
-          i++;
-        }
-      } else {
-        // Regular character — add it
-        rendered += fullHTML[i];
-        i++;
-      }
-
-      // Re-render with cursor at end
-      bubbleEl.innerHTML = rendered;
-      bubbleEl.appendChild(cursor);
-      scrollToBottom();
-
-      // Vary speed slightly for natural feel (±30%)
-      var jitter = speed * (0.7 + Math.random() * 0.6);
-      setTimeout(tick, jitter);
-    }
-
-    tick();
-  }
-
-  function show(id) {
+  function show(id, onComplete) {
     var el = document.getElementById(id);
     if (!el) return;
     el.style.display = '';
-    // Add spring entrance animation — remove first so re-triggering works
     el.classList.remove('bubble-animate');
-    void el.offsetWidth; // reflow to restart animation
+    void el.offsetWidth;
     el.classList.add('bubble-animate');
-
-    // Stream any AI bubble text inside this element
     var bubble = el.querySelector('.joule-bubble-ai');
     if (bubble) {
-      streamText(bubble, 18);
+      streamText(bubble, 18, onComplete);
+    } else {
+      if (onComplete) onComplete();
     }
-
     scrollToBottom();
   }
 
@@ -3099,29 +3020,50 @@
     scrollToBottom();
   }
 
-  /**
-   * animateLoaderSteps — reveals steps one-by-one in a .joule-loader
-   * Each step: appears → expands (open) → after stepDuration ms → collapses → next step appears
-   * After all steps done, calls onComplete()
-   *
-   * @param {string} loaderId  - id of the wrapper element containing .joule-loader
-   * @param {number} stepDuration - ms each step stays expanded (default 700)
-   * @param {Function} onComplete - called when all steps are done
-   */
+  // Show three-dot loading inside bubble, then reveal sections top-to-bottom
+  function streamText(bubbleEl, speed, onComplete) {
+    var fullHTML = bubbleEl.innerHTML;
+    // Show three dots loading animation
+    bubbleEl.innerHTML = '<span class="joule-dots-bubble" style="display:inline-flex;"><span class="jdot jdot-1"></span><span class="jdot jdot-2"></span><span class="jdot jdot-3"></span></span>';
+    scrollToBottom();
+    // After a brief loading period, restore HTML with sections hidden
+    var delay = 1200;
+    setTimeout(function() {
+      bubbleEl.innerHTML = fullHTML;
+      // Hide all stream-section elements
+      var sections = Array.prototype.slice.call(bubbleEl.querySelectorAll('.stream-section'));
+      sections.forEach(function(s) { s.style.display = 'none'; });
+      scrollToBottom();
+      // Reveal sections one by one
+      var sIdx = 0;
+      var sectionDelay = 800;
+      function revealNext() {
+        if (sIdx >= sections.length) {
+          if (onComplete) onComplete();
+          return;
+        }
+        setTimeout(function() {
+          sections[sIdx].style.display = '';
+          sections[sIdx].classList.add('bubble-animate');
+          scrollToBottom();
+          sIdx++;
+          revealNext();
+        }, sectionDelay);
+      }
+      revealNext();
+    }, delay);
+  }
+
   function animateLoaderSteps(loaderId, stepDuration, onComplete) {
     stepDuration = stepDuration || 700;
     var loaderEl = document.getElementById(loaderId);
     if (!loaderEl) { if (onComplete) onComplete(); return; }
     var steps = Array.prototype.slice.call(loaderEl.querySelectorAll('.joule-loader-step'));
     if (!steps.length) { if (onComplete) onComplete(); return; }
-
-    // Hide all steps initially
     steps.forEach(function(s) { s.classList.add('pending'); s.classList.remove('open','active','step-done'); });
-
     var idx = 0;
     function runStep() {
       if (idx >= steps.length) {
-        // All done — hide the progress bar, keep steps visible
         var inner = loaderEl.querySelector('.joule-loader');
         if (inner) inner.classList.add('done');
         var barWrap = loaderEl.querySelector('.joule-loader-bar-wrap');
@@ -3130,164 +3072,19 @@
         return;
       }
       var step = steps[idx];
-      // Reveal and mark active (dot pulses)
       step.classList.remove('pending');
       step.classList.add('active', 'open');
       scrollToBottom();
-
       setTimeout(function() {
-        // Collapse and mark done
         step.classList.remove('active', 'open');
         step.classList.add('step-done');
         idx++;
-        // Short pause before next step appears
         setTimeout(runStep, 120);
       }, stepDuration);
     }
     runStep();
   }
 
-  // Show loader, hide it after delay, then reveal each response one at a time
-  function showLoaderThenRespond(loaderId, responseIds, nextPrefill, delay) {
-    delay = delay || 1400;
-    var STAGGER = 380; // ms between each bubble
-    show(loaderId);
-    setTimeout(function() {
-      var loader = document.getElementById(loaderId);
-      if (loader) {
-        // Hide the loader wrapper entirely (dots and inline spinner vanish)
-        loader.style.display = 'none';
-      }
-      responseIds.forEach(function(id, i) {
-        setTimeout(function() {
-          show(id);
-        }, i * STAGGER);
-      });
-      var totalWait = responseIds.length * STAGGER + 80;
-      setTimeout(function() {
-        if (nextPrefill) {
-          input.value = nextPrefill;
-          sendBtn.classList.add('active');
-          input.focus();
-          input.setSelectionRange(0, input.value.length);
-        }
-        scrollToBottom();
-      }, totalWait);
-    }, delay);
-  }
-
-  // Reveal turn container, show loader (animated steps), then optionally show skeletons, then pop responses
-  function revealTurnThenAnimate(turnId, loaderId, responseIds, nextPrefill, loaderDelay, skelCount) {
-    loaderDelay = loaderDelay || 1400;
-    var STAGGER = 380;
-    var turnEl = document.getElementById(turnId);
-    if (turnEl && turnEl.style.display === 'none') turnEl.style.display = '';
-
-    // Ensure all steps are hidden BEFORE showing the loader
-    var loaderEl = document.getElementById(loaderId);
-    if (loaderEl) {
-      loaderEl.querySelectorAll('.joule-loader-step').forEach(function(s) {
-        s.classList.add('pending'); s.classList.remove('open','active','step-done');
-      });
-    }
-    show(loaderId);
-
-    // Animate steps one by one; when done, keep loader visible, then show responses
-    animateLoaderSteps(loaderId, 1200, function() {
-      // Loader stays visible for user reference
-
-      function revealResponses() {
-        // Cards stagger in one by one with generous timing
-        var CARD_STAGGER = 480;
-        responseIds.forEach(function(id, i) {
-          setTimeout(function() { show(id); scrollToBottom(); }, i * CARD_STAGGER);
-        });
-        var totalWait = responseIds.length * CARD_STAGGER + 80;
-        setTimeout(function() {
-          if (nextPrefill) {
-            input.value = nextPrefill;
-            sendBtn.classList.add('active');
-            input.focus();
-            input.setSelectionRange(0, input.value.length);
-          }
-          scrollToBottom();
-        }, totalWait);
-      }
-
-      if (skelCount && skelCount > 0) {
-        // Skeletons stagger in one by one, hold ~1.2s, then real cards replace
-        showSkeletonThen(turnEl, skelCount, 1200, revealResponses);
-      } else {
-        revealResponses();
-      }
-    });
-  }
-
-  // Helper: stagger skeleton cards in one by one, hold, then remove all and run callback
-  function showSkeletonThen(container, count, holdDelay, callback) {
-    var skels = [];
-    var SKEL_STAGGER = 350; // ms between each skeleton appearing
-
-    function makeSkel() {
-      var s = document.createElement('div');
-      s.className = 'joule-msg-ai joule-turn-loader full-width bubble-animate';
-      s.innerHTML =
-        '<div class="joule-skeleton-card">' +
-          '<div class="skel-header">' +
-            '<div class="skel-img skel-fill"></div>' +
-            '<div class="skel-header-meta">' +
-              '<div class="skel-tag skel-fill"></div>' +
-              '<div class="skel-name1 skel-fill"></div>' +
-              '<div class="skel-name2 skel-fill"></div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="skel-body">' +
-            '<div class="skel-supplier skel-fill"></div>' +
-            '<div class="skel-price skel-fill"></div>' +
-            '<div class="skel-attr1 skel-fill"></div>' +
-            '<div class="skel-attr2 skel-fill"></div>' +
-            '<div class="skel-attr3 skel-fill"></div>' +
-            '<div class="skel-cta skel-fill"></div>' +
-          '</div>' +
-        '</div>';
-      return s;
-    }
-
-    // Stagger each skeleton card in
-    for (var i = 0; i < (count || 3); i++) {
-      (function(idx) {
-        setTimeout(function() {
-          var s = makeSkel();
-          container.appendChild(s);
-          skels.push(s);
-          scrollToBottom();
-        }, idx * SKEL_STAGGER);
-      })(i);
-    }
-
-    // After all are in + hold time, remove them all and fire callback
-    var totalIn = (count - 1) * SKEL_STAGGER;
-    setTimeout(function() {
-      skels.forEach(function(s) { if (s.parentNode) s.parentNode.removeChild(s); });
-      callback();
-    }, totalIn + holdDelay);
-  }
-
-  // Helper: stream text word-by-word into an element, then call callback
-  function streamText(el, text, wordsPerSecond, callback) {
-    var words = text.split(' ');
-    var delay = 1000 / wordsPerSecond;
-    el.textContent = '';
-    words.forEach(function(word, i) {
-      setTimeout(function() {
-        el.textContent += (i === 0 ? '' : ' ') + word;
-        scrollToBottom();
-        if (i === words.length - 1 && callback) callback();
-      }, i * delay);
-    });
-  }
-
-  // Helper: show dots, then after delay hide dots and show the next stage
   function showDotsThen(dotsId, delay, callback) {
     show(dotsId);
     setTimeout(function() {
@@ -3297,213 +3094,50 @@
     }, delay);
   }
 
-  // ── Turn runners ─────────────────────────────────────
-
-  function runTurn1Open() {
-    // Show user bubble, then dots, then loader, then response
-    show('t1-user');
-    setTimeout(function() {
-      showDotsThen('t1-dots', 1400, function() {
-        showLoaderThenRespond('t1-loader', ['t1-response'], prefills[1], 3000);
-      });
-    }, 200);
-  }
-
-  function runTurn2(userText) {
-    document.getElementById('t2-user-text').textContent = userText;
-    var turnEl = document.getElementById('turn-2');
-    if (turnEl) {
-      turnEl.style.display = '';
-      var userBubble = turnEl.querySelector('.joule-msg-user');
-      if (userBubble) {
-        userBubble.classList.remove('bubble-animate');
-        void userBubble.offsetWidth;
-        userBubble.classList.add('bubble-animate');
-      }
-    }
-    setTimeout(function() {
-
-      // 1. Dots animate
-      showDotsThen('t2-dots', 1600, function() {
-
-        // 2. Explainability loader steps animate
-        var loaderEl = document.getElementById('t2-loader');
-        if (loaderEl) {
-          loaderEl.querySelectorAll('.joule-loader-step').forEach(function(s) {
-            s.classList.add('pending'); s.classList.remove('open','active','step-done');
-          });
-        }
-        show('t2-loader');
-
-        animateLoaderSteps('t2-loader', 1200, function() {
-          // Loader stays visible — user can refer back to reasoning
-
-          // Show the bubble shell first (empty), then stream text word by word
-          var responseEl = document.getElementById('t2-response');
-          if (responseEl) responseEl.style.display = '';
-          var bubbleEl = responseEl ? responseEl.querySelector('.joule-bubble-ai') : null;
-          var fullText = 'Here are the top 5 options available';
-
-          streamText(bubbleEl, fullText, 14, function() {
-            // Text fully streamed — now start card sequence
-            setTimeout(function() {
-
-            // 4+5. Each position: skeleton appears → swaps to real card, one by one
-            var cardEl = document.getElementById('t2-card');
-            if (cardEl) cardEl.style.display = '';
-            var items = cardEl ? cardEl.querySelectorAll('.jrc-item') : [];
-            var SLOT_DELAY = 600;   // gap before next card starts
-            var SKEL_HOLD  = 900;   // how long skeleton shimmers before real card
-
-            items.forEach(function(item, i) {
-              setTimeout(function() {
-                // Inject skeleton placeholder before this card
-                var skel = document.createElement('div');
-                skel.className = 'joule-skel-slot';
-                skel.innerHTML =
-                  '<div class="joule-skeleton-card">' +
-                    '<div class="skel-header">' +
-                      '<div class="skel-img skel-fill"></div>' +
-                      '<div class="skel-header-meta">' +
-                        '<div class="skel-tag skel-fill"></div>' +
-                        '<div class="skel-name1 skel-fill"></div>' +
-                        '<div class="skel-name2 skel-fill"></div>' +
-                      '</div>' +
-                    '</div>' +
-                    '<div class="skel-body">' +
-                      '<div class="skel-supplier skel-fill"></div>' +
-                      '<div class="skel-price skel-fill"></div>' +
-                      '<div class="skel-attr1 skel-fill"></div>' +
-                      '<div class="skel-attr2 skel-fill"></div>' +
-                      '<div class="skel-attr3 skel-fill"></div>' +
-                      '<div class="skel-cta skel-fill"></div>' +
-                    '</div>' +
-                  '</div>';
-                item.parentNode.insertBefore(skel, item);
-                scrollToBottom();
-
-                // After hold, remove skeleton and reveal the real card in its place
-                setTimeout(function() {
-                  if (skel.parentNode) skel.parentNode.removeChild(skel);
-                  item.style.display = '';
-                  item.classList.add('bubble-animate');
-                  scrollToBottom();
-                }, SKEL_HOLD);
-              }, i * (SLOT_DELAY + SKEL_HOLD));
-            });
-
-            // 6. Dots → recommendation bubble + chips after all cards are done
-            var totalTime = items.length * (SLOT_DELAY + SKEL_HOLD) + 300;
-            setTimeout(function() {
-              showDotsThen('t2-question-dots', 900, function() {
-                show('t2-question');
-                // Only prefill if we're still on turn 2 (chip not yet clicked)
-                if (currentTurn === 2) {
-                  input.value = prefills[2] || '';
-                  if (input.value) sendBtn.classList.add('active');
-                  input.focus();
-                }
-                scrollToBottom();
-              });
-            }, totalTime);
-
-            }, 400); // close inner setTimeout (card reveal sequence)
-          });         // close streamText callback
-
-        });           // close animateLoaderSteps callback
-
-      });             // close showDotsThen callback
-
-    }, 0);            // close outer setTimeout
-  }
-
-  function runTurn3(userText) {
-    document.getElementById('t3-user-text').textContent = userText;
-    var turnEl = document.getElementById('turn-3');
-    if (turnEl) {
-      turnEl.style.display = '';
-      var userBubble = turnEl.querySelector('.joule-msg-user');
-      if (userBubble) {
-        userBubble.classList.remove('bubble-animate');
-        void userBubble.offsetWidth;
-        userBubble.classList.add('bubble-animate');
-      }
-    }
-    var loaderEl = document.getElementById('t3-loader');
-    var responseEl = document.getElementById('t3-response');
-    if (loaderEl) loaderEl.style.display = '';
-    scrollToBottom();
-    setTimeout(function() {
-      if (loaderEl) loaderEl.style.display = 'none';
-      if (responseEl) responseEl.style.display = '';
+  // ── Turn 1 — Proactive opener with deep analysis ─────
+  function runTurn1Proactive() {
+    showDotsThen('t1-dots', 1200, function() {
+      // Show deep analysis card
+      show('t1-analysis');
       scrollToBottom();
-      // Continue with turn-4
-      var turn4 = document.getElementById('turn-4');
-      if (turn4) turn4.style.display = '';
-      var t4loader = document.getElementById('t4-loader');
-      var t4circleLoader = document.getElementById('t4-circle-loader');
-      var t4response = document.getElementById('t4-response');
-      if (t4loader) t4loader.style.display = '';
-      scrollToBottom();
-      setTimeout(function() {
-        if (t4loader) t4loader.style.display = 'none';
-        if (t4circleLoader) t4circleLoader.style.display = 'flex';
-        scrollToBottom();
-        setTimeout(function() {
-          if (t4circleLoader) t4circleLoader.style.display = 'none';
-          if (t4response) t4response.style.display = '';
-          scrollToBottom();
-          // Continue with turn-5 (cart card)
+      var steps = document.querySelectorAll('#t1-analysis .deep-analysis-step');
+      var totalSteps = steps.length;
+      var progressFill = document.getElementById('t1-progress-fill');
+      var progressDot = document.getElementById('t1-progress-dot');
+      var stepDelay = 600;
+
+      // Animate steps one by one
+      for (var i = 0; i < totalSteps; i++) {
+        (function(idx) {
           setTimeout(function() {
-            var turn5 = document.getElementById('turn-5');
-            if (turn5) turn5.style.display = '';
-            var t5circle = document.getElementById('t5-circle-loader');
-            var t5loader = document.getElementById('t5-loader');
-            var t5response = document.getElementById('t5-response');
-            if (t5circle) t5circle.style.display = 'flex';
+            steps[idx].classList.add('visible');
+            var pct = ((idx + 1) / totalSteps) * 100;
+            if (progressFill) progressFill.style.width = pct + '%';
+            if (progressDot) progressDot.style.left = pct + '%';
             scrollToBottom();
-            setTimeout(function() {
-              if (t5circle) t5circle.style.display = 'none';
-              if (t5loader) t5loader.style.display = '';
-              scrollToBottom();
-              animateLoaderSteps('t5-loader', 900, function() {
-                setTimeout(function() {
-                  if (t5response) t5response.style.display = '';
-                  scrollToBottom();
-                  // Turn 6 — agent message + chips
-                  var turn6 = document.getElementById('turn-6');
-                  var t6loader = document.getElementById('t6-loader');
-                  var t6response = document.getElementById('t6-response');
-                  var t6chips = document.getElementById('t6-chips');
-                  if (turn6) turn6.style.display = '';
-                  if (t6loader) t6loader.style.display = '';
-                  scrollToBottom();
-                  setTimeout(function() {
-                    if (t6loader) t6loader.style.display = 'none';
-                    if (t6response) t6response.style.display = '';
-                    scrollToBottom();
-                    setTimeout(function() {
-                      if (t6chips) t6chips.style.display = '';
-                      scrollToBottom();
-                    }, 300);
-                  }, 1200);
-                }, 400);
-              });
-            }, 2000);
-          }, 800);
-        }, 2000);
-      }, 1500);
-    }, 1000);
+          }, stepDelay * (idx + 1));
+        })(i);
+      }
+
+      // After all steps done, hide analysis and show response
+      setTimeout(function() {
+        var analysisEl = document.getElementById('t1-analysis');
+        if (analysisEl) analysisEl.style.display = 'none';
+        show('t1-response', function() {
+          var chips = document.getElementById('t1-chips');
+          if (chips) { chips.style.display = ''; chips.classList.add('bubble-animate'); }
+          scrollToBottom();
+        });
+        scrollToBottom();
+      }, stepDelay * totalSteps + 800);
+    });
   }
 
-  function runTurn2b(userText) {
-    // Reveal turn-2b container
-    var turnEl = document.getElementById('turn-2b');
+  // ── Turn 2 — "Solve Invoice 0891" → comparison table ─
+  function runTurn2() {
+    currentTurn = 2;
+    var turnEl = document.getElementById('turn-2');
     if (turnEl) turnEl.style.display = '';
-
-    // Set user bubble text
-    var userBubbleEl = document.getElementById('t2b-user-text');
-    if (userBubbleEl) userBubbleEl.textContent = userText;
 
     // Animate user bubble
     var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
@@ -3512,134 +3146,322 @@
       void userBubble.offsetWidth;
       userBubble.classList.add('bubble-animate');
     }
-
     scrollToBottom();
 
-    // Show dots for 900ms, then circle loader, then response
-    var loaderEl = document.getElementById('t2b-loader');
-    var circleLoaderEl = document.getElementById('t2b-circle-loader');
-    var responseEl = document.getElementById('t2b-response');
-    if (loaderEl) loaderEl.style.display = '';
-
+    // Dots → comparison table (no analysis steps)
     setTimeout(function() {
-      if (loaderEl) loaderEl.style.display = 'none';
-      if (circleLoaderEl) circleLoaderEl.style.display = 'flex';
-      scrollToBottom();
-
-      setTimeout(function() {
-        if (circleLoaderEl) circleLoaderEl.style.display = 'none';
-        if (responseEl) responseEl.style.display = 'flex';
-        scrollToBottom();
-
-        // Populate input field after a short pause
-        setTimeout(function() {
-          input.value = '8 and also add two additional batteries per unit. Need by June 1 and deliver to Stadium Main Entrance, Section 112 Loading Dock';
-          sendBtn.classList.add('active');
-          input.focus();
+      showDotsThen('t2-dots', 1500, function() {
+        show('t2-response', function() {
+          var t2chips = document.getElementById('t2-chips');
+          if (t2chips) { t2chips.style.display = ''; t2chips.classList.add('bubble-animate'); }
           scrollToBottom();
-        }, 200);
-      }, 2000);
-    }, 1500);
+        });
+        scrollToBottom();
+      });
+    }, 0);
   }
 
-  // ── Turn 7: Submit Request ─────────────────────────────
-  function runTurn7() {
-    var turn7 = document.getElementById('turn-7');
-    if (turn7) turn7.style.display = '';
-    var t7loader = document.getElementById('t7-loader');
-    var t7circle = document.getElementById('t7-circle-loader');
-    var t7response = document.getElementById('t7-response');
-    if (t7loader) t7loader.style.display = '';
-    scrollToBottom();
-    // Dots → circle loader → PR card
-    setTimeout(function() {
-      if (t7loader) t7loader.style.display = 'none';
-      if (t7circle) t7circle.style.display = 'flex';
-      scrollToBottom();
-      setTimeout(function() {
-        if (t7circle) t7circle.style.display = 'none';
-        if (t7response) t7response.style.display = '';
-        scrollToBottom();
-        setTimeout(function() {
-          var t7followup = document.getElementById('t7-followup');
-          if (t7followup) t7followup.style.display = '';
-          scrollToBottom();
-        }, 800);
-      }, 2000);
-    }, 1500);
-  }
-
-  // ── Dispatch on send ──────────────────────────────────
-  function advanceConversation(text) {
-    switch (currentTurn) {
-      case 1: currentTurn = 2; runTurn2(text); break;
-      case 2: currentTurn = 3; runTurn2b(text); break;
-      case 3: currentTurn = 4; runTurn3(text); break;
-      default: break;
+  // ── Turn 3 Accept — "Accept Invoice" on comparison table ─
+  function runTurn3Accept() {
+    currentTurn = 3;
+    var turnEl = document.getElementById('turn-3');
+    if (turnEl) {
+      // Override the user bubble text
+      var userBubbleEl = turnEl.querySelector('.joule-bubble-user');
+      if (userBubbleEl) userBubbleEl.textContent = 'Accept Invoice 0891';
+      // Override the Joule fix card user message text
+      turnEl.style.display = 'flex';
     }
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+    // Skip the loader, go straight to a simple success confirmation
+    setTimeout(function() {
+      showDotsThen('t3-dots', 1200, function() {
+        // Hide the loader and fix card, show a quick confirmation bubble
+        var loaderEl = document.getElementById('t3-loader');
+        if (loaderEl) loaderEl.style.display = 'none';
+        var fixCard = document.getElementById('t3-fix-card');
+        if (fixCard) {
+          fixCard.style.display = '';
+          fixCard.innerHTML = '<div class="joule-bubble-ai" style="display:block;width:100%;">' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#107e3e"/><path d="M7 12l3.5 3.5L17 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            '<strong style="color:#107e3e;">Invoice Accepted</strong></div>' +
+            '<strong>INV-2026-0891</strong> has been accepted and moved to the processing queue. The duplicate flag has been overridden.<br><br>' +
+            '<strong>1 exception remains.</strong> Would you like to solve the next one?' +
+            '</div>';
+          fixCard.classList.add('bubble-animate');
+          scrollToBottom();
+          // Show action chips after response
+          setTimeout(function() {
+            var t3chips = document.getElementById('t3-chips');
+            if (t3chips) { t3chips.style.display = ''; t3chips.classList.add('bubble-animate'); }
+            scrollToBottom();
+          }, 600);
+        }
+      });
+    }, 0);
   }
 
-  function handleSend() {
-    var text = input.value.trim();
-    if (!text || currentTurn === 0 || currentTurn > 3) return;
-    input.value = '';
-    sendBtn.classList.remove('active');
-    advanceConversation(text);
+  // ── Turn 3 Reject — "Reject Invoice" on comparison table ─
+  function runTurn3Reject() {
+    currentTurn = 3;
+    var turnEl = document.getElementById('turn-3');
+    if (turnEl) {
+      var userBubbleEl = turnEl.querySelector('.joule-bubble-user');
+      if (userBubbleEl) userBubbleEl.textContent = 'Reject Invoice 0891';
+      turnEl.style.display = 'flex';
+    }
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+    setTimeout(function() {
+      showDotsThen('t3-dots', 1200, function() {
+        var loaderEl = document.getElementById('t3-loader');
+        if (loaderEl) loaderEl.style.display = 'none';
+        var fixCard = document.getElementById('t3-fix-card');
+        if (fixCard) {
+          fixCard.style.display = '';
+          fixCard.innerHTML = '<div class="joule-bubble-ai" style="display:block;width:100%;">' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#aa0808"/><path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>' +
+            '<strong style="color:#aa0808;">Invoice Rejected</strong></div>' +
+            '<strong>INV-2026-0891</strong> has been rejected as a duplicate. The supplier will be notified, and the invoice will be archived.<br><br>' +
+            '<strong>1 exception remains.</strong> Would you like to solve the next one?' +
+            '</div>';
+          fixCard.classList.add('bubble-animate');
+          scrollToBottom();
+          // Show action chips after response
+          setTimeout(function() {
+            var t3chips = document.getElementById('t3-chips');
+            if (t3chips) { t3chips.style.display = ''; t3chips.classList.add('bubble-animate'); }
+            scrollToBottom();
+          }, 600);
+        }
+      });
+    }, 0);
   }
 
-  sendBtn.addEventListener('click', handleSend);
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleSend();
-  });
+  // ── Turn 3 — "Fix Validation Error" button ───────────
+  function runTurn3() {
+    currentTurn = 3;
+    var turnEl = document.getElementById('turn-3');
+    if (turnEl) turnEl.style.display = 'flex';
 
-  // ── Chips and card buttons — send immediately on click ─────────────
-  // Use event delegation on the chat area so it works for dynamically shown elements
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+
+    setTimeout(function() {
+      showDotsThen('t3-dots', 1400, function() {
+        // Show explainability loader
+        var loaderEl = document.getElementById('t3-loader');
+        if (loaderEl) {
+          loaderEl.querySelectorAll('.joule-loader-step').forEach(function(s) {
+            s.classList.add('pending'); s.classList.remove('open','active','step-done');
+          });
+          loaderEl.style.display = '';
+          loaderEl.classList.add('bubble-animate');
+        }
+        scrollToBottom();
+
+        animateLoaderSteps('t3-loader', 1200, function() {
+          // Show fix proposal card
+          setTimeout(function() {
+            show('t3-fix-card');
+          }, 300);
+        });
+      });
+    }, 0);
+  }
+
+  // ── Turn 3b — "Solve Invoice 0892 (Missing Goods Receipt)" ─
+  function runTurn3b() {
+    var turnEl = document.getElementById('turn-3b');
+    if (turnEl) turnEl.style.display = 'flex';
+
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+
+    setTimeout(function() {
+      showDotsThen('t3b-dots', 1400, function() {
+        show('t3b-response', function() {
+          var t3bChips = document.getElementById('t3b-chips');
+          if (t3bChips) { t3bChips.style.display = ''; t3bChips.classList.add('bubble-animate'); }
+          scrollToBottom();
+        });
+        scrollToBottom();
+      });
+    }, 0);
+  }
+
+  // ── Turn 4 — "Apply Fix" button ──────────────────────
+  function runTurn4() {
+    currentTurn = 4;
+    var turnEl = document.getElementById('turn-4');
+    if (turnEl) turnEl.style.display = '';
+
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+
+    setTimeout(function() {
+      // Show dots
+      var dotsEl = document.getElementById('t4-dots');
+      if (dotsEl) { dotsEl.style.display = ''; dotsEl.classList.add('bubble-animate'); }
+      scrollToBottom();
+
+      setTimeout(function() {
+        // Hide dots, show circle loader
+        if (dotsEl) dotsEl.style.display = 'none';
+        showFlex('t4-circle-loader');
+        scrollToBottom();
+
+        setTimeout(function() {
+          // Hide circle loader, show success card
+          var circleEl = document.getElementById('t4-circle-loader');
+          if (circleEl) circleEl.style.display = 'none';
+          show('t4-success-card');
+
+          setTimeout(function() {
+            show('t4-followup', function() {
+              var chips = document.getElementById('t4-chips');
+              if (chips) { chips.style.display = ''; chips.classList.add('bubble-animate'); }
+              scrollToBottom();
+            });
+          }, 800);
+        }, 2000);
+      }, 1500);
+    }, 0);
+  }
+
+  // ── Chip & button click delegation ───────────────────
   document.getElementById('jouleChatArea').addEventListener('click', function(e) {
     var el = e.target;
-    // joule-chip with data-prefill — send immediately, no input population
-    if (el.classList.contains('joule-chip') && el.dataset.prefill !== undefined) {
-      var chipText = el.dataset.prefill;
-      if (!chipText || currentTurn === 0 || currentTurn > 3) return;
-      input.value = '';
-      sendBtn.classList.remove('active');
-      advanceConversation(chipText);
+
+    // "Solve Invoice 0892" chip from Turn 3 → Turn 3b
+    if (el.id === 'chip-solve-0892-t3') {
+      var t3chips = document.getElementById('t3-chips');
+      if (t3chips) t3chips.style.pointerEvents = 'none';
+      runTurn3b();
       return;
     }
-    // Submit Request chip (turn-6 → turn-7)
-    if (el.id === 'chip-submit-request') {
-      // Hide chips so they can't be clicked again
-      var chips = document.getElementById('t6-chips');
-      if (chips) chips.style.display = 'none';
-      runTurn7();
+
+    // "Solve Invoice" chips → T2 (review cards)
+    if (el.classList.contains('joule-chip-solve')) {
+      var t1chips = document.getElementById('t1-chips');
+      if (t1chips) t1chips.style.pointerEvents = 'none';
+      runTurn2();
       return;
     }
-    // cart/pr buttons with data-prefill
-    if ((el.classList.contains('cart-btn-primary') || el.classList.contains('cart-btn-secondary') ||
-         el.classList.contains('pr-btn-primary') || el.classList.contains('pr-btn-secondary')) &&
-        el.dataset.prefill !== undefined) {
-      input.value = el.dataset.prefill;
-      input.focus();
+
+    // Invoice links in the table
+    if (el.classList.contains('joule-invoice-link')) {
+      e.preventDefault();
+      var t1chips2 = document.getElementById('t1-chips');
+      if (t1chips2) t1chips2.style.pointerEvents = 'none';
+      runTurn2();
+      return;
+    }
+
+    // "Accept INV-2026-0891" chip after comparison table
+    if (el.id === 'chip-accept-0891') {
+      var t2chips = document.getElementById('t2-chips');
+      if (t2chips) t2chips.style.pointerEvents = 'none';
+      runTurn3Accept();
+      return;
+    }
+
+    // "Reject INV-2026-0891" chip after comparison table
+    if (el.id === 'chip-reject-0891') {
+      var t2chips2 = document.getElementById('t2-chips');
+      if (t2chips2) t2chips2.style.pointerEvents = 'none';
+      runTurn3Reject();
+      return;
+    }
+
+    // "Apply Fix" button on fix card → T4
+    if (el.classList.contains('btn-apply-fix')) {
+      if (currentTurn !== 3) return;
+      runTurn4();
+      return;
     }
   });
 
-  // Keep old sendChip for any remaining inline onclick
-  window.sendChip = function(el) {
-    input.value = (el.dataset.prefill || el.textContent).trim();
-    input.focus();
-  };
+  // ── Accordion toggle for loader steps ────────────────
+  document.addEventListener('click', function(e) {
+    var header = e.target.closest('.joule-loader-step-header');
+    if (!header) return;
+    var step = header.closest('.joule-loader-step');
+    if (step) step.classList.toggle('open');
+  });
 
   // ── Open Joule ────────────────────────────────────────
-  window.openJoule = function() {
+  window.openJoule = function(prefillText) {
     popover.classList.add('open');
-    if (currentTurn === 0) {
-      currentTurn = 1;
-      setTimeout(runTurn1Open, 400);
+    if (prefillText && currentTurn === 0) {
+      // Prefill the input box and let user send manually
+      input.value = prefillText;
+      sendBtn.classList.add('active');
+      input.focus();
+    } else if (currentTurn === 0) {
+      // Direct open without prefill — just focus input
+      input.focus();
     } else {
       scrollToBottom();
     }
   };
 
-  // Expand / Maximize toggle
+  // ── Send message handler ─────────────────────────────
+  function handleSend() {
+    console.log('handleSend called, input value:', input.value, 'currentTurn:', currentTurn);
+    var text = input.value.trim();
+    if (!text) return;
+    if (currentTurn === 0) {
+      // User is sending the first message — show user bubble and start Turn 1
+      var turn0 = document.getElementById('turn-0');
+      if (turn0) {
+        var userBubbleEl = turn0.querySelector('.joule-bubble-user');
+        if (userBubbleEl) userBubbleEl.textContent = text;
+        turn0.style.display = '';
+        turn0.querySelector('.joule-msg-user').classList.add('bubble-animate');
+      }
+      input.value = '';
+      sendBtn.classList.remove('active');
+      scrollToBottom();
+      currentTurn = 1;
+      setTimeout(runTurn1Proactive, 800);
+    }
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
+  });
+
+  // ── Expand / Maximize toggle ─────────────────────────
   if (expandBtn) {
     expandBtn.addEventListener('click', function() {
       isMaximized = !isMaximized;
@@ -3658,15 +3480,7 @@
     });
   }
 
-  // Shell bar Joule button toggles popover
-  // Accordion toggle for loader steps
-  document.addEventListener('click', function(e) {
-    var header = e.target.closest('.joule-loader-step-header');
-    if (!header) return;
-    var step = header.closest('.joule-loader-step');
-    if (step) step.classList.toggle('open');
-  });
-
+  // ── Shell bar Joule button ────────────────────────────
   var shellBtn = document.getElementById('jouleShellBtn');
   if (shellBtn) {
     shellBtn.addEventListener('click', function() {
@@ -3683,7 +3497,7 @@
     });
   }
 
-  // Close Joule
+  // ── Close Joule ───────────────────────────────────────
   closeBtn.addEventListener('click', function() {
     popover.classList.remove('open');
     if (isMaximized) {
@@ -3693,8 +3507,57 @@
     }
   });
 
+  // ── Sidebar toggle ───────────────────────────────────
+  var sidebar = document.getElementById('jouleSidebar');
+  var menuBtn = document.querySelector('.joule-header-menu-btn');
+  if (menuBtn && sidebar) {
+    menuBtn.addEventListener('click', function() {
+      sidebar.classList.toggle('open');
+    });
+  }
+
+  // Sidebar section expand/collapse
+  var activeToggle = document.getElementById('sidebarActiveToggle');
+  var activeItems = document.getElementById('sidebarActiveItems');
+  if (activeToggle && activeItems) {
+    activeToggle.addEventListener('click', function() {
+      activeItems.classList.toggle('collapsed');
+      var chevron = activeToggle.querySelector('.joule-sidebar-chevron');
+      if (chevron) chevron.classList.toggle('collapsed');
+    });
+  }
+
+  var expiredToggle = document.getElementById('sidebarExpiredToggle');
+  var expiredItems = document.getElementById('sidebarExpiredItems');
+  if (expiredToggle && expiredItems) {
+    expiredToggle.addEventListener('click', function() {
+      expiredItems.classList.toggle('collapsed');
+      var chevron = expiredToggle.querySelector('.joule-sidebar-chevron');
+      if (chevron) chevron.classList.toggle('collapsed');
+    });
+  }
+
+  // "New Conversation" button in sidebar
+  var newConvBtn = document.getElementById('jouleSidebarNewBtn');
+  if (newConvBtn) {
+    newConvBtn.addEventListener('click', function() {
+      sidebar.classList.remove('open');
+      // Could reset conversation state here in a real app
+    });
+  }
+
+  // Close sidebar when clicking outside it (on the chat body)
+  if (body && sidebar) {
+    body.addEventListener('click', function() {
+      if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  }
+
 })();
 </script>
+
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-# Buying Agent — Project Intelligence
+# Invoice Agent — Project Intelligence
 
 > This file is read automatically at the start of every session.
 > Add context here as the project grows — patterns, decisions, research, domain knowledge.
@@ -25,11 +25,11 @@ These work **within** SAP Horizon Morning — they don't override it.
 
 ## What This Project Is
 
-A clickable prototype of an SAP Ariba buying experience with a Joule AI assistant panel.
+A clickable prototype of an SAP Ariba invoice processing experience with a Joule AI assistant panel.
 Built for demo and presentation to SAP stakeholders.
 
-**Goal:** Show how an AI-powered buying agent (Joule) can guide a user through procurement —
-from search → typeahead → Joule conversation → product selection → approval submission.
+**Goal:** Show how an AI-powered invoice agent (Joule) can guide a user through invoice processing —
+from search → typeahead → Joule conversation → invoice selection → approval submission.
 
 ---
 
@@ -44,9 +44,9 @@ from search → typeahead → Joule conversation → product selection → appro
 ## Current State of the App
 
 **Format:** Plain HTML/CSS/JS — single file, opens by double-clicking
-**File:** `/Users/I851522/Desktop/Claude Code/buying-agent/buying-agent.html`
-**Live URL:** `https://github.tools.sap/pages/I851522/buying-agent/`
-**Repo:** `https://github.tools.sap/I851522/buying-agent` (SAP internal network)
+**File:** `/Users/I851522/Desktop/Claude Code/invoice-agent/invoice-agent.html`
+**Live URL:** `https://github.tools.sap/pages/I851522/invoice-agent/`
+**Repo:** `https://github.tools.sap/I851522/invoice-agent` (SAP internal network)
 
 ### 3 States / Flow
 
@@ -97,11 +97,11 @@ from search → typeahead → Joule conversation → product selection → appro
 | Component | Location in file | Notes |
 |---|---|---|
 | Shell bar | `.shell-bar` | SAP logo, search, Joule btn, notifications, avatar |
-| Side navigation | `.side-nav` | 256px wide, Home active, Buying expanded with children |
+| Side navigation | `.side-nav` | 256px wide, Home active, Invoice expanded with children |
 | Blue gradient search zone | Inside `.search-bar-wrap` | `#0057d2` gradient bg, anvil SVG shapes, white pill input |
 | Typeahead dropdown | `.typeahead-dropdown` | `border-radius: 17px`, shadow from Figma, 3 rows + Catalog section |
 | Joule panel | `.joule-popover` | Fixed bottom-right, 448px, purple header, chat bubbles, input |
-| Dashboard widgets | `.content-grid` | Announcement, Documents table, Buying Categories, Insights charts |
+| Dashboard widgets | `.content-grid` | Announcement, Documents table, Invoice Categories, Insights charts |
 | Right column | `.col-right` | To-dos, Quick Links |
 
 ---
@@ -157,14 +157,14 @@ Cards / product results: dots → skeleton → loader (if applicable) → card.
 - Never use Tailwind, never use React for this project
 - Always check Figma before writing or updating any UI element
 - Always confirm with user before `git commit` or `git push`
-- Always verify `buying-agent.html` is in the `/buying-agent/` project folder
+- Always verify `invoice-agent.html` is in the `/invoice-agent/` project folder
 
 ---
 
 ## Git / Deploy Rules
 
-- Repo: `github.tools.sap/I851522/buying-agent` (SAP internal, requires VPN)
-- GitHub Pages URL: `https://github.tools.sap/pages/I851522/buying-agent/`
+- Repo: `github.tools.sap/I851522/invoice-agent` (SAP internal, requires VPN)
+- GitHub Pages URL: `https://github.tools.sap/pages/I851522/invoice-agent/`
 - Always show local file path AND GitHub Pages URL after any deploy
 - Always confirm commit message with user before pushing
 - Source HTML must always be committed — never commit without source

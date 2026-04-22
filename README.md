@@ -4,9 +4,7 @@ A clickable prototype of an SAP Ariba invoice processing experience with a Joule
 
 ## Live Demo
 
-**👉 [https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html](https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html)** (SAP internal)
-
-**👉 [https://wenyang33.github.io/invoice-agent/invoice-agent.html](https://wenyang33.github.io/invoice-agent/invoice-agent.html)** (public)
+**👉 [https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html](https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html)**
 
 ## What This Is
 

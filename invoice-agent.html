@@ -2843,7 +2843,87 @@
           <button class="joule-chip" id="chip-post-goods-receipt">Post Goods Receipt</button>
         </div>
 
-      </div><!-- /turn-3b -->
+      <!-- ══ TURN 3C — Contact Receiver → Name Card ══ -->
+      <div id="turn-3c" style="display:none;flex-direction:column;gap:16px;">
+
+        <div class="joule-msg-user" style="align-self:flex-end;">
+          <div class="joule-bubble-user">Contact Receiver</div>
+        </div>
+
+        <!-- Loading dots -->
+        <div class="joule-msg-ai joule-turn-loader" id="t3c-dots">
+          <div class="joule-dots-bubble">
+            <span class="jdot jdot-1"></span>
+            <span class="jdot jdot-2"></span>
+            <span class="jdot jdot-3"></span>
+          </div>
+        </div>
+
+        <!-- AI response with receiver name card -->
+        <div class="joule-msg-ai joule-turn-response full-width" id="t3c-response" style="display:none;">
+          <div class="joule-bubble-ai" style="display:block;width:100%;">
+            Here's the contact information for the goods receiver assigned to <strong>PO#2026-4500</strong>:
+
+            <div class="stream-section" style="background:#ffffff;border-radius:16px;padding:20px;margin-top:12px;margin-bottom:12px;border:1px solid #e4e4e4;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+              <!-- Card Header with Avatar -->
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                <div style="width:44px;height:44px;border-radius:50%;background:#e8f2ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:700;color:#0064d9;">JM</div>
+                <div style="flex:1;">
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:700;color:#1d2d3e;">John Miller</p>
+                  <p style="margin:2px 0 0 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#556b82;">Warehouse Operations Manager</p>
+                </div>
+              </div>
+
+              <!-- Section Title -->
+              <p style="margin:0 0 16px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:600;color:#1d2d3e;">Contact Details</p>
+
+              <!-- Label-Value Pairs -->
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Email</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#0064d9;">john.miller@company.com</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Phone</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">+49 172 555 0142</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Department</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Warehouse Operations — Plant DE02</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Location</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Munich, Germany</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Assigned PO</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#0064d9;">PO#2026-4500 — Hilti Corporation</p>
+                </div>
+                <div>
+                  <p style="margin:0 0 2px 0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:13px;color:#3870b2;">Last Activity</p>
+                  <p style="margin:0;font-family:'72','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#1d2d3e;">Apr 15, 2026 — Confirmed receipt for PO#2026-4412</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="stream-section quick-actions-box">
+              <div class="qa-header">📋 QUICK ACTIONS</div>
+              <div class="qa-option-title">Option 1: Send GR Reminder</div>
+              <ul><li>Would you like me to send John Miller an automated reminder to confirm goods delivery and post the Goods Receipt for PO#2026-4500?</li></ul>
+              <div class="qa-option-title">Option 2: Open Microsoft Teams Chat</div>
+              <ul><li>Would you like to open a direct Teams conversation with John Miller?</li></ul>
+              <div class="qa-prompt">Which would you like to do?</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action chips after Turn 3c response -->
+        <div class="joule-suggestions" id="t3c-chips" style="display:none;">
+          <button class="joule-chip" id="chip-send-reminder">Send GR Reminder</button>
+          <button class="joule-chip" id="chip-open-teams">Open Teams Chat</button>
+        </div>
+
+      </div><!-- /turn-3c -->
 
       <!-- ══ TURN 4 ═══════════════════════════════════════
            "Apply Fix" → circle loader → green confirmation card
@@ -2954,6 +3034,7 @@
     't2-dots','t2-analysis','t2-response','t2-chips',
     't3-dots','t3-loader','t3-fix-card','t3-chips',
     't3b-dots','t3b-response','t3b-chips',
+    'turn-3c','t3c-dots','t3c-response','t3c-chips',
     't4-dots','t4-circle-loader','t4-success-card','t4-followup','t4-chips'
   ];
   resetIds.forEach(function(id) {
@@ -3308,6 +3389,31 @@
     }, 0);
   }
 
+  // ── Turn 3c — "Contact Receiver" → name card ─────────
+  function runTurn3c() {
+    var turnEl = document.getElementById('turn-3c');
+    if (turnEl) turnEl.style.display = 'flex';
+
+    var userBubble = turnEl ? turnEl.querySelector('.joule-msg-user') : null;
+    if (userBubble) {
+      userBubble.classList.remove('bubble-animate');
+      void userBubble.offsetWidth;
+      userBubble.classList.add('bubble-animate');
+    }
+    scrollToBottom();
+
+    setTimeout(function() {
+      showDotsThen('t3c-dots', 1400, function() {
+        show('t3c-response', function() {
+          var t3cChips = document.getElementById('t3c-chips');
+          if (t3cChips) { t3cChips.style.display = ''; t3cChips.classList.add('bubble-animate'); }
+          scrollToBottom();
+        });
+        scrollToBottom();
+      });
+    }, 0);
+  }
+
   // ── Turn 4 — "Apply Fix" button ──────────────────────
   function runTurn4() {
     currentTurn = 4;
@@ -3355,6 +3461,14 @@
   // ── Chip & button click delegation ───────────────────
   document.getElementById('jouleChatArea').addEventListener('click', function(e) {
     var el = e.target;
+
+    // "Contact Receiver" chip from Turn 3b → Turn 3c
+    if (el.id === 'chip-contact-receiver') {
+      var t3bChips = document.getElementById('t3b-chips');
+      if (t3bChips) t3bChips.style.pointerEvents = 'none';
+      runTurn3c();
+      return;
+    }
 
     // "Solve Invoice 0892" chip from Turn 3 → Turn 3b
     if (el.id === 'chip-solve-0892-t3') {

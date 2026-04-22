@@ -45,8 +45,10 @@ from search → typeahead → Joule conversation → invoice selection → appro
 
 **Format:** Plain HTML/CSS/JS — single file, opens by double-clicking
 **File:** `invoice-agent.html`
-**Live URL:** `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
-**Repo:** `https://github.com/wenyang33/invoice-agent`
+**Live URL (SAP):** `https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html`
+**Live URL (public):** `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
+**Repo (SAP):** `https://github.tools.sap/I515936/invoice-agent`
+**Repo (public):** `https://github.com/wenyang33/invoice-agent`
 
 ### 3 States / Flow
 
@@ -163,8 +165,10 @@ Cards / product results: dots → skeleton → loader (if applicable) → card.
 
 ## Git / Deploy Rules
 
-- Repo: `github.com/wenyang33/invoice-agent`
-- GitHub Pages URL: `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
+- Repo (SAP): `github.tools.sap/I515936/invoice-agent`
+- Repo (public): `github.com/wenyang33/invoice-agent`
+- GitHub Pages URL (SAP): `https://pages.github.tools.sap/I515936/invoice-agent/invoice-agent.html`
+- GitHub Pages URL (public): `https://wenyang33.github.io/invoice-agent/invoice-agent.html`
 - Always show local file path AND GitHub Pages URL after any deploy
 - Always confirm commit message with user before pushing
 - Source HTML must always be committed — never commit without source
